@@ -3,18 +3,22 @@ package
 	import comps.Starfield;
 	
 	import core.BasicStarfieldController;
-	import core.KeyMapperEngine;
+	
+	import datas.PlanetData;
+	import datas.UniverseMachine;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
+	import flash.geom.Rectangle;
 	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
 	{		
 		private var starfield:Starfield;
+		private var universeMachine:UniverseMachine;
 		
 		public function Main()
 		{
@@ -34,7 +38,11 @@ package
 			//init stuff here
 			starfield = new Starfield(stage.stageWidth, stage.stageHeight);
 			addChild(starfield);
+
 			
+			universeMachine = new UniverseMachine("XXX");
+			var planetsAndStuff:Vector.<PlanetData> = universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
+
 			
 			// end init stuff //
 			
