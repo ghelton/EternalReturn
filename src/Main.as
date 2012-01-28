@@ -6,6 +6,8 @@ package
 	import core.KeyMapperEngine;
 	
 	import datas.KeyPressData;
+	import datas.PlanetData;
+	import datas.UniverseMachine;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -14,6 +16,7 @@ package
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.KeyboardEvent;
+	import flash.geom.Rectangle;
 	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
@@ -23,6 +26,7 @@ package
 				
 		private var keymapper:KeyMapperEngine;
 		private var starfield:Starfield;
+		private var universeMachine:UniverseMachine;
 		
 		public function Main()
 		{
@@ -44,7 +48,11 @@ package
 			//init stuff here
 			starfield = new Starfield(stage.stageWidth, stage.stageHeight);
 			addChild(starfield);
+
 			
+			universeMachine = new UniverseMachine("XXX");
+			var planetsAndStuff:Vector.<PlanetData> = universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
+
 			
 			// end init stuff //
 			
