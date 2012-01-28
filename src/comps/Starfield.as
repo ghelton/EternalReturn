@@ -68,7 +68,7 @@ package comps
 		
 		private function onFrame(e:Event):void
 		{
-//			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
+			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
 			{
 				_lastPos = _position;
 				var xPos:Number = _position.x - _size.x / 2;
