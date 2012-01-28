@@ -23,6 +23,7 @@ package core
 			//event you want to hear
 			//will fire when that event happens
 			var keykey:KeyPressData;
+			_keys = new Dictionary();
 			for each (keykey in keysToMap)
 			{
 				//add the event listeners
