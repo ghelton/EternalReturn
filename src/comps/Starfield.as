@@ -36,5 +36,10 @@ package comps
 			_size = new Point($fieldWidth, $fieldHeight);
 			redraw();
 		}
+		
+		override public function set rotation(value:Number):void
+		{
+			this.rotation = value; /// maybe tween this
+		}
 	}
 }
