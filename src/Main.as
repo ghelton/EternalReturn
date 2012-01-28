@@ -3,6 +3,7 @@ package
 	import comps.Starfield;
 	
 	import core.BasicStarfieldController;
+	import core.KeyStarfieldController;
 	
 	import datas.PlanetData;
 	import datas.UniverseMachine;
@@ -20,13 +21,15 @@ package
 	public class Main extends Sprite
 	{		
 		private var _starfield:Starfield;
-		private var universeMachine:UniverseMachine;
+		private var _universeMachine:UniverseMachine;
+		private var _keyController:KeyStarfieldController;
 		
 		public function Main()
 		{
+			trace('Eternal Return Bitches! Global Game Jam 2012! Best Game Out of 50 Cubes!');
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, appAdded);
-			BasicStarfieldController.setControlLayer(this);
+			BasicStarfieldController.setControlLayer(this.stage);
 		}
 		
 		private function appAdded(e:Event):void
@@ -36,11 +39,11 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
-			//init stuff here
-			universeMachine = new UniverseMachine("XXX");
-			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, universeMachine);
+			_universeMachine = new UniverseMachine(12345);
+			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine);
 			addChild(_starfield);
 
+			_keyController = new KeyStarfieldController(_starfield);
 			
 			// overlay goes on top
 			addChild(new GuiOverlay());

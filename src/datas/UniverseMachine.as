@@ -9,13 +9,14 @@ package datas
 	public class UniverseMachine
 	{
 		private const quadrantSize:int = 100;
-		private var _universeSeed:String = '';
+		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData>;
 		
-		public function UniverseMachine(seed:String)
+		public function UniverseMachine(seed:int)
 		{
 			_universeSeed = seed;
+			_cachedPlanetQuadrants = new Vector.<PlanetQuadrantData>;
 			//fetch shared object, set _planetsDiscovered to object sharedObject.seedName
 		}
 		
@@ -33,14 +34,14 @@ package datas
 			var returnPlanets:Vector.<PlanetData> = new Vector.<PlanetData>;
 			var planetsFromQuad:Vector.<PlanetData> = new Vector.<PlanetData>;
 			
-			for(xQuad = Math.floor(frame.left / quadrantSize); xQuad < Math.ceil(frame.right / quadrantSize); xQuad++)
+			for(xQuad = Math.floor(frame.left / quadrantSize); xQuad <= Math.ceil(frame.right / quadrantSize); xQuad++)
 			{
-				for(yQuad = Math.floor(frame.top / quadrantSize); yQuad < Math.ceil(frame.bottom / quadrantSize); yQuad++)
+				for(yQuad = Math.floor(frame.top / quadrantSize); yQuad <= Math.ceil(frame.bottom / quadrantSize); yQuad++)
 				{
 					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
 					for each(planet in planetsFromQuad)
 					{
-						if(frame.containsPoint(planet.location))
+						if(planet.location.x >= frame.left && planet.location.x <= frame.right && planet.location.y >= frame.top && planet.location.y <= frame.bottom)
 							returnPlanets.push(planet);
 					}
 				}
@@ -50,7 +51,6 @@ package datas
 		
 		private function getPlanetsInQuadrant(quad:Point) : Vector.<PlanetData>
 		{
-//			trace("quadrand x" + quad.x + "   and y is " + quad.y);
 			var returnPlanet:PlanetData;
 			var returnPlanets:Vector.<PlanetData> = new Vector.<PlanetData>();
 			var planetQuadrantData:PlanetQuadrantData;
@@ -71,16 +71,26 @@ package datas
 						returnPlanets.push(returnPlanet);
 				}
 			}
-//			trace("x ended up at " + x.toString());
-			if(returnPlanets.length > 15)
-				returnPlanets.shift();
+			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
+			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
+			{
+				if(_cachedPlanetQuadrants[index].quad == quad)
+				{
+					_cachedPlanetQuadrants.splice(index, 1);
+					break;
+				}
+			}
+			_cachedPlanetQuadrants.push(planetQuadrantData);
+			if(_cachedPlanetQuadrants.length > 15)
+				_cachedPlanetQuadrants.shift();
+				
 				
 			return returnPlanets;
 		}
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-			if(pixel.x == pixel.y)
+			if((Math.abs(noise(pixel)) % Math.abs(pixel.x + pixel.y)) == 0)
 				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5);
 			else
 				return null;
@@ -97,9 +107,9 @@ package datas
 			return key;
 		}
 		
-		private function noise(pixel:Point, seed:int) : Number
+		private function noise(pixel:Point) : Number
 		{
-			return hash32shift(seed + hash32shift(Math.floor(pixel.x) + hash32shift(Math.floor(pixel.y))));
+			return hash32shift(_universeSeed + hash32shift(pixel.x + hash32shift(pixel.y)));
 		}
 	}
 }
