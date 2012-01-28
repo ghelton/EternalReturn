@@ -40,7 +40,6 @@ package
 			universeMachine = new UniverseMachine("XXX");
 			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, universeMachine);
 			addChild(_starfield);
-
 			
 			// overlay goes on top
 			addChild(new GuiOverlay());
