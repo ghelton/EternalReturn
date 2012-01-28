@@ -45,8 +45,10 @@ package core
 		
 		private function checkKeys(e:KeyboardEvent):void
 		{
+			trace('checkkeys',e.keyCode, e.type);
 			var key:KeyPressData = _keys[String(e.keyCode)+e.type];
-			//trace('checkkeys',e.keyCode, key.keyCode, e.type);
+			if(key == null)
+				return;
 			if (key != null && e.keyCode == key.keyCode)
 			{
 				key.func(key, e);

@@ -12,7 +12,7 @@ package comps
 
 	public class Starfield extends Element
 	{
-		private var _size:Point;
+		private var _size:Number;
 		private var _position:Point;
 		private var _universeMachine:UniverseMachine;
 		private var _lastPos:Point;
@@ -20,9 +20,9 @@ package comps
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
 		
-		public function Starfield($fieldWidth:uint, $fieldHeight:uint, $universeMachine:UniverseMachine)
+		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine)
 		{
-			_size = new Point($fieldWidth, $fieldHeight);
+			_size = Math.max($fieldWidth, $fieldHeight);
 			_position = new Point(0, 0);
 			_universeMachine = $universeMachine;
 			super();
@@ -36,24 +36,26 @@ package comps
 		
 		override protected function draw():void
 		{
-			var xLoc:int = _size.x / 2;
-			var yLoc:int = _size.y / 2;
+			var locOffset:Number = _size / 2;
+			var bufferedLocOffset:Number = locOffset + Config.STARFIELD_BUFFER;
+			var fieldSize:Number = _size + Config.STARFIELD_BUFFER * 2;
 			graphics.beginFill(0x000000);
-			graphics.drawRect(-xLoc, -yLoc, _size.x, _size.y);
+			graphics.drawRect(-bufferedLocOffset, -bufferedLocOffset, fieldSize, fieldSize);
 			graphics.endFill();
-			super.x = xLoc;
-			super.y = yLoc;
+			super.x = locOffset;
+			super.y = locOffset;
 		}
 		
 		public function resize($fieldWidth:uint, $fieldHeight:uint):void
 		{
-			_size = new Point($fieldWidth, $fieldHeight);
+			_size = Math.max($fieldWidth, $fieldHeight);
 			redraw();
 		}
 		
 		override public function set rotation(value:Number):void
 		{
 			super.rotation = value; /// maybe tween this
+//			this.transform.matrix.rotate(value);
 		}
 		
 		override public function set x(value:Number):void
@@ -68,12 +70,13 @@ package comps
 		
 		private function onFrame(e:Event):void
 		{
-//			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
+			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
 			{
 				_lastPos = _position;
-				var xPos:Number = _position.x - _size.x / 2;
-				var yPos:Number = _position.y - _size.y / 2;
-				var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _size.x, _size.y));
+				var xPos:Number = _position.x - (_size / 2) - Config.STARFIELD_BUFFER;
+				var yPos:Number = _position.y - (_size / 2) - Config.STARFIELD_BUFFER;
+				var fieldSize:Number = _size + Config.STARFIELD_BUFFER * 2;
+				var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, fieldSize, fieldSize));
 				var planet:Planet;
 				var planetData:PlanetData;
 				
