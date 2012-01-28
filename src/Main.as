@@ -3,6 +3,7 @@ package
 	import core.KeyMapperEngine;
 	
 	import datas.KeyPressData;
+	import comps.Starfield;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -18,7 +19,8 @@ package
 		public static var D_KEY:uint = 68;
 		
 		
-		public var keymapper:KeyMapperEngine;
+		private var keymapper:KeyMapperEngine;
+		private var starfield:Starfield;
 		
 		public function Main()
 		{
@@ -29,17 +31,27 @@ package
 		private function appAdded(e:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, appAdded);
-			stage.addEventListener(Event.RESIZE, resizeStage);
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
 			//add your init stuff here
 			registerMyHandsARRGH();
+			
+			//init stuff here
+			starfield = new Starfield(stage.stageWidth, stage.stageHeight);
+			addChild(starfield);
+			
+			
+			// end init stuff //
+			
+			//at the end of the function
+			stage.addEventListener(Event.RESIZE, resizeStage);
 		}
 		
 		private function resizeStage(e:Event):void {
 			//do something
+			starfield.resize(stage.stageWidth, stage.stageHeight);
 		}
 		
 		private function onFullScreen(e:Event):void {
