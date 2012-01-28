@@ -15,6 +15,7 @@ package comps
 		private var _size:Point;
 		private var _position:Point;
 		private var _universeMachine:UniverseMachine;
+		private var _lastPos:Point;
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
@@ -52,7 +53,7 @@ package comps
 		
 		override public function set rotation(value:Number):void
 		{
-			this.rotation = value; /// maybe tween this
+			super.rotation = value; /// maybe tween this
 		}
 		
 		override public function set x(value:Number):void
@@ -67,45 +68,51 @@ package comps
 		
 		private function onFrame(e:Event):void
 		{
-			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
-			var planet:Planet;
-			var planetData:PlanetData;
-			
-			if(_currentPlanetData == null)
-				_currentPlanetData = planets;
-			//get planets
-
-			for each(planetData in _currentPlanetData)
+			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
 			{
-				if(_currentPlanetData.indexOf(planetData) == -1)
+				_lastPos = _position;
+				var xPos:Number = _position.x - _size.x / 2;
+				var yPos:Number = _position.y - _size.y / 2;
+				var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _size.x, _size.y));
+				var planet:Planet;
+				var planetData:PlanetData;
+				
+				if(_currentPlanetData == null)
+					_currentPlanetData = planets;
+				//get planets
+	
+				for each(planetData in _currentPlanetData)
+				{
+					if(_currentPlanetData.indexOf(planetData) == -1)
+					{
+						planet = _activePlanets[planetData];
+						_pooledPlanets.push(planet);
+						removeChild(planet);
+						_activePlanets[planetData] = null;
+						delete _activePlanets[planetData];
+					}
+				}
+				
+				
+				//create new planets and update existing planets
+				for each(planetData in planets)
 				{
 					planet = _activePlanets[planetData];
-					_pooledPlanets.push(planet);
-					removeChild(planet);
-					_activePlanets[planetData] = null;
-					delete _activePlanets[planetData];
-				}
-			}
-			
-			
-			//create new planets and update existing planets
-			for each(planetData in planets)
-			{
-				planet = _activePlanets[planetData];
-				if(planet == null)
-				{
-					if(_pooledPlanets.length > 0)
+					if(planet == null)
 					{
-						//use a pooled object if available
-						planet.updateData(planetData);
-					} else {
-						//construct a new planet
-						planet = _activePlanets[planetData] = new Planet(planetData);
+						if(_pooledPlanets.length > 0)
+						{
+							//use a pooled object if available
+							planet.updateData(planetData);
+						} else {
+							//construct a new planet
+							planet = _activePlanets[planetData] = new Planet(planetData);
+						}
+						addChild(planet);
 					}
-					addChild(planet);
+					planet.x = planetData.location.x - _position.x;
+					planet.y = planetData.location.y - _position.y;
 				}
-				planet.x = planetData.location.x - _position.x;
-				planet.y = planetData.location.y - _position.y;
 			}
 			
 		}
