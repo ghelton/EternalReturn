@@ -3,6 +3,7 @@ package
 	import comps.Starfield;
 	
 	import core.BasicStarfieldController;
+	import core.KeyStarfieldController;
 	
 	import datas.PlanetData;
 	import datas.UniverseMachine;
@@ -17,14 +18,16 @@ package
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
 	{		
-		private var starfield:Starfield;
-		private var universeMachine:UniverseMachine;
+		private var _starfield:Starfield;
+		private var _universeMachine:UniverseMachine;
+		private var _keyController:KeyStarfieldController;
 		
 		public function Main()
 		{
+			trace('Eternal Return Bitches! Global Game Jam 2012! Best Game Out of 50 Cubes!');
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, appAdded);
-			BasicStarfieldController.setControlLayer(this);
+			BasicStarfieldController.setControlLayer(this.stage);
 		}
 		
 		private function appAdded(e:Event):void
@@ -36,13 +39,14 @@ package
 			
 			//add your init stuff here			
 			//init stuff here
-			starfield = new Starfield(stage.stageWidth, stage.stageHeight);
-			addChild(starfield);
-
+			_starfield = new Starfield(stage.stageWidth, stage.stageHeight);
+			addChild(_starfield);
 			
-			universeMachine = new UniverseMachine("XXX");
-			var planetsAndStuff:Vector.<PlanetData> = universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
+			//planet generator
+			_universeMachine = new UniverseMachine("XXX");
+			var planetsAndStuff:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
 
+			_keyController = new KeyStarfieldController(_starfield);
 			
 			// end init stuff //
 			
@@ -52,7 +56,7 @@ package
 		
 		private function resizeStage(e:Event):void {
 			//do something
-			starfield.resize(stage.stageWidth, stage.stageHeight);
+			_starfield.resize(stage.stageWidth, stage.stageHeight);
 		}
 		
 		private function onFullScreen(e:Event):void {

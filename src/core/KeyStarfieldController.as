@@ -12,6 +12,7 @@ package core
 
 		public function KeyStarfieldController($starfield:Starfield)
 		{
+			trace('register keys');
 			super($starfield);
 			
 			keymapper = new KeyMapperEngine();
@@ -19,9 +20,9 @@ package core
 			var vec:Vector.<KeyPressData> = new Vector.<KeyPressData>();
 			
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onAKeyDown, KeyMapperEngine.A_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onAKeyDown, KeyMapperEngine.D_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyDown, KeyMapperEngine.A_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyDown, KeyMapperEngine.D_KEY ) );
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onDKeyDown, KeyMapperEngine.D_KEY ) );
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onAKeyUp, KeyMapperEngine.A_KEY ) );
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyUp, KeyMapperEngine.D_KEY ) );
 			
 			keymapper.register(vec);
 		}
@@ -31,34 +32,30 @@ package core
 		// probably best to avoid the need though so that these 
 		
 		//LEFT MOVEMENT
-		private function onAKeyDown():void
+		private function onAKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//A is the spaceship moving right
-			_starfield.rotation += 15;
+			trace('A Key Down: Rotate Ship Left');
+			_starfield.rotation += Config.A_KEY_ROTATION_SPEED;
 		}
 		
-		private function onAKeyUp():void
+		private function onAKeyUp(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//A is the spaceship moving right
+			
 		}
 		
 		//RIGHT MOVEMENT
-		private function onDKeyDown():void
+		private function onDKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//D is the spaceship moving left
-			_starfield.rotation -= 15;
+			trace('D Key Down: Rotate Ship Left');
+			_starfield.rotation -= Config.D_KEY_ROTATION_SPEED;
 		}
 		
-		private function onDKeyUp():void
+		private function onDKeyUp(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//D is the spaceship moving left
-		}
-		
-		//register the correct keycodes w/ functions to abstract the whole shebang
-		//just push more keys into the vectors to create more interfaces
-		private function registerMyHandsARRGH():void
-		{
-			
 		}
 	}
 }

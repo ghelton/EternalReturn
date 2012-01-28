@@ -2,15 +2,16 @@ package core
 {
 	import comps.Starfield;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 
 	public class BasicStarfieldController
 	{
-		protected static var CONTROL_LAYER:Sprite;
+		protected static var CONTROL_LAYER:DisplayObject;
 		
 		protected var _starfield:Starfield;
 		
-		public static function setControlLayer(spr:Sprite):void
+		public static function setControlLayer(spr:DisplayObject):void
 		{
 			CONTROL_LAYER = spr;	
 		}
