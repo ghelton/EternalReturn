@@ -6,7 +6,7 @@ package core
 
 	public class BasicStarfieldController
 	{
-		private static var CONTROL_LAYER:Sprite;
+		protected static var CONTROL_LAYER:Sprite;
 		
 		protected var _starfield:Starfield;
 		
