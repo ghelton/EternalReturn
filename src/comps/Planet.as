@@ -3,6 +3,8 @@ package comps
 	import core.Element;
 	
 	import datas.PlanetData;
+	
+	import flash.geom.ColorTransform;
 
 	public class Planet extends Element
 	{
