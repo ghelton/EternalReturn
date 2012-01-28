@@ -6,6 +6,13 @@ package core
 	
 	import flash.events.KeyboardEvent;
 	
+	/**
+	 * This class handles the interface between the main player keyboard controls
+	 * and the starfield in game -- mostly rotation, but room for more
+	 * 
+	 * author: alec
+	 */
+	
 	public class KeyStarfieldController extends BasicStarfieldController
 	{
 		private var keymapper:KeyMapperEngine;

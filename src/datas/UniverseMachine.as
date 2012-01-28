@@ -16,6 +16,7 @@ package datas
 		public function UniverseMachine(seed:String)
 		{
 			_universeSeed = seed;
+			_cachedPlanetQuadrants = new Vector.<PlanetQuadrantData>;
 			//fetch shared object, set _planetsDiscovered to object sharedObject.seedName
 		}
 		
@@ -33,14 +34,14 @@ package datas
 			var returnPlanets:Vector.<PlanetData> = new Vector.<PlanetData>;
 			var planetsFromQuad:Vector.<PlanetData> = new Vector.<PlanetData>;
 			
-			for(xQuad = Math.floor(frame.left / quadrantSize); xQuad < Math.ceil(frame.right / quadrantSize); xQuad++)
+			for(xQuad = Math.floor(frame.left / quadrantSize); xQuad <= Math.ceil(frame.right / quadrantSize); xQuad++)
 			{
-				for(yQuad = Math.floor(frame.top / quadrantSize); yQuad < Math.ceil(frame.bottom / quadrantSize); yQuad++)
+				for(yQuad = Math.floor(frame.top / quadrantSize); yQuad <= Math.ceil(frame.bottom / quadrantSize); yQuad++)
 				{
 					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
 					for each(planet in planetsFromQuad)
 					{
-						if(frame.containsPoint(planet.location))
+						if(planet.location.x >= frame.left && planet.location.x <= frame.right && planet.location.y >= frame.top && planet.location.y <= frame.bottom)
 							returnPlanets.push(planet);
 					}
 				}
@@ -50,7 +51,6 @@ package datas
 		
 		private function getPlanetsInQuadrant(quad:Point) : Vector.<PlanetData>
 		{
-//			trace("quadrand x" + quad.x + "   and y is " + quad.y);
 			var returnPlanet:PlanetData;
 			var returnPlanets:Vector.<PlanetData> = new Vector.<PlanetData>();
 			var planetQuadrantData:PlanetQuadrantData;
@@ -71,9 +71,19 @@ package datas
 						returnPlanets.push(returnPlanet);
 				}
 			}
-//			trace("x ended up at " + x.toString());
-			if(returnPlanets.length > 15)
-				returnPlanets.shift();
+			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
+			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
+			{
+				if(_cachedPlanetQuadrants[index].quad == quad)
+				{
+					_cachedPlanetQuadrants.splice(index, 1);
+					break;
+				}
+			}
+			_cachedPlanetQuadrants.push(planetQuadrantData);
+			if(_cachedPlanetQuadrants.length > 15)
+				_cachedPlanetQuadrants.shift();
+				
 				
 			return returnPlanets;
 		}

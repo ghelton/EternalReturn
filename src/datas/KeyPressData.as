@@ -5,6 +5,12 @@ package datas
 	import flash.events.KeyboardEvent;
 	import flash.geom.Point;
 
+	/**
+	 * KeyPressData coordinates information for the keymapperengine about registered keypresses
+	 * 
+	 * author: alec
+	 */
+	
 	public class KeyPressData
 	{
 		public var obj:DisplayObject;

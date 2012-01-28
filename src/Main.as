@@ -15,6 +15,8 @@ package
 	import flash.events.FullScreenEvent;
 	import flash.geom.Rectangle;
 	
+	import gui.GuiOverlay;
+	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
 	{		
@@ -37,16 +39,17 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
-			//add your init stuff here			
-			//init stuff here
-			_starfield = new Starfield(stage.stageWidth, stage.stageHeight);
-			addChild(_starfield);
-			
 			//planet generator
-			_universeMachine = new UniverseMachine("XXX");
 			var planetsAndStuff:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
 
+			_universeMachine = new UniverseMachine("XXX");
+			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine);
+			addChild(_starfield);
+
 			_keyController = new KeyStarfieldController(_starfield);
+			
+			// overlay goes on top
+			addChild(new GuiOverlay());
 			
 			// end init stuff //
 			
