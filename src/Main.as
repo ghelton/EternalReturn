@@ -91,7 +91,7 @@ package
 		{
 			keymapper = new KeyMapperEngine();
 			
-			var vec:Vector.<KeyPressData>;
+			var vec:Vector.<KeyPressData> = new Vector.<KeyPressData>();
 			
 			vec.push( new KeyPressData( this, KeyboardEvent.KEY_DOWN, onAKeyDown, A_KEY ) );
 			vec.push( new KeyPressData( this, KeyboardEvent.KEY_DOWN, onAKeyDown, D_KEY ) );
