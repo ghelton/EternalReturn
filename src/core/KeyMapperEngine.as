@@ -47,7 +47,7 @@ package core
 		{
 			var key:KeyPressData = _keys[String(e.keyCode)+e.type];
 			//trace('checkkeys',e.keyCode, key.keyCode, e.type);
-			if (e.keyCode == key.keyCode)
+			if (key != null && e.keyCode == key.keyCode)
 			{
 				key.func(key, e);
 			}
