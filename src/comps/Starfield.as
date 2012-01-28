@@ -8,9 +8,11 @@ package comps
 	public class Starfield extends Element
 	{
 		private var _size:Point;
+		private var _position:Point;
 		public function Starfield($fieldWidth:uint, $fieldHeight:uint)
 		{
 			_size = new Point($fieldWidth, $fieldHeight);
+			_position = new Point(0, 0);
 			super();
 		}
 		
@@ -40,6 +42,16 @@ package comps
 		override public function set rotation(value:Number):void
 		{
 			this.rotation = value; /// maybe tween this
+		}
+		
+		override public function set x(value:Number):void
+		{
+			_position.x = value; /// maybe tween this
+		}
+		
+		override public function set y(value:Number):void
+		{
+			_position.y = value; /// maybe tween this
 		}
 	}
 }
