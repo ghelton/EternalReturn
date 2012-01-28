@@ -9,11 +9,11 @@ package datas
 	public class UniverseMachine
 	{
 		private const quadrantSize:int = 100;
-		private var _universeSeed:String = '';
+		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData>;
 		
-		public function UniverseMachine(seed:String)
+		public function UniverseMachine(seed:int)
 		{
 			_universeSeed = seed;
 			_cachedPlanetQuadrants = new Vector.<PlanetQuadrantData>;
@@ -90,7 +90,7 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-			if(pixel.x == pixel.y)
+			if((Math.abs(noise(pixel)) % Math.abs(pixel.x + pixel.y)) == 0)
 				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5);
 			else
 				return null;
@@ -107,9 +107,9 @@ package datas
 			return key;
 		}
 		
-		private function noise(pixel:Point, seed:int) : Number
+		private function noise(pixel:Point) : Number
 		{
-			return hash32shift(seed + hash32shift(Math.floor(pixel.x) + hash32shift(Math.floor(pixel.y))));
+			return hash32shift(_universeSeed + hash32shift(pixel.x + hash32shift(pixel.y)));
 		}
 	}
 }

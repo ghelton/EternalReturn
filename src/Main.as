@@ -37,7 +37,7 @@ package
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
 			//init stuff here
-			universeMachine = new UniverseMachine("XXX");
+			universeMachine = new UniverseMachine(12345);
 			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, universeMachine);
 			addChild(_starfield);
 

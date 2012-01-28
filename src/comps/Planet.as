@@ -21,7 +21,7 @@ package comps
 		
 		override protected function draw():void
 		{
-			var size:int = 50;
+			var size:int = 5;
 			graphics.beginFill(0xFFFFFF);
 			graphics.drawCircle(-size, -size, size);
 			graphics.endFill();
