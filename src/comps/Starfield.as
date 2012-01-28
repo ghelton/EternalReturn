@@ -14,7 +14,7 @@ package comps
 		private var _position:Point;
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
-		private var _pooledPlanets:Vector.<Planet> = Vector.<Planet>();
+		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
 		
 		public function Starfield($fieldWidth:uint, $fieldHeight:uint)
 		{
