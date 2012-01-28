@@ -24,11 +24,11 @@ package
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 		}
 		
-		private function resizeStage(e:Event) {
+		private function resizeStage(e:Event):void {
 			
 		}
 		
-		private function onFullScreen(e:Event) {
+		private function onFullScreen(e:Event):void {
 			
 		}
 	}
