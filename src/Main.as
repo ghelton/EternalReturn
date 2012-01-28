@@ -11,6 +11,7 @@ package
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.KeyboardEvent;
+	import gui.GuiOverlay;
 	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
@@ -42,6 +43,8 @@ package
 			starfield = new Starfield(stage.stageWidth, stage.stageHeight);
 			addChild(starfield);
 			
+			// should be added on top
+			addChild(guiOverlay = new GuiOverlay());
 			
 			// end init stuff //
 			
