@@ -10,7 +10,7 @@ package core
 	 * @playerversion Flash 10.0
 	 * 
 	 */
-	public class UIElement extends Sprite
+	public class Element extends Sprite
 	{
 		
 		//--------------------------------------
@@ -26,7 +26,7 @@ package core
 		//--------------------------------------
 		//  CONSTRUCTOR
 		//--------------------------------------
-		public function UIElement()
+		public function Element()
 		{
 			super();
 			
