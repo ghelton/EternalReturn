@@ -22,14 +22,17 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
+			
+			//add your init stuff here
+			
 		}
 		
 		private function resizeStage(e:Event):void {
-			
+			//do something
 		}
 		
 		private function onFullScreen(e:Event):void {
-			
+			//do something here too
 		}
 	}
 }
