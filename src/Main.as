@@ -14,6 +14,8 @@ package
 	import flash.events.FullScreenEvent;
 	import flash.geom.Rectangle;
 	
+	import gui.GuiOverlay;
+	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
 	{		
@@ -39,6 +41,9 @@ package
 			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, universeMachine);
 			addChild(_starfield);
 
+			
+			// overlay goes on top
+			addChild(new GuiOverlay());
 			
 			// end init stuff //
 			
