@@ -14,6 +14,8 @@ package
 	import flash.events.FullScreenEvent;
 	import flash.geom.Rectangle;
 	
+	import gui.GuiOverlay;
+	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
 	{		
@@ -43,6 +45,9 @@ package
 			universeMachine = new UniverseMachine("XXX");
 			var planetsAndStuff:Vector.<PlanetData> = universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
 
+			
+			// overlay goes on top
+			addChild(new GuiOverlay());
 			
 			// end init stuff //
 			
