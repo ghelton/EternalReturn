@@ -34,14 +34,10 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
-			//add your init stuff here			
 			//init stuff here
-			_starfield = new Starfield(stage.stageWidth, stage.stageHeight);
-			addChild(_starfield);
-
-			
 			universeMachine = new UniverseMachine("XXX");
-			var planetsAndStuff:Vector.<PlanetData> = universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
+			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, universeMachine);
+			addChild(_starfield);
 
 			
 			// end init stuff //

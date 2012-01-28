@@ -3,23 +3,27 @@ package comps
 	import core.Element;
 	
 	import datas.PlanetData;
+	import datas.UniverseMachine;
 	
 	import flash.events.Event;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 
 	public class Starfield extends Element
 	{
 		private var _size:Point;
 		private var _position:Point;
+		private var _universeMachine:UniverseMachine;
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
 		
-		public function Starfield($fieldWidth:uint, $fieldHeight:uint)
+		public function Starfield($fieldWidth:uint, $fieldHeight:uint, $universeMachine:UniverseMachine)
 		{
 			_size = new Point($fieldWidth, $fieldHeight);
 			_position = new Point(0, 0);
+			_universeMachine = $universeMachine;
 			super();
 		}
 		
@@ -36,9 +40,8 @@ package comps
 			graphics.beginFill(0x000000);
 			graphics.drawRect(-xLoc, -yLoc, _size.x, _size.y);
 			graphics.endFill();
-			this.x = xLoc;
-			this.y = yLoc;
-			super.draw();
+			super.x = xLoc;
+			super.y = yLoc;
 		}
 		
 		public function resize($fieldWidth:uint, $fieldHeight:uint):void
@@ -64,7 +67,7 @@ package comps
 		
 		private function onFrame(e:Event):void
 		{
-			var planets:Vector.<PlanetData> = new Vector.<PlanetData>();
+			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(100, 100, 200, 200));
 			var planet:Planet;
 			var planetData:PlanetData;
 			
