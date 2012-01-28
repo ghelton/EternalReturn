@@ -1,10 +1,13 @@
 package
 {
+	import comps.Starfield;
+	
+	import core.BasicStarfieldController;
 	import core.KeyMapperEngine;
 	
 	import datas.KeyPressData;
-	import comps.Starfield;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -17,15 +20,15 @@ package
 	{
 		public static var A_KEY:uint = 65;
 		public static var D_KEY:uint = 68;
-		
-		
+				
 		private var keymapper:KeyMapperEngine;
 		private var starfield:Starfield;
 		
 		public function Main()
 		{
-			this.addEventListener(Event.ADDED_TO_STAGE, appAdded);
 			super();
+			this.addEventListener(Event.ADDED_TO_STAGE, appAdded);
+			BasicStarfieldController.setControlLayer(this);
 		}
 		
 		private function appAdded(e:Event):void
@@ -59,10 +62,9 @@ package
 		}
 		
 		
-		//
-		// GRANT! INTERFACE WITH STUFFS HERE FOR STARFIELD
-		//  these functions are not set up to take params now, but we can add that if need
-		//  probably best to avoid the need though so that these 
+		// INTERFACE WITH STUFFS HERE FOR STARFIELD
+		// these functions are not set up to take params now, but we can add that if need
+		// probably best to avoid the need though so that these 
 		private function onAKeyDown():void
 		{
 			
@@ -89,7 +91,7 @@ package
 		{
 			keymapper = new KeyMapperEngine();
 			
-			var vec:Vector.<KeyPressData>;
+			var vec:Vector.<KeyPressData> = new Vector.<KeyPressData>();
 			
 			vec.push( new KeyPressData( this, KeyboardEvent.KEY_DOWN, onAKeyDown, A_KEY ) );
 			vec.push( new KeyPressData( this, KeyboardEvent.KEY_DOWN, onAKeyDown, D_KEY ) );
