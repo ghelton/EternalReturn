@@ -17,7 +17,7 @@ package
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
 	{		
-		private var starfield:Starfield;
+		private var _starfield:Starfield;
 		private var universeMachine:UniverseMachine;
 		
 		public function Main()
@@ -36,8 +36,8 @@ package
 			
 			//add your init stuff here			
 			//init stuff here
-			starfield = new Starfield(stage.stageWidth, stage.stageHeight);
-			addChild(starfield);
+			_starfield = new Starfield(stage.stageWidth, stage.stageHeight);
+			addChild(_starfield);
 
 			
 			universeMachine = new UniverseMachine("XXX");
@@ -52,7 +52,7 @@ package
 		
 		private function resizeStage(e:Event):void {
 			//do something
-			starfield.resize(stage.stageWidth, stage.stageHeight);
+			_starfield.resize(stage.stageWidth, stage.stageHeight);
 		}
 		
 		private function onFullScreen(e:Event):void {
