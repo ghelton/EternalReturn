@@ -52,7 +52,7 @@ package comps
 		
 		override public function set rotation(value:Number):void
 		{
-			this.rotation = value; /// maybe tween this
+			super.rotation = value; /// maybe tween this
 		}
 		
 		override public function set x(value:Number):void

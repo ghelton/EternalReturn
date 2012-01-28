@@ -5,8 +5,12 @@ package core
 	import flash.events.KeyboardEvent;
 	import flash.utils.Dictionary;
 
-	//purpose of this class is to abstract the searching of which key was pressed from other locations
-	//alec
+	/**
+	 * This class abstracts key checking for registered keyboard events without
+	 * the need to do it when events are caught in a switch
+	 * 
+	 * author: alec
+	 */
 	
 	public class KeyMapperEngine
 	{
@@ -17,7 +21,7 @@ package core
 		
 		public function KeyMapperEngine()
 		{
-			
+			_keys = new Dictionary();
 		}
 		
 		public function register(keysToMap:Vector.<KeyPressData>):void
@@ -26,24 +30,26 @@ package core
 			//event you want to hear
 			//will fire when that event happens
 			var keykey:KeyPressData;
-			_keys = new Dictionary();
+			
 			for each (keykey in keysToMap)
 			{
+				//trace('key regsiter:',keykey.keyCode,' ', keykey.type);
 				//add the event listeners
 				keykey.obj.addEventListener(keykey.type, checkKeys);
 				
 				//store the key/event/code pairings
-				_keys[keykey.obj] = keykey;
+				_keys[String(keykey.keyCode)+keykey.type] = keykey;
 			}
 			
 		}
 		
 		private function checkKeys(e:KeyboardEvent):void
 		{
-			var key:KeyPressData = _keys[e.currentTarget];
+			var key:KeyPressData = _keys[String(e.keyCode)+e.type];
+			//trace('checkkeys',e.keyCode, key.keyCode, e.type);
 			if (e.keyCode == key.keyCode)
 			{
-				key.func();
+				key.func(key, e);
 			}
 		}
 	}
