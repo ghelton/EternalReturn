@@ -9,7 +9,7 @@ package datas
 		public var RGB:Vector3D;
 		public var discovered:Boolean;
 		
-		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered)
+		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered:Boolean)
 		{
 			location = $startLocation;
 			RGB = $RGB;

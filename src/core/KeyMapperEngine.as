@@ -10,6 +10,9 @@ package core
 	
 	public class KeyMapperEngine
 	{
+		public static var A_KEY:uint = 65;
+		public static var D_KEY:uint = 68;
+		
 		private var _keys:Dictionary;
 		
 		public function KeyMapperEngine()
