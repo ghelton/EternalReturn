@@ -8,7 +8,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const quadrantSize:int = 100;
+		private const quadrantSize:int = 1000;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData>;
@@ -66,9 +66,12 @@ package datas
 			{
 				for(y = quadrantSize * quad.y; y < quadrantSize * (quad.y + 1); y++)
 				{
-					returnPlanet = getPlanetAtPixel(new Point(x, y));
-					if(returnPlanet != null)
-						returnPlanets.push(returnPlanet);
+					if((x * quadrantSize + y) % 99 == 0)
+					{
+						returnPlanet = getPlanetAtPixel(new Point(x, y));
+						if(returnPlanet != null)
+							returnPlanets.push(returnPlanet);
+					}
 				}
 			}
 			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
@@ -90,7 +93,7 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-			if((Math.abs(noise(pixel)) % Math.abs(pixel.x + pixel.y)) == 0)
+			if(Math.abs(noise(pixel)) % 100 == 0)
 				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5);
 			else
 				return null;

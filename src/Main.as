@@ -39,7 +39,7 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
-			_universeMachine = new UniverseMachine(12345);
+			_universeMachine = new UniverseMachine(1234567);
 			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine);
 			addChild(_starfield);
 
