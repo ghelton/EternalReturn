@@ -63,11 +63,11 @@ package comps
 				velocity.normalize(_data.magnitude);
 				_data.position = _data.position.add(velocity);
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
-				_data.magnitude = Math.sqrt(_data.red);
+				_data.magnitude = 30 * Math.log((_data.red / 300) + Math.E);
 				_presentation.turn(_data.rotationChange);
 				//_presentation.move();
 			}
-			else if (_data.red == 0)
+			else if (_data.red <= 0)
 			{
 				_presentation.die();
 			}
