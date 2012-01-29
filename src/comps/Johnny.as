@@ -55,7 +55,7 @@ package comps
 		{
 			if(_data.magnitude != 0)
 			{
-				trace("_data.rotationChange",_data.rotationChange);
+//				trace("_data.rotationChange",_data.rotationChange);
 				_data.dgRotation += _data.rotationChange / 100;
 				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 				velocity.normalize(_data.magnitude);
@@ -66,7 +66,7 @@ package comps
 			
 			var rgb:Vector3D = _data.resources.clone();
 			var max:Number = Math.max(rgb.x,rgb.y,rgb.z);
-			this.transform.colorTransform = new ColorTransform(0.7,0.7,0.7,1,rgb.x/max*255-127, rgb.y/max*255-127, rgb.z/max*255-127);
+			_presentation.transform.colorTransform = new ColorTransform(0.5,0.5,0.5,1,rgb.x/max*64+64, rgb.y/max*64+64, rgb.z/max*64+64);
 		}
 		
 		public function onFrame():void
@@ -115,44 +115,39 @@ package comps
 		}
 		
 		public function moveLeft(e:JohnnyEvent):void {
-//			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
-//			_data.dgRotation += dd;
+			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
+			if (_data.rotationChange <= 0.01)
+				burn *= 0.5;
+			
+			var hasEnoughFuel:Boolean = burnGreen(burn);
+				
 			if(_data.rotationChange <= Config.MAX_ROTATION)
 			{
-				if(_data.rotationChange > 0)
-					_data.rotationChange += 0.2;
-				else
-					_data.rotationChange += 0.4;
+				// no fuel, reduce turn by half
+				var multiplier:Number = (hasEnoughFuel ? 1 : 0.5);
+				
+				// on planet, double turn speed(and hence also efficiency, total 4x w/ other efficiency tweak)
+				if (_data.rotationChange <= 0.01)
+					multiplier *= 2;
+				
+				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
 			}
-			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-			burnGreen(_data.magnitude);
-//			if (burnGreen(burn)) {
-//				trace("Rotate Ship Left:  " + _data.dgRotation + "(-" + dd + " degrees, burn " + burn + ")" );
-//			}
-//			else {
-//				trace("Rotate Ship Left:  not enough fuel.");
-//			}
 		}
 		
 		public function moveRight(e:JohnnyEvent):void {
-//			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
-//			_data.dgRotation -= dd;
-			if(_data.rotationChange >= -Config.MAX_ROTATION)
-			{
-				if(_data.rotationChange > 0)
-					_data.rotationChange -= 0.2;
-				else
-					_data.rotationChange -= 0.4;
-			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-			burnGreen(_data.magnitude);
-
-//			if (burnGreen(burn)) {
-//				trace("Rotate Ship Right:  " + _data.dgRotation + "(+" + dd + " degrees, burn " + burn + ")" );
-//			}
-//			else {
-//				trace("Rotate Ship Right:  not enough fuel.");
-//			}
+			var hasEnoughFuel:Boolean = burnGreen(burn);
+			if(_data.rotationChange <= Config.MAX_ROTATION)
+			{
+				// no fuel, reduce turn by half
+				var multiplier:Number = (hasEnoughFuel ? 1 : 0.5);
+				
+				// on planet, double turn speed(and hence also efficiency)
+				if (_data.rotationChange <= 0.01)
+					multiplier *= 2;
+				
+				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
+			}
 		}
 		
 		public function activateSonar(e:JohnnyEvent):void {
