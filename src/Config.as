@@ -28,6 +28,8 @@ package
 		public static const STARTING_RESOURCES:Vector3D = new Vector3D(200, 200, 100);
 		public static const BASE_MAGNITUDE:Number = 0;
 		
+		public static const HOLD_FOR_TURN:Boolean = true;  // defines whether u need to hold to turn or tap.  true for hold, false for tap.
+		
 		public function Config()
 		{
 		}
