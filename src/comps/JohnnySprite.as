@@ -37,15 +37,18 @@ package comps
 		
 		public function move():void
 		{
-			if (_onStage == _turnHeavy)
+			if (_onStage == _idle)
 				return;
 			
-			add(_turnHeavy);
+			add(_idle);
 		}
 		
-		public function turn(direction:Number):void
+		public function turn(num:Number):void
 		{
-			add(_turnLight);
+			
+			var index:int = int(num + 6);
+				
+			add(_turns[index]);
 		}
 		
 		public function die():void
@@ -66,6 +69,9 @@ package comps
 		
 		private function add(mov:MovieClip):void
 		{	
+			if (mov == _onStage)
+				return;
+			
 			addChild(mov);	
 			//mov.play();
 			
@@ -78,11 +84,10 @@ package comps
 		}
 		
 		
-		
+		private var _turns:Array;
 		override protected function init(e:Event):void
 		{
 			super.init(e);
-			
 			
 			_idle = new IdleVessel();
 			_moving = new MovingVessel();
@@ -92,6 +97,8 @@ package comps
 			_turnHeavy = new TurnHeavy();
 			_bite = new JohnnyBite();
 			_death = new JohnnyDeath();
+			
+			_turns = [_turnHeavy, _turnMedium, _turnMedium, _turnMild, _turnLight,_moving, _moving, _turnLight, _turnMild, _turnMedium, _turnMedium, _turnHeavy];
 			
 			idle();
 		}

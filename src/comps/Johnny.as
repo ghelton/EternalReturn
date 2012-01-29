@@ -62,6 +62,12 @@ package comps
 				_data.position = _data.position.add(velocity);
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 				_data.magnitude = Math.sqrt(_data.red);
+			//	_presentation.turn(_data.rotationChange);
+				_presentation.move();
+			}
+			else if (_data.red == 0)
+			{
+				_presentation.die();
 			}
 			else
 			{
@@ -72,12 +78,6 @@ package comps
 			var max:Number = Math.max(rgb.x,rgb.y,rgb.z);
 			this.transform.colorTransform = new ColorTransform(0.7,0.7,0.7,1,rgb.x/max*255-127, rgb.y/max*255-127, rgb.z/max*255-127);
 			
-		}
-		
-		public function setSprite():void
-		{
-			
-				
 		}
 		
 		public function onFrame():void
