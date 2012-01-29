@@ -43,6 +43,10 @@ package comps
 			removeChild(_planetSWC);
 		}
 		
+		public function redrawMe():void
+		{
+			redraw();
+		}
 
 		override protected function draw():void
 		{

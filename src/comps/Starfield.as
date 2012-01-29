@@ -11,6 +11,7 @@ package comps
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
 
 	public class Starfield extends Element
@@ -107,6 +108,17 @@ package comps
 			var planet:Planet;
 			var planetData:PlanetData;
 			
+			//remove any planets Johnny may have hit from the planets and say it was hit
+			for each(planetData in planets)
+			{
+				if(planetData.screenPosition.length < 30)
+				{
+					_universeMachine.markPlanetAsDiscovered(planetData.uid);
+					planetData.discovered = true;
+					_johnnyData.addResources(planetData.RGB);
+				}
+			}
+			
 			//remove planets that are no longer in the list and put them in the pool
 			var foundPlanet:Boolean = false;
 			for(var key:String in _activePlanets)
@@ -148,7 +160,13 @@ package comps
 				}
 				planet.x = planetData.screenPosition.x;
 				planet.y = planetData.screenPosition.y;
+				if(planetData.screenPosition.length < 30)
+				{
+					planetData.RGB = new Vector3D(.5, .5, .5);
+					planet.redrawMe();
+				}
 			}
+			
 		}
 	}
 }
