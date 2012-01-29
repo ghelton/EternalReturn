@@ -99,7 +99,7 @@ package comps
 				cb.y = position.y * multiplier;
 				multiplier++;
 			}
-			return;
+//			return;
 			// update planets
 			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
