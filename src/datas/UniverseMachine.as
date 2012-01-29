@@ -11,7 +11,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 300000; //set to 5 minutes for rizzle
+		private const lifeTimeOfItAll:int = 100000; //set to 5 minutes for rizzle
 		private const quadrantSize:int = 100;
 		private const quadrantCachePoolSize:int = 2000;
 		private const distanceBetweenPlanetCornerSpots:int = 20;
