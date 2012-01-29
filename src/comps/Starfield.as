@@ -63,7 +63,6 @@ package comps
 		
 		public function updateField():void
 		{
-			return;
 			_lastPos = _johnnyData.position.clone();
 			var position:Point = _johnnyData.position;
 			
@@ -73,42 +72,44 @@ package comps
 			var planet:Planet;
 			var planetData:PlanetData;
 			
-			//get planets
-			
-			if(_currentPlanetData == null)
-				_currentPlanetData = planets;
-			else {
+			//remove planets that are no longer in the list and put them in the pool
+			var foundPlanet:Boolean = false;
+			for(var key:String in _activePlanets)
+			{
+				foundPlanet = false;
 				for each(planetData in planets)
 				{
-					if(_currentPlanetData.indexOf(planetData) == -1)
+					if(planetData.uid == key)
 					{
-						planet = _activePlanets[planetData];
-						if(planet == null)
-							continue;
-						_pooledPlanets.push(planet);
-						if(contains(planet))
-							removeChild(planet);
-						_activePlanets[planetData] = null;
-						delete _activePlanets[planetData];
+						foundPlanet = true;
+						break;
 					}
 				}
+				if(!foundPlanet)
+				{
+					planet = _activePlanets[key];
+					_pooledPlanets.push(planet);
+					removeChild(planet);
+					_activePlanets[key] = null;
+					delete _activePlanets[key];
+				}					
+
 			}
-			
 			
 			//create new planets and update existing planets
 			for each(planetData in planets)
 			{
-				planet = _activePlanets[planetData];
+				planet = _activePlanets[planetData.uid];
 				if(planet == null)
 				{
 					if(_pooledPlanets.length > 0)
 					{
-						//use a pooled object if available
+						planet = _pooledPlanets.pop();
 						planet.updateData(planetData);
 					} else {
-						//construct a new planet
-						planet = _activePlanets[planetData] = new Planet(planetData);
+						planet = new Planet(planetData);
 					}
+					_activePlanets[planetData.uid] = planet;
 					addChild(planet);
 				}
 				planet.x = planetData.location.x;
