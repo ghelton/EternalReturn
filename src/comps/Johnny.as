@@ -103,7 +103,7 @@ package comps
 			move();
 			if(_data.entropyModifier > 0)
 			{
-//				_data.entropyModifier -= 0.15;
+				_data.entropyModifier -= 0.0001;
 				if(_data.entropyModifier < 0)
 					_data.entropyModifier = 0;
 			}
