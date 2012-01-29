@@ -1,11 +1,14 @@
 package comps
 {
+	import core.AnimationEvent;
 	import core.Element;
 	import core.ParallaxBitmap;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
 	import datas.UniverseMachine;
+	
+	import events.JohnnyEvent;
 	
 	import flash.display.BitmapData;
 	import flash.events.Event;
@@ -134,6 +137,8 @@ package comps
 			}
 			
 			//create new planets and update existing planets
+			var mawOpened:Boolean = false;
+			
 			for each(planetData in planets)
 			{
 				planet = _activePlanets[planetData.uid];
@@ -151,21 +156,32 @@ package comps
 				}
 				planet.x = planetData.screenPosition.x;
 				planet.y = planetData.screenPosition.y;
+				
 				if(planetData.RGB.length > 0)
-					planetData.RGB = scaleVector3D(planetData.RGBOG, 2 / (_universeMachine.spacialEntropyAdjustment + 1));
-				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
+					planetData.RGB = scaleVector3D(planetData.RGBOG, 3 / (_universeMachine.spacialEntropyAdjustment + 1));
+				
+				//check colission
+				if(_johnnyData.magnitude > 0 && planetData.screenPosition.length < 200 && planetData.RGB.length > 0)
 				{
-					_universeMachine.markPlanetAsDiscovered(planetData.uid);
-					planetData.discovered = true;
-					_johnnyData.addResources(planetData.RGB, 15);
-					_johnnyData.rotationChange = 0;
-					
-					planetData.RGB = new Vector3D(0, 0, 0);
+					if(!mawOpened)
+						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
+					if(planetData.screenPosition.length < 30)
+					{
+						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
+						_universeMachine.markPlanetAsDiscovered(planetData.uid);
+						planetData.discovered = true;
+						_johnnyData.addResources(planetData.RGB, 15);
+						_johnnyData.rotationChange = 0;
+						
+						planetData.RGB = new Vector3D(0, 0, 0);
+						planet.redrawMe();
+						_johnnyData.magnitude = 0;
+					}
 					planet.redrawMe();
-					_johnnyData.magnitude = 0;
 				}
-				planet.redrawMe();
 			}
+			if(!mawOpened && _johnnyData.magnitude > 0)
+				dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
 		}
 		private function scaleVector3D(vector:Vector3D, scale:Number):Vector3D
 		{

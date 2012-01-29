@@ -1,5 +1,6 @@
 package comps
 {
+	import core.AnimationEvent;
 	import core.Element;
 	import core.Lapse;
 	
@@ -18,6 +19,7 @@ package comps
 	public class Johnny extends Element
 	{
 		private var _data:JohnnyData;
+		private var _pulse:MovieClip;
 		private var _presentation:JohnnySprite;
 		
 		public function Johnny($data:JohnnyData)
@@ -65,7 +67,7 @@ package comps
 			}
 			else
 			{
-				_presentation.idle();
+//				_presentation.idle();
 			}
 			
 			var rgb:Vector3D = _data.resources.clone();
@@ -78,6 +80,18 @@ package comps
 		{
 			
 				
+		}
+		
+		public function openMaw(e:Event):void
+		{
+			trace("openMaw");
+			_presentation.openMaw();
+		}
+		
+		public function closeMaw(e:Event):void
+		{
+			trace("closeMaw");
+			_presentation.closeMaw();
 		}
 		
 		public function onFrame():void
@@ -102,7 +116,24 @@ package comps
 			{
 				_data.addResources(new Vector3D(0, 0, -1 * Config.JOHNNY_BLUE_RESOURCE_PER_SECOND));
 				_data.entropyModifier += 0.1;
+				activateSonar();
 			}
+		}
+		
+		private function activateSonar():void {
+			trace("Activate Sonar");
+			if(_pulse == null)
+			{
+				_pulse = new PulseProbe();
+				addChild(_pulse);
+				_pulse.addEventListener(AnimationEvent.ANIMATION_KILL, onKillPulse);
+			}
+		}
+		
+		private function onKillPulse(e:Event):void
+		{
+			removeChild(_pulse);
+			_pulse = null;
 		}
 		
 		public function burnRed(amount:Number):void {
@@ -165,10 +196,6 @@ package comps
 				
 				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
 			}
-		}
-		
-		public function activateSonar(e:JohnnyEvent):void {
-			trace("Activate Sonar");
 		}
 	}
 }
