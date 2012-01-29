@@ -20,7 +20,7 @@ package core
 	public class JohnnyKeyController extends BasicController
 	{
 		private var keymapper:KeyMapperEngine;
-
+		
 		public function JohnnyKeyController()
 		{
 			trace('register keys');
@@ -49,12 +49,17 @@ package core
 			//let us move the spaceship left
 			trace('A Key Down');
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LEFT)); 
+			this.addEventListener(Event.ENTER_FRAME, whileAKeyDown,false,0,true);
+		}
+		
+		private function whileAKeyDown(...skip):void {
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LEFT));
 		}
 		
 		private function onAKeyUp(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//A is the spaceship moving right
-			
+			this.removeEventListener(Event.ENTER_FRAME, whileAKeyDown);
 		}
 		
 		//RIGHT MOVEMENT
@@ -62,11 +67,16 @@ package core
 		{
 
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT)); 
+			this.addEventListener(Event.ENTER_FRAME, whileDKeyDown,false,0,true);
 		}
 		
 		private function onDKeyUp(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//D is the spaceship moving left
+		}
+		
+		private function whileDKeyDown(...skip):void {
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT));
 		}
 		
 		private function onSpaceUp(key:KeyPressData, e:KeyboardEvent):void
