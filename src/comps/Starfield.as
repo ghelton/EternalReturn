@@ -99,7 +99,7 @@ package comps
 				pb.x = position.x * multiplier;
 				pb.y = position.y * multiplier;
 				pb.redraw();
-				multiplier -= 0.2;
+				multiplier -= 0.1;
 			}
 //			return;
 			// update planets
