@@ -13,17 +13,18 @@ package datas
 	{
 		private const lifeTimeOfItAll:int = 100000;
 		private const quadrantSize:int = 500;
-		private const quadrantCachePoolSize:int = 80;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
+		private var _quadrantCachePoolSize:int = 10000;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData> = new Vector.<PlanetQuadrantData>;
 		private var _theBeginning:Number;
-		
-		public function UniverseMachine(seed:int)
+		private var _johnnyData:JohnnyData;
+		public function UniverseMachine(seed:int, johnnyData:JohnnyData)
 		{
 			_theBeginning = getTimer();
 			_universeSeed = seed;
+			_johnnyData = johnnyData;
 			//fetch shared object, set _planetsDiscovered to object sharedObject.seedName
 		}
 		
@@ -48,12 +49,15 @@ package datas
 
 			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
-			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
+			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
+			
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
+			var count:Number = 0;
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
 				for(yQuad = Math.floor(adjustedFrame.top / quadrantSize); yQuad <= Math.ceil(adjustedFrame.bottom / quadrantSize); yQuad++)
 				{
+					count++;
 					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
 					for each(planet in planetsFromQuad)
 					{
@@ -62,6 +66,7 @@ package datas
 					}
 				}
 			}
+			_quadrantCachePoolSize = count * 3;
 			
 			midPoint = new Point((adjustedFrame.right + adjustedFrame.left) / 2, (adjustedFrame.top + adjustedFrame.bottom) / 2);
 			for each(planet in returnPlanets)
@@ -104,9 +109,10 @@ package datas
 				}
 			}
 			_cachedPlanetQuadrants.push(planetQuadrantData);
-			if(_cachedPlanetQuadrants.length > quadrantCachePoolSize)
+			if(_cachedPlanetQuadrants.length > _quadrantCachePoolSize)
 			{
-				_cachedPlanetQuadrants.splice(0, 50);
+				trace("RAN OUT OF POOLAGE");
+				_cachedPlanetQuadrants.splice(0, Math.floor(_quadrantCachePoolSize * 2/3));
 			}
 				
 				

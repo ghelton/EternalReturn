@@ -153,10 +153,10 @@ package comps
 				planet.y = planetData.screenPosition.y;
 				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
 				{
-					trace(planetData.uid + "    " + planetData.RGB.length + "   " + planetData.RGB.x + "   " + planetData.RGB.y + "   " + planetData.RGB.z);
 					_universeMachine.markPlanetAsDiscovered(planetData.uid);
 					planetData.discovered = true;
-					_johnnyData.addResources(planetData.RGB);
+					_johnnyData.addResources(planetData.RGB, 15);
+					_johnnyData.position = planetData.location;
 					
 					planetData.RGB = new Vector3D(0, 0, 0);
 					planet.redrawMe();

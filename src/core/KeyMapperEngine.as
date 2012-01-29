@@ -17,6 +17,7 @@ package core
 		public static var A_KEY:uint = 65;
 		public static var D_KEY:uint = 68;
 		public static var SPACE_KEY:uint = 32;
+		public static var W_KEY:uint = 87;
 		
 		private var _keys:Dictionary;
 		
@@ -46,7 +47,6 @@ package core
 		
 		private function checkKeys(e:KeyboardEvent):void
 		{
-			trace('checkkeys',e.keyCode, e.type);
 			var key:KeyPressData = _keys[String(e.keyCode)+e.type];
 			if(key == null)
 				return;

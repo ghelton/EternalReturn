@@ -28,6 +28,7 @@ package datas
 		public var starfieldCoord:Point;  	// coordinates of johnny relative to the starfield
 		public var dgRotation:Number = 1.5707; 		// rotation of johnny relative to the starfield
 		public var rotationChange:Number = 0;
+		public var entropyModifier:Number = 0;
 		//--------------------------------------
 		// CONSTRUCTOR
 		//--------------------------------------
@@ -52,12 +53,12 @@ package datas
 			return _resources;
 		}
 		
-		public function addResources(newResources:Vector3D):void
+		public function addResources(newResources:Vector3D, awesomeBonusMultiplierThatIsntAtAllAShortComingOfVector3DHack:Number = 1):void
 		{
 			//resources.add(newResources);
-			resources.x += newResources.x;
-			resources.y += newResources.y;
-			resources.z += newResources.z;
+			resources.x += newResources.x * awesomeBonusMultiplierThatIsntAtAllAShortComingOfVector3DHack;
+			resources.y += newResources.y * awesomeBonusMultiplierThatIsntAtAllAShortComingOfVector3DHack;
+			resources.z += newResources.z * awesomeBonusMultiplierThatIsntAtAllAShortComingOfVector3DHack;
 		}
 		
 		public function get green():Number
