@@ -27,7 +27,6 @@ package comps
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_data.red, _data.green, _data.blue);
-			_data.resources.scaleBy(20);
 //			var size:int = _resources.
 			graphics.clear();
 			graphics.beginFill(0x000000);
