@@ -12,7 +12,9 @@ package comps
 
 	public class Starfield extends Element
 	{
-		private var _size:Number;
+		private var _size:Point;
+		private var _bufferedSize:Number;
+		private var _maxViewArea:Number;
 		private var _position:Point;
 		private var _universeMachine:UniverseMachine;
 		private var _lastPos:Point;
@@ -22,8 +24,7 @@ package comps
 		
 		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine)
 		{
-			_size = Math.max($fieldWidth, $fieldHeight);
-			_position = new Point(0, 0);
+			updateSizes($fieldWidth, $fieldHeight);
 			_universeMachine = $universeMachine;
 			super();
 		}
@@ -36,55 +37,59 @@ package comps
 		
 		override protected function draw():void
 		{
-			var locOffset:Number = _size / 2;
-			var bufferedLocOffset:Number = locOffset + Config.STARFIELD_BUFFER;
-			var fieldSize:Number = _size + Config.STARFIELD_BUFFER * 2;
+			var locOffset:Number = _maxViewArea / 2;
+			var bufferedLocOffset:Number = _bufferedSize / 2;
 			graphics.beginFill(0x000000);
-			graphics.drawRect(-bufferedLocOffset, -bufferedLocOffset, fieldSize, fieldSize);
+			graphics.drawRect(-bufferedLocOffset, -bufferedLocOffset, _bufferedSize, _bufferedSize);
 			graphics.endFill();
-			super.x = locOffset;
-			super.y = locOffset;
+			super.x = _size.x / 2;
+			super.y = _size.y / 2;
+		}
+		
+		private function updateSizes($fieldWidth:uint, $fieldHeight:uint):void
+		{
+			_size = new Point($fieldWidth, $fieldHeight);
+			_maxViewArea = Math.max(_size.x, _size.y); 
+			_bufferedSize = Math.SQRT2 * _maxViewArea;
+			_position = new Point(0, 0);
 		}
 		
 		public function resize($fieldWidth:uint, $fieldHeight:uint):void
 		{
-			_size = Math.max($fieldWidth, $fieldHeight);
+			updateSizes($fieldWidth, $fieldHeight);
 			redraw();
+			updateField();
 		}
 		
 		override public function set rotation(value:Number):void
 		{
 			super.rotation = value; /// maybe tween this
-//			this.transform.matrix.rotate(value);
-		}
-		
-		override public function set x(value:Number):void
-		{
-			_position.x = value; /// maybe tween this
-		}
-		
-		override public function set y(value:Number):void
-		{
-			_position.y = value; /// maybe tween this
 		}
 		
 		private function onFrame(e:Event):void
 		{
 			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
 			{
-				_lastPos = _position;
-				var xPos:Number = _position.x - (_size / 2) - Config.STARFIELD_BUFFER;
-				var yPos:Number = _position.y - (_size / 2) - Config.STARFIELD_BUFFER;
-				var fieldSize:Number = _size + Config.STARFIELD_BUFFER * 2;
-				var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, fieldSize, fieldSize));
-				var planet:Planet;
-				var planetData:PlanetData;
-				
-				if(_currentPlanetData == null)
-					_currentPlanetData = planets;
-				//get planets
-	
-				for each(planetData in _currentPlanetData)
+				updateField();
+			}
+		}
+		
+		private function updateField():void
+		{
+			_lastPos = _position;
+			
+			var xPos:Number = _position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
+			var yPos:Number = _position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
+			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
+			var planet:Planet;
+			var planetData:PlanetData;
+			
+			//get planets
+			
+			if(_currentPlanetData == null)
+				_currentPlanetData = planets;
+			else {
+				for each(planetData in planets)
 				{
 					if(_currentPlanetData.indexOf(planetData) == -1)
 					{
@@ -95,29 +100,28 @@ package comps
 						delete _activePlanets[planetData];
 					}
 				}
-				
-				
-				//create new planets and update existing planets
-				for each(planetData in planets)
-				{
-					planet = _activePlanets[planetData];
-					if(planet == null)
-					{
-						if(_pooledPlanets.length > 0)
-						{
-							//use a pooled object if available
-							planet.updateData(planetData);
-						} else {
-							//construct a new planet
-							planet = _activePlanets[planetData] = new Planet(planetData);
-						}
-						addChild(planet);
-					}
-					planet.x = planetData.location.x - _position.x;
-					planet.y = planetData.location.y - _position.y;
-				}
 			}
 			
+			
+			//create new planets and update existing planets
+			for each(planetData in planets)
+			{
+				planet = _activePlanets[planetData];
+				if(planet == null)
+				{
+					if(_pooledPlanets.length > 0)
+					{
+						//use a pooled object if available
+						planet.updateData(planetData);
+					} else {
+						//construct a new planet
+						planet = _activePlanets[planetData] = new Planet(planetData);
+					}
+					addChild(planet);
+				}
+				planet.x = planetData.location.x;
+				planet.y = planetData.location.y;
+			}
 		}
 	}
 }

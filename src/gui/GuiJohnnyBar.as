@@ -22,10 +22,11 @@ package gui {
 			addChild(backBar);
 			addChild(frontBar);
 			
+			var barSize:Number = 0.5;
 			frontBar.graphics.beginFill(0xFFFFFF);
 			backBar.graphics.beginFill(0x666666);
-			frontBar.graphics.drawRect(0,0,8,8);
-			backBar.graphics.drawRect(0,0,8,8);
+			frontBar.graphics.drawRect(0,0,barSize,8);
+			backBar.graphics.drawRect(0,0,barSize,8);
 			frontBar.graphics.endFill();		
 			backBar.graphics.endFill();	
 			
