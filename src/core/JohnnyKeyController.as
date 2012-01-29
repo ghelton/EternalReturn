@@ -33,9 +33,9 @@ package core
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onSpaceDown, KeyMapperEngine.SPACE_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onAKeyDown, KeyMapperEngine.A_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onDKeyDown, KeyMapperEngine.D_KEY ) );
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onWKeyDown, KeyMapperEngine.W_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onAKeyUp, KeyMapperEngine.A_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyUp, KeyMapperEngine.D_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onWKeyDown, KeyMapperEngine.W_KEY ) );
 			
 			keymapper.register(vec);
 		}
@@ -68,29 +68,30 @@ package core
 			this.addEventListener(Event.ENTER_FRAME, whileDKeyDown,false,0,true);
 		}
 		
-		private function onDKeyUp(key:KeyPressData, e:KeyboardEvent):void
-		{
-			//D is the spaceship moving left
-		}
-		
 		private function whileDKeyDown(...skip):void {
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT));
 		}
 		
-		// Launch button
-		private function onSpaceDown(key:KeyPressData, e:KeyboardEvent):void
+		private function onDKeyUp(key:KeyPressData, e:KeyboardEvent):void
 		{
-			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BLUE_POWER)); 
-			this.addEventListener(Event.ENTER_FRAME, whileSpaceKeyDown,false,0,true);
-		}
-		
-		private function whileSpaceKeyDown(e:Event):void {
-			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BLUE_POWER));
+			//D is the spaceship moving left
+			this.removeEventListener(Event.ENTER_FRAME, whileDKeyDown);
 		}
 		
 		private function onWKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LAUNCH)); 
+		}
+		
+		// Launch button
+		private function onSpaceDown(key:KeyPressData, e:KeyboardEvent):void
+		{
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BLUE_POWER));
+			this.addEventListener(Event.ENTER_FRAME, whileSpaceKeyDown,false,0,true);
+		}
+		
+		private function whileSpaceKeyDown(e:Event):void {
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BLUE_POWER));
 		}
 	}
 }
