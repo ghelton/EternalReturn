@@ -149,6 +149,7 @@ package comps
 				_data.magnitude = 0;
 				amount = _data.red;
 				_presentation.die();
+				activateSonar();
 			}
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
 			_data.addResources(lessRed);
