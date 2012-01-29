@@ -5,6 +5,7 @@ package datas
 
 	public class PlanetData
 	{
+		private static var count:int = 0;
 		public var uid:String;
 		public var location:Point;
 		public var screenPosition:Point;
@@ -13,6 +14,8 @@ package datas
 		
 		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered:Boolean, $screenPosition:Point)
 		{
+			count++;
+			trace("there are now this many Planet Datas" + count);
 			location = $startLocation;
 			RGB = $RGB;
 			discovered = $discovered;

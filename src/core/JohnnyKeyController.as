@@ -60,8 +60,7 @@ package core
 		//RIGHT MOVEMENT
 		private function onDKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
-			//let us move the spaceship right
-			trace('D Key Down');
+
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT)); 
 		}
 		

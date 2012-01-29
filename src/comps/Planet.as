@@ -4,6 +4,7 @@ package comps
 	
 	import datas.PlanetData;
 	
+	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	import flash.geom.Vector3D;
 
@@ -14,7 +15,7 @@ package comps
 		
 		public function Planet($planetData:PlanetData)
 		{
-			updateData($planetData);
+			_planetData = $planetData;
 			super();
 		}
 		
@@ -24,6 +25,25 @@ package comps
 			draw();
 		}
 		
+		override protected function init(e:Event):void
+		{
+			super.init(e);
+			_planetSWC = new PlanetSWC();
+		}
+		
+		override protected function addedToStage(e:Event):void
+		{
+			super.addedToStage(e);
+			addChild(_planetSWC);
+		}
+
+		override protected function removedFromStage(e:Event):void
+		{
+			super.removedFromStage(e);
+			removeChild(_planetSWC);
+		}
+		
+
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_planetData.RGB.x, _planetData.RGB.y, _planetData.RGB.z);
@@ -34,18 +54,11 @@ package comps
 			rgb.y = (rgb.y < max * 0.75) ? 0 : 1;
 			rgb.z = (rgb.z < max * 0.75) ? 0 : 1;
 			
-			
-			/*graphics.clear();
-			graphics.beginFill(0x000000);
-			graphics.drawCircle(0, 0, size);
-			graphics.endFill();*/
-			
-			_planetSWC = new PlanetSWC();
-			addChild(_planetSWC);
 			_planetSWC.scaleX = _planetSWC.scaleY = size/12;
 			
 			// scaled just a bit darker than if used baseline y*0.5 + x*255 - 128
 			_planetSWC.transform.colorTransform = new ColorTransform(0.4,0.4,0.4,1,rgb.x*204-102, rgb.y*204-102, rgb.z*204-102);
+
 			super.draw();
 		}
 	}
