@@ -4,15 +4,18 @@ package comps
 	
 	import datas.PlanetData;
 	
+	import events.JohnnyEvent;
+	
 	import flash.geom.ColorTransform;
 	import flash.geom.Vector3D;
 
 	public class Johnny extends Element
 	{
 		private var _resources:Vector3D;
+		public var maxResourcesRGB:Vector3D = new Vector3D(600,600,600);
 		public var magnitude:uint = 5;
 //		public var direction
-		
+
 		public function Johnny(startingValues:Vector3D)
 		{
 			_resources = startingValues;
@@ -21,7 +24,7 @@ package comps
 		public function devourPlanet(planetData:PlanetData):void {
 			_resources.add(planetData.RGB);
 		}		
-		
+
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_resources.x, _resources.y, _resources.z);
@@ -48,6 +51,18 @@ package comps
 		public function get blue():Number
 		{
 			return _resources.z;
+		}
+		
+		public function moveLeft(e:JohnnyEvent):void {
+			trace("Rotate Ship Left");
+		}
+		
+		public function moveRight(e:JohnnyEvent):void {
+			trace("Rotate Ship Right");
+		}
+		
+		public function activateSonar(e:JohnnyEvent):void {
+			trace("Activate Sonar");
 		}
 	}
 }

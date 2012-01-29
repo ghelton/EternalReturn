@@ -34,6 +34,7 @@ package core
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onDKeyDown, KeyMapperEngine.D_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onAKeyUp, KeyMapperEngine.A_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyUp, KeyMapperEngine.D_KEY ) );
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onSpaceUp, KeyMapperEngine.SPACE_KEY ) );
 			
 			keymapper.register(vec);
 		}
@@ -46,7 +47,7 @@ package core
 		private function onAKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//A is the spaceship moving right
-			trace('A Key Down: Rotate Ship Left');
+			trace('A Key Down');
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LEFT)); 
 		}
 		
@@ -60,13 +61,18 @@ package core
 		private function onDKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//D is the spaceship moving left
-			trace('D Key Down: Rotate Ship Left');
+			trace('D Key Down');
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT)); 
 		}
 		
 		private function onDKeyUp(key:KeyPressData, e:KeyboardEvent):void
 		{
 			//D is the spaceship moving left
+		}
+		
+		private function onSpaceUp(key:KeyPressData, e:KeyboardEvent):void
+		{
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_SONAR)); 
 		}
 	}
 }

@@ -16,6 +16,7 @@ package core
 	{
 		public static var A_KEY:uint = 65;
 		public static var D_KEY:uint = 68;
+		public static var SPACE_KEY:uint = 32;
 		
 		private var _keys:Dictionary;
 		

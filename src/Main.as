@@ -54,9 +54,9 @@ package
 			_johnny.y = stage.stageHeight / 2;
 
 			_keyController = new JohnnyKeyController();
-//			_keyController.addEventListener(JohnnyEvent.JOHNNY_LEFT, _johnny.moveLeft);
-//			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
-//			_keyController.addEventListener(JohnnyEvent.JOHNNY_SONAR, _johnny.activateSonar);
+			_keyController.addEventListener(JohnnyEvent.JOHNNY_LEFT, _johnny.moveLeft);
+			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
+			_keyController.addEventListener(JohnnyEvent.JOHNNY_SONAR, _johnny.activateSonar);
 			
 			// overlay goes on top
 			addChild(new GuiOverlay(_johnny));
