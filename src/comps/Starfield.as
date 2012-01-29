@@ -2,6 +2,7 @@ package comps
 {
 	import core.Element;
 	
+	import datas.JohnnyData;
 	import datas.PlanetData;
 	import datas.UniverseMachine;
 	
@@ -12,27 +13,22 @@ package comps
 
 	public class Starfield extends Element
 	{
+		private var _johnnyData:JohnnyData;
 		private var _size:Point;
 		private var _bufferedSize:Number;
 		private var _maxViewArea:Number;
-		private var _position:Point;
 		private var _universeMachine:UniverseMachine;
 		private var _lastPos:Point;
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
 		
-		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine)
+		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine, $johnnyData:JohnnyData)
 		{
+			_johnnyData = $johnnyData;
 			updateSizes($fieldWidth, $fieldHeight);
 			_universeMachine = $universeMachine;
 			super();
-		}
-		
-		override protected function init(e:Event):void 
-		{
-			super.init(e);
-			addEventListener(Event.ENTER_FRAME, onFrame);
 		}
 		
 		override protected function draw():void
@@ -51,7 +47,6 @@ package comps
 			_size = new Point($fieldWidth, $fieldHeight);
 			_maxViewArea = Math.max(_size.x, _size.y); 
 			_bufferedSize = Math.SQRT2 * _maxViewArea;
-			_position = new Point(0, 0);
 		}
 		
 		public function resize($fieldWidth:uint, $fieldHeight:uint):void
@@ -66,20 +61,13 @@ package comps
 			super.rotation = value; /// maybe tween this
 		}
 		
-		private function onFrame(e:Event):void
+		public function updateField():void
 		{
-			if(_lastPos == null || _position.x != _lastPos.x || _position.y != _lastPos.y)
-			{
-				updateField();
-			}
-		}
-		
-		private function updateField():void
-		{
-			_lastPos = _position;
+			_lastPos = _johnnyData.position.clone();
+			var position:Point = _johnnyData.position;
 			
-			var xPos:Number = _position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
-			var yPos:Number = _position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
+			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
+			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
 			var planet:Planet;
 			var planetData:PlanetData;
@@ -95,7 +83,8 @@ package comps
 					{
 						planet = _activePlanets[planetData];
 						_pooledPlanets.push(planet);
-						removeChild(planet);
+						if(contains(planet))
+							removeChild(planet);
 						_activePlanets[planetData] = null;
 						delete _activePlanets[planetData];
 					}

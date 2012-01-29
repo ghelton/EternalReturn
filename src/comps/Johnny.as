@@ -2,6 +2,7 @@ package comps
 {
 	import core.Element;
 	
+	import datas.JohnnyData;
 	import datas.PlanetData;
 	
 	import events.JohnnyEvent;
@@ -11,46 +12,33 @@ package comps
 
 	public class Johnny extends Element
 	{
-		private var _resources:Vector3D;
-		public var maxResourcesRGB:Vector3D = new Vector3D(600,600,600);
-		public var magnitude:uint = 5;
-//		public var direction
-
-		public function Johnny(startingValues:Vector3D)
+		private var _data:JohnnyData;
+		
+		public function Johnny($data:JohnnyData)
 		{
-			_resources = startingValues;
+			_data = $data;
 		}
 		
 		public function devourPlanet(planetData:PlanetData):void {
-			_resources.add(planetData.RGB);
+			_data.addResources(planetData.RGB);
 		}		
 
 		override protected function draw():void
 		{
-			var max:Number = Math.max(_resources.x, _resources.y, _resources.z);
-			_resources.scaleBy(20);
+			var max:Number = Math.max(_data.red, _data.green, _data.blue);
+			_data.resources.scaleBy(20);
 //			var size:int = _resources.
 			graphics.clear();
 			graphics.beginFill(0x000000);
 			graphics.drawCircle(0, 0, 100);
 			graphics.endFill();
-			transform.colorTransform = new ColorTransform(1,1,1,1,_resources.x/max*255, _resources.y/max*255, _resources.z/max*255);
+			transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
 			super.draw();
 		}
-
-		public function get green():Number
+		
+		public function move():void
 		{
-			return _resources.y;
-		}
-
-		public function get red():Number
-		{
-			return _resources.x;
-		}
-
-		public function get blue():Number
-		{
-			return _resources.z;
+			trace("Move some shiz");
 		}
 		
 		public function moveLeft(e:JohnnyEvent):void {

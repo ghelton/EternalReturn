@@ -1,26 +1,23 @@
 package gui
 {
-	import comps.Johnny;
+	import core.Element;
 	
-	import flash.display.Sprite;
-	import flash.events.Event;
+	import datas.JohnnyData;
 	
-	public class GuiOverlay extends Sprite
+	public class GuiOverlay extends Element
 	{
 		
-		private var _johnny:Johnny;
+		private var _johnnyData:JohnnyData;
 		private var _red:GuiJohnnyBar = new GuiJohnnyBar(0xFF0000, "r: ");
 		private var _blue:GuiJohnnyBar = new GuiJohnnyBar(0x00FF00, "b: ");
 		private var _green:GuiJohnnyBar = new GuiJohnnyBar(0x0000FF, "g: ");
 		
-		public function GuiOverlay($johnny:Johnny)
+		public function GuiOverlay($johnnyData:JohnnyData)
 		{
 			super();
 			
-			_johnny = $johnny;
+			_johnnyData = $johnnyData;
 			
-			addEventListener(Event.ADDED_TO_STAGE, updateSize, false, 0, true);
-			addEventListener(Event.ENTER_FRAME, updateScreen, false, 0, true);
 			
 			addChild(_red);
 			addChild(_blue);
@@ -35,16 +32,17 @@ package gui
 		}
 		
 		public function updateScreen(...skip):void {
-			_red.setValue(_johnny.red, _johnny.maxResourcesRGB.x);
-			_blue.setValue(_johnny.blue, _johnny.maxResourcesRGB.y);
-			_green.setValue(_johnny.green, _johnny.maxResourcesRGB.z);
+			_red.setValue(_johnnyData.red, _johnnyData.maxResourcesRGB.x);
+			_blue.setValue(_johnnyData.blue, _johnnyData.maxResourcesRGB.y);
+			_green.setValue(_johnnyData.green, _johnnyData.maxResourcesRGB.z);
 		}
 		
-		private function updateSize(...skip):void {
-//			_red.y = stage.stageHeight - GuiJohnnyBar.expectedHeight *3;
-//			_green.y = stage.stageHeight - GuiJohnnyBar.expectedHeight *2;
-//			_blue.y = stage.stageHeight - GuiJohnnyBar.expectedHeight *1;
-//			_red.x = _blue.x = _green.x = stage.stageWidth - GuiJohnnyBar.expectedWidth;
+		public function resize($newWidth:uint, $newHeight:uint):void
+		{
+			_red.y = stage.stageHeight - GuiJohnnyBar.expectedHeight *3;
+			_green.y = stage.stageHeight - GuiJohnnyBar.expectedHeight *2;
+			_blue.y = stage.stageHeight - GuiJohnnyBar.expectedHeight *1;
+			_red.x = _blue.x = _green.x = stage.stageWidth - GuiJohnnyBar.expectedWidth;
 		}
 	}
 }

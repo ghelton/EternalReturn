@@ -6,6 +6,7 @@ package
 	import core.BasicController;
 	import core.JohnnyKeyController;
 	
+	import datas.JohnnyData;
 	import datas.PlanetData;
 	import datas.UniverseMachine;
 	
@@ -28,6 +29,8 @@ package
 		private var _universeMachine:UniverseMachine;
 		private var _keyController:JohnnyKeyController;
 		private var _johnny:Johnny;
+		private var _johnnyData:JohnnyData;
+		private var _guiOverlay:GuiOverlay;
 		
 		public function Main()
 		{
@@ -44,12 +47,11 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFullScreen);
 			
+			_johnnyData = new JohnnyData(Config.STARTING_POINT, Config.STARTING_RESOURCES, Config.BASE_MAGNITUDE);
+			_johnny = new Johnny(_johnnyData);
 			_universeMachine = new UniverseMachine(1234567);
-			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine);
-			_johnny = new Johnny(new Vector3D(10, 10, 0));
+			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine, _johnnyData);
 			
-			addChild(_starfield);
-			addChild(_johnny);
 			_johnny.x = stage.stageWidth / 2;
 			_johnny.y = stage.stageHeight / 2;
 
@@ -57,19 +59,33 @@ package
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_LEFT, _johnny.moveLeft);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_SONAR, _johnny.activateSonar);
+			_guiOverlay = new GuiOverlay(_johnnyData);
 			
-			// overlay goes on top
-			addChild(new GuiOverlay(_johnny));
+			//add children
+			addChild(_starfield);
+			addChild(_johnny);
+			addChild(_guiOverlay); // overlay goes on top
 			
 			// end init stuff //
 			
 			//at the end of the function
 			stage.addEventListener(Event.RESIZE, resizeStage);
+			stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+		
+		private function onEnterFrame(e:Event):void
+		{
+			//Johnny should move before anything else happens
+			_johnny.move();
+			
+			_starfield.updateField();
+			_guiOverlay.updateScreen();
 		}
 		
 		private function resizeStage(e:Event):void {
 			//do something
 			_starfield.resize(stage.stageWidth, stage.stageHeight);
+			_guiOverlay.resize(stage.stageWidth, stage.stageHeight);
 		}
 		
 		private function onFullScreen(e:Event):void {

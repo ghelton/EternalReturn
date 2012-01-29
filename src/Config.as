@@ -1,5 +1,7 @@
 package
 {
+	import flash.geom.Point;
+	import flash.geom.Vector3D;
 	
 	/**
 	 * This class handles all configurable data for the game for easy value tweaking
@@ -16,6 +18,10 @@ package
 		public static const PLAYER_GREEN_RESOURCE_PER_SECOND:Number = 5;
 		public static const PLAYER_RED_RESOURCE_PER_SECOND:Number = 1;
 		public static const PLAYER_BLUE_RESOURCE_PER_SECOND:Number = 25; // hold scanning button for long range before releasing sonar pulse?
+		
+		public static const STARTING_POINT:Point = new Point(0, 0);
+		public static const STARTING_RESOURCES:Vector3D = new Vector3D(200, 200, 0);
+		public static const BASE_MAGNITUDE:Number = 5;
 		
 		public function Config()
 		{
