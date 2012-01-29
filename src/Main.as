@@ -3,11 +3,13 @@ package
 	import comps.Johnny;
 	import comps.Starfield;
 	
-	import core.BasicStarfieldController;
-	import core.KeyStarfieldController;
+	import core.BasicController;
+	import core.JohnnyKeyController;
 	
 	import datas.PlanetData;
 	import datas.UniverseMachine;
+	
+	import events.JohnnyEvent;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -24,7 +26,7 @@ package
 	{		
 		private var _starfield:Starfield;
 		private var _universeMachine:UniverseMachine;
-		private var _keyController:KeyStarfieldController;
+		private var _keyController:JohnnyKeyController;
 		private var _johnny:Johnny;
 		
 		public function Main()
@@ -32,7 +34,7 @@ package
 			trace('Eternal Return Bitches! Global Game Jam 2012! Best Game Out of 50 Cubes!');
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, appAdded);
-			BasicStarfieldController.setControlLayer(this.stage);
+			BasicController.setControlLayer(this.stage);
 		}
 		
 		private function appAdded(e:Event):void
@@ -48,10 +50,13 @@ package
 			
 			addChild(_starfield);
 			addChild(_johnny);
-			_johnny.x = 500;
-			_johnny.y = 500;
+			_johnny.x = stage.stageWidth / 2;
+			_johnny.y = stage.stageHeight / 2;
 
-			_keyController = new KeyStarfieldController(_starfield);
+			_keyController = new JohnnyKeyController();
+//			_keyController.addEventListener(JohnnyEvent.JOHNNY_LEFT, _johnny.moveLeft);
+//			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
+//			_keyController.addEventListener(JohnnyEvent.JOHNNY_SONAR, _johnny.activateSonar);
 			
 			// overlay goes on top
 			addChild(new GuiOverlay(_johnny));

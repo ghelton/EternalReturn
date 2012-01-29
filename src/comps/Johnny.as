@@ -10,6 +10,9 @@ package comps
 	public class Johnny extends Element
 	{
 		private var _resources:Vector3D;
+		public var magnitude:uint = 5;
+//		public var direction
+		
 		public function Johnny(startingValues:Vector3D)
 		{
 			_resources = startingValues;

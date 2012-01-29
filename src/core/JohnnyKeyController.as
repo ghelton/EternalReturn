@@ -1,9 +1,13 @@
 package core
 {
+	import comps.Johnny;
 	import comps.Starfield;
 	
 	import datas.KeyPressData;
 	
+	import events.JohnnyEvent;
+	
+	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	
 	/**
@@ -13,14 +17,14 @@ package core
 	 * author: alec
 	 */
 	
-	public class KeyStarfieldController extends BasicStarfieldController
+	public class JohnnyKeyController extends BasicController
 	{
 		private var keymapper:KeyMapperEngine;
 
-		public function KeyStarfieldController($starfield:Starfield)
+		public function JohnnyKeyController()
 		{
 			trace('register keys');
-			super($starfield);
+			super();
 			
 			keymapper = new KeyMapperEngine();
 			
@@ -43,7 +47,7 @@ package core
 		{
 			//A is the spaceship moving right
 			trace('A Key Down: Rotate Ship Left');
-			_starfield.rotation += Config.A_KEY_ROTATION_SPEED;
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LEFT)); 
 		}
 		
 		private function onAKeyUp(key:KeyPressData, e:KeyboardEvent):void
@@ -57,7 +61,7 @@ package core
 		{
 			//D is the spaceship moving left
 			trace('D Key Down: Rotate Ship Left');
-			_starfield.rotation -= Config.D_KEY_ROTATION_SPEED;
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT)); 
 		}
 		
 		private function onDKeyUp(key:KeyPressData, e:KeyboardEvent):void

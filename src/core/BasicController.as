@@ -4,15 +4,15 @@ package core
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.events.EventDispatcher;
 
 	/**
 	 * This class handles the interface between the main player hardware controls
-	 * and the starfield in game
 	 * 
 	 * author: alec
 	 */
 	
-	public class BasicStarfieldController
+	public class BasicController extends EventDispatcher
 	{
 		protected static var CONTROL_LAYER:DisplayObject;
 		
@@ -23,9 +23,8 @@ package core
 			CONTROL_LAYER = spr;	
 		}
 		
-		public function BasicStarfieldController($starfield:Starfield)
+		public function BasicController()
 		{
-			_starfield = $starfield;
 			//probably want to register event listeners or something on this
 		}
 	}
