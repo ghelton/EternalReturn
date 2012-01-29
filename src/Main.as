@@ -85,6 +85,9 @@ package
 			//delta time should be calculated before even johnny makes his move
 			Lapse.calculateTime();
 			
+			//check keys also before moving johnny
+			_keyController.checkKeys();
+			
 			
 			//Johnny should move before anything else happens
 			_johnny.onFrame();

@@ -54,6 +54,7 @@ package comps
 		{
 			if(_data.magnitude != 0)
 			{
+				trace("_data.rotationChange",_data.rotationChange);
 				_data.dgRotation += _data.rotationChange / 100;
 				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 				velocity.normalize(_data.magnitude);
@@ -111,7 +112,13 @@ package comps
 		public function moveLeft(e:JohnnyEvent):void {
 //			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
 //			_data.dgRotation += dd;
-			_data.rotationChange += 1;
+			if(_data.rotationChange <= Config.MAX_ROTATION)
+			{
+				if(_data.rotationChange > 0)
+					_data.rotationChange += 0.2;
+				else
+					_data.rotationChange += 0.4;
+			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			burnGreen(_data.magnitude);
 //			if (burnGreen(burn)) {
@@ -125,8 +132,13 @@ package comps
 		public function moveRight(e:JohnnyEvent):void {
 //			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
 //			_data.dgRotation -= dd;
-			_data.rotationChange -= 1;
-			
+			if(_data.rotationChange >= -Config.MAX_ROTATION)
+			{
+				if(_data.rotationChange > 0)
+					_data.rotationChange -= 0.2;
+				else
+					_data.rotationChange -= 0.4;
+			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			burnGreen(_data.magnitude);
 
