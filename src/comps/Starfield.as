@@ -155,7 +155,7 @@ package comps
 				{
 					_universeMachine.markPlanetAsDiscovered(planetData.uid);
 					planetData.discovered = true;
-					_johnnyData.addResources(planetData.RGB);
+					_johnnyData.addResources(planetData.RGB, 15);
 					
 					planetData.RGB = new Vector3D(0, 0, 0);
 					planet.redrawMe();

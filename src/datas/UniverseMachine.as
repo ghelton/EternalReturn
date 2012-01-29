@@ -64,7 +64,7 @@ package datas
 					}
 				}
 			}
-			_quadrantCachePoolSize = count * 1.5;
+			_quadrantCachePoolSize = count * 3;
 			
 			midPoint = new Point((adjustedFrame.right + adjustedFrame.left) / 2, (adjustedFrame.top + adjustedFrame.bottom) / 2);
 			for each(planet in returnPlanets)
@@ -109,6 +109,7 @@ package datas
 			_cachedPlanetQuadrants.push(planetQuadrantData);
 			if(_cachedPlanetQuadrants.length > _quadrantCachePoolSize)
 			{
+				trace("RAN OUT OF POOLAGE");
 				_cachedPlanetQuadrants.splice(0, Math.floor(_quadrantCachePoolSize * 2/3));
 			}
 				
