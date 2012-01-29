@@ -65,7 +65,7 @@ package comps
 		{
 			_lastPos = _johnnyData.position.clone();
 			var position:Point = _johnnyData.position;
-			
+			position = new Point(0,0);
 			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
@@ -112,8 +112,8 @@ package comps
 					_activePlanets[planetData.uid] = planet;
 					addChild(planet);
 				}
-				planet.x = planetData.location.x;
-				planet.y = planetData.location.y;
+				planet.x = planetData.screenPosition.x;
+				planet.y = planetData.screenPosition.y;
 			}
 		}
 	}

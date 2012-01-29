@@ -11,7 +11,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 10000; //set to 5 minutes for rizzle
+		private const lifeTimeOfItAll:int = 300000; //set to 5 minutes for rizzle
 		private const quadrantSize:int = 100;
 		private const quadrantCachePoolSize:int = 2000;
 		private const distanceBetweenPlanetCornerSpots:int = 20;
@@ -28,9 +28,9 @@ package datas
 			//fetch shared object, set _planetsDiscovered to object sharedObject.seedName
 		}
 		
-		public function markPlanetAsDiscovered(location:Point):void
+		public function markPlanetAsDiscovered(uid:String):void
 		{
-			//set sharedObject.seedName.(Point.x).(Point.y) = true;			
+//			sharedObject._universeSeed.uid = true;			
 		}
 		
 		
@@ -47,14 +47,16 @@ package datas
 			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
-			var distanceEntropyFactor:Number = 1;//1 / (1 + midPoint.length);
+			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 1000));
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
 			
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
+			var count:int = 0;
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
 				for(yQuad = Math.floor(adjustedFrame.top / quadrantSize); yQuad <= Math.ceil(adjustedFrame.bottom / quadrantSize); yQuad++)
 				{
+					count++;
 					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
 					for each(planet in planetsFromQuad)
 					{
@@ -68,8 +70,7 @@ package datas
 			for each(planet in returnPlanets)
 			{
 				localCoordinate = planet.location.subtract(midPoint);
-//				planet.location = localCoordinate;
-//				planet.location = new Point(localCoordinate.x /* * (1 / spacialEntropyAdjustment)*/, localCoordinate.y/* * (1 / spacialEntropyAdjustment)*/);
+				planet.screenPosition = new Point(localCoordinate.x * (1 / spacialEntropyAdjustment), localCoordinate.y * (1 / spacialEntropyAdjustment));
 			}
 			return returnPlanets;
 		}
@@ -109,7 +110,7 @@ package datas
 			if(_cachedPlanetQuadrants.length > quadrantCachePoolSize)
 			{
 				_cachedPlanetQuadrants.shift();
-				trace("ran out of quadrant cache pool capacity");
+				trace("ran out of quadrant cache pool capacity, this is okay, I wanted to see it in action when loading new stuff before taking out. let me know -Adam");
 			}
 				
 				
@@ -118,10 +119,8 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-//			if(pixel.x <= 10 && pixel.x >= -10 && pixel.y <= 10 && pixel.y >= 10)
-//				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5);
 			if(Math.abs(noise(pixel)) % 97 == 0)
-				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5);
+				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5, new Point());
 			else
 				return null;
 //			magic function to determine IF a planet is there, the RGB value if so, and return
@@ -129,11 +128,12 @@ package datas
 		
 		private function dialateSpaceWithTimeAndFrame(frame:Rectangle, entropyFactor:Number) : Rectangle
 		{
-			frame.left *= entropyFactor;
-			frame.top *= entropyFactor;
-			frame.right *= entropyFactor;
-			frame.bottom *= entropyFactor;
-			return frame;
+			var newFrame:Rectangle = new Rectangle();
+			newFrame.left = frame.left * entropyFactor;
+			newFrame.top = frame.top * entropyFactor;
+			newFrame.right = frame.right * entropyFactor;
+			newFrame.bottom = frame.bottom * entropyFactor;
+			return newFrame;
 		}
 		
 		private function hash32shift(key:Number) : Number
