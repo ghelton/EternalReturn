@@ -61,10 +61,22 @@ package comps
 				_data.magnitude = Math.sqrt(_data.red);
 			}
 		}
+		
+		public function onFrame():void
+		{
+			move();
+			if(_data.entropyOverride >= 1)
+				_data.entropyOverride -= 0.2;
+		}
 
 		public function launch(e:Event):void
 		{
 			_data.magnitude = Math.sqrt(_data.red);
+		}
+		
+		public function bluePower(e:Event):void
+		{
+			_data.entropyOverride += 2;
 		}
 		
 		public function burnRed(amount:Number):void {

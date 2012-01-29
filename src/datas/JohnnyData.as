@@ -28,6 +28,7 @@ package datas
 		public var starfieldCoord:Point;  	// coordinates of johnny relative to the starfield
 		public var dgRotation:Number = 1.5707; 		// rotation of johnny relative to the starfield
 		public var rotationChange:Number = 0;
+		public var entropyOverride:Number = 1;
 		//--------------------------------------
 		// CONSTRUCTOR
 		//--------------------------------------
