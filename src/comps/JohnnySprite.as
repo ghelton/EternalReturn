@@ -58,6 +58,7 @@ package comps
 				return;
 			
 			add(_death);
+			_death.gotoAndPlay(1);
 		}
 		
 		public function openMaw():void

@@ -144,7 +144,7 @@ package comps
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
 			_data.addResources(lessRed);
 			
-			if (_data.red < 0) {
+			if (_data.red <= 5) {
 				_presentation.die();
 			}
 		}
@@ -178,7 +178,7 @@ package comps
 				if (_data.rotationChange <= 0.01)
 					multiplier *= 2;
 				
-				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
+				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;
 			}
 		}
 		
@@ -198,7 +198,7 @@ package comps
 				if (_data.rotationChange <= 0.01)
 					multiplier *= 2;
 				
-				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
+				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;
 			}
 		}
 	}
