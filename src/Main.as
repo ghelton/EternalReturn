@@ -22,6 +22,8 @@ package
 	
 	import gui.GuiOverlay;
 	import core.Lapse;
+	import flash.display.DisplayObject;
+	import gui.GuiDistanceGauge;
 	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
@@ -32,6 +34,7 @@ package
 		private var _johnny:Johnny;
 		private var _johnnyData:JohnnyData;
 		private var _guiOverlay:GuiOverlay;
+		private var _guiDistanceGauge:GuiDistanceGauge;
 		
 		public function Main()
 		{
@@ -61,11 +64,13 @@ package
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_LAUNCH, _johnny.launch);
 			_guiOverlay = new GuiOverlay(_johnnyData);
+			_guiDistanceGauge = new GuiDistanceGauge(_johnnyData);
 			
 			//add children
 			addChild(_starfield);
 			addChild(_johnny);
 			addChild(_guiOverlay); // overlay goes on top
+			addChild(_guiDistanceGauge);
 			
 			// end init stuff //
 			
@@ -85,6 +90,7 @@ package
 			
 			_starfield.updateField();
 			_guiOverlay.updateScreen();
+			_guiDistanceGauge.update();
 		}
 		
 		private function resizeStage(e:Event):void {
