@@ -93,7 +93,7 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-			if(Math.abs(noise(pixel)) % 100 == 0)
+			if(Math.abs(noise(pixel)) % 100 == 0 || (pixel.x == 0 && pixel.y == 0))
 				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5);
 			else
 				return null;
