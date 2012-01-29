@@ -1,5 +1,6 @@
 package comps
 {
+	import core.AnimationEvent;
 	import core.Element;
 	import core.Lapse;
 	
@@ -19,6 +20,7 @@ package comps
 	{
 		private var _data:JohnnyData;
 		private var _presentation:MovieClip;
+		private var _pulse:MovieClip;
 		
 		public function Johnny($data:JohnnyData)
 		{
@@ -154,6 +156,17 @@ package comps
 		
 		public function activateSonar(e:JohnnyEvent):void {
 			trace("Activate Sonar");
+			_pulse = new PulseProbe();
+			_pulse.scaleX = _pulse.scaleY = 10;
+			_pulse.play();
+			addChild(_pulse);
+			_pulse.addEventListener(AnimationEvent.ANIMATION_KILL, onKillPulse);
+		}
+		
+		private function onKillPulse(e:Event):void
+		{
+			removeChild(_pulse);
+			_pulse = null;
 		}
 	}
 }
