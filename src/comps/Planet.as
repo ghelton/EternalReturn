@@ -6,6 +6,7 @@ package comps
 	
 	import flash.events.Event;
 	import flash.geom.ColorTransform;
+	import flash.geom.Vector3D;
 
 	public class Planet extends Element
 	{
@@ -47,8 +48,17 @@ package comps
 		{
 			var max:Number = Math.max(_planetData.RGB.x, _planetData.RGB.y, _planetData.RGB.z);
 			var size:int = _planetData.RGB.x + _planetData.RGB.y + _planetData.RGB.z;
+			
+			var rgb:Vector3D = _planetData.RGB.clone();
+			rgb.x = (rgb.x < max * 0.75) ? 0 : 1;
+			rgb.y = (rgb.y < max * 0.75) ? 0 : 1;
+			rgb.z = (rgb.z < max * 0.75) ? 0 : 1;
+			
 			_planetSWC.scaleX = _planetSWC.scaleY = size/12;
-			_planetSWC.transform.colorTransform = new ColorTransform(1,1,1,1,_planetData.RGB.x/max*255, _planetData.RGB.y/max*255, _planetData.RGB.z/max*255);
+			
+			// scaled just a bit darker than if used baseline y*0.5 + x*255 - 128
+			_planetSWC.transform.colorTransform = new ColorTransform(0.4,0.4,0.4,1,rgb.x*204-102, rgb.y*204-102, rgb.z*204-102);
+
 			super.draw();
 		}
 	}

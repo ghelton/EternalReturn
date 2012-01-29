@@ -25,7 +25,7 @@ package
 		
 		public static const STARTING_POINT:Point = new Point(0, 0);
 		public static const STARTING_RESOURCES:Vector3D = new Vector3D(200, 200, 0);
-		public static const BASE_MAGNITUDE:Number = 5;
+		public static const BASE_MAGNITUDE:Number = 50;
 		
 		public function Config()
 		{
