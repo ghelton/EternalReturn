@@ -132,8 +132,8 @@ package comps
 					_activePlanets[planetData.uid] = planet;
 					addChild(planet);
 				}
-				planet.x = planetData.location.x;
-				planet.y = planetData.location.y;
+				planet.x = planetData.screenPosition.x;
+				planet.y = planetData.screenPosition.y;
 			}
 		}
 	}
