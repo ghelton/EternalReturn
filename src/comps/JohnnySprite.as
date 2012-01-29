@@ -46,10 +46,14 @@ package comps
 		
 		public function turn(num:Number):void
 		{
+			var index:int = int(num+6);
+			trace(index);
+			if (num < 0)
+				scaleY = .3;
+			else
+				scaleY = -.3;
 			
-			var index:int = int(num + 6);
-				
-			add(_turns[index]);
+			add(_turns[int(num+6)]);
 		}
 		
 		public function die():void
@@ -113,7 +117,7 @@ package comps
 			_bite = new JohnnyBite();
 			_death = new JohnnyDeath();
 			
-			_turns = [_turnHeavy, _turnMedium, _turnMedium, _turnMild, _turnLight,_moving, _moving, _turnLight, _turnMild, _turnMedium, _turnMedium, _turnHeavy];
+			_turns = [_turnHeavy, _turnMedium, _turnMedium, _turnMild, _turnLight,_idle, _idle, _turnLight, _turnMild, _turnMedium, _turnMedium, _turnHeavy];
 			
 			idle();
 		}

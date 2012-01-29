@@ -64,8 +64,8 @@ package comps
 				_data.position = _data.position.add(velocity);
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 				_data.magnitude = Math.sqrt(_data.red);
-			//	_presentation.turn(_data.rotationChange);
-				_presentation.move();
+				_presentation.turn(_data.rotationChange);
+				//_presentation.move();
 			}
 			else if (_data.red == 0)
 			{
@@ -90,13 +90,11 @@ package comps
 		
 		public function openMaw(e:Event):void
 		{
-			trace("openMaw");
 			_presentation.openMaw();
 		}
 		
 		public function closeMaw(e:Event):void
 		{
-			trace("closeMaw");
 			_presentation.closeMaw();
 		}
 		
@@ -127,7 +125,6 @@ package comps
 		}
 		
 		private function activateSonar():void {
-			trace("Activate Sonar");
 			if(_pulse == null)
 			{
 				_pulse = new PulseProbe();
