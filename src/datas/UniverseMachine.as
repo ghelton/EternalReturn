@@ -20,6 +20,9 @@ package datas
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData> = new Vector.<PlanetQuadrantData>;
 		private var _theBeginning:Number;
 		private var _johnnyData:JohnnyData;
+		
+		public var spacialEntropyAdjustment:Number = 1;
+		
 		public function UniverseMachine(seed:int, johnnyData:JohnnyData)
 		{
 			_theBeginning = getTimer();
@@ -49,7 +52,7 @@ package datas
 
 			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
-			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
+			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
 			
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;

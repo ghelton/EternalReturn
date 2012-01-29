@@ -81,9 +81,9 @@ package comps
 		
 		public function bluePower(e:Event):void
 		{
-			if(_data.blue >= 1)
+			if(_data.blue >= Config.JOHNNY_BLUE_RESOURCE_PER_SECOND)
 			{
-				_data.addResources(new Vector3D(0, 0, -1));
+				_data.addResources(new Vector3D(0, 0, -1 * Config.JOHNNY_BLUE_RESOURCE_PER_SECOND));
 				_data.entropyModifier += 0.1;
 			}
 		}
