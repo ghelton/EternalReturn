@@ -47,9 +47,7 @@ package comps
 		{
 			var max:Number = Math.max(_planetData.RGB.x, _planetData.RGB.y, _planetData.RGB.z);
 			var size:int = _planetData.RGB.x + _planetData.RGB.y + _planetData.RGB.z;
-
 			_planetSWC.scaleX = _planetSWC.scaleY = size/12;
-			
 			_planetSWC.transform.colorTransform = new ColorTransform(1,1,1,1,_planetData.RGB.x/max*255, _planetData.RGB.y/max*255, _planetData.RGB.z/max*255);
 			super.draw();
 		}
