@@ -9,12 +9,13 @@ package datas
 		public var location:Point;
 		public var screenPosition:Point;
 		public var RGB:Vector3D;
+		public var RGBOG:Vector3D;
 		public var discovered:Boolean;
 		
 		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered:Boolean, $screenPosition:Point)
 		{
 			location = $startLocation;
-			RGB = $RGB;
+			RGB = RGBOG = $RGB;
 			discovered = $discovered;
 			screenPosition = $screenPosition; 
 			uid = location.x.toString() + "_" + location.y.toString();

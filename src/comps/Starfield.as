@@ -151,20 +151,29 @@ package comps
 				}
 				planet.x = planetData.screenPosition.x;
 				planet.y = planetData.screenPosition.y;
+				if(planetData.RGB.length > 0)
+					planetData.RGB = scaleVector3D(planetData.RGBOG, 2 / (_universeMachine.spacialEntropyAdjustment + 1));
 				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
 				{
 					_universeMachine.markPlanetAsDiscovered(planetData.uid);
 					planetData.discovered = true;
 					_johnnyData.addResources(planetData.RGB, 15);
 					_johnnyData.rotationChange = 0;
-//					_johnnyData.position = planetData.location;
 					
 					planetData.RGB = new Vector3D(0, 0, 0);
 					planet.redrawMe();
 					_johnnyData.magnitude = 0;
 				}
+				planet.redrawMe();
 			}
-			
+		}
+		private function scaleVector3D(vector:Vector3D, scale:Number):Vector3D
+		{
+			var newVector:Vector3D = vector.clone();
+			newVector.x *= scale;
+			newVector.y *= scale;
+			newVector.z *= scale;
+			return newVector;
 		}
 	}
 }
