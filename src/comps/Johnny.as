@@ -8,6 +8,8 @@ package comps
 	
 	import events.JohnnyEvent;
 	
+	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
@@ -16,7 +18,7 @@ package comps
 	public class Johnny extends Element
 	{
 		private var _data:JohnnyData;
-		private var _presentation:JohnnySwc;
+		private var _presentation:MovieClip;
 		
 		public function Johnny($data:JohnnyData)
 		{
@@ -40,12 +42,11 @@ package comps
 			transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
 			*/
 			
-			_presentation = new JohnnySwc();
+			_presentation = new IdleVessel();
 			addChild(_presentation);
 			_presentation.scaleX = _presentation.scaleY = 0.3;
 			
-			_presentation.transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
-			
+
 			rotation = -90;
 			super.draw();
 		}
@@ -54,6 +55,7 @@ package comps
 		{
 			if(_data.magnitude != 0)
 			{
+				trace("_data.rotationChange",_data.rotationChange);
 				_data.dgRotation += _data.rotationChange / 100;
 				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 				velocity.normalize(_data.magnitude);
@@ -61,6 +63,10 @@ package comps
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 				_data.magnitude = Math.sqrt(_data.red);
 			}
+			
+			var rgb:Vector3D = _data.resources.clone();
+			var max:Number = Math.max(rgb.x,rgb.y,rgb.z);
+			this.transform.colorTransform = new ColorTransform(0.7,0.7,0.7,1,rgb.x/max*255-127, rgb.y/max*255-127, rgb.z/max*255-127);
 		}
 		
 		public function onFrame():void
@@ -111,7 +117,13 @@ package comps
 		public function moveLeft(e:JohnnyEvent):void {
 //			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
 //			_data.dgRotation += dd;
-			_data.rotationChange += 1;
+			if(_data.rotationChange <= Config.MAX_ROTATION)
+			{
+				if(_data.rotationChange > 0)
+					_data.rotationChange += 0.2;
+				else
+					_data.rotationChange += 0.4;
+			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			burnGreen(_data.magnitude);
 //			if (burnGreen(burn)) {
@@ -125,8 +137,13 @@ package comps
 		public function moveRight(e:JohnnyEvent):void {
 //			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
 //			_data.dgRotation -= dd;
-			_data.rotationChange -= 1;
-			
+			if(_data.rotationChange >= -Config.MAX_ROTATION)
+			{
+				if(_data.rotationChange > 0)
+					_data.rotationChange -= 0.2;
+				else
+					_data.rotationChange -= 0.4;
+			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			burnGreen(_data.magnitude);
 
