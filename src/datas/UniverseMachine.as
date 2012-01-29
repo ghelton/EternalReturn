@@ -47,7 +47,7 @@ package datas
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 
 			var timeEntropyFactor:Number = 1;//1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
-			trace(midPoint.length);
+//			trace(midPoint.length);
 			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 10000));
 
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;

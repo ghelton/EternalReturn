@@ -21,6 +21,7 @@ package
 	import flash.geom.Vector3D;
 	
 	import gui.GuiOverlay;
+	import core.Lapse;
 	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
@@ -75,6 +76,10 @@ package
 		
 		private function onEnterFrame(e:Event):void
 		{
+			//delta time should be calculated before even johnny makes his move
+			Lapse.calculateTime();
+			
+			
 			//Johnny should move before anything else happens
 			_johnny.move();
 			

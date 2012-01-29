@@ -1,6 +1,7 @@
 package comps
 {
 	import core.Element;
+	import core.Lapse;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
@@ -50,6 +51,17 @@ package comps
 		
 		public function move():void
 		{
+			trace("rotation speed = " + _data.rotationSpeed);
+			_data.dgRotation += _data.rotationSpeed*Math.PI/180;
+			
+			var rotationalFriction:Number = Config.JOHNNY_DGROTATE_DECEL*Lapse.dt;
+			if (_data.rotationSpeed > rotationalFriction)
+				_data.rotationSpeed -= rotationalFriction;
+			if (_data.rotationSpeed < -rotationalFriction)
+				_data.rotationSpeed += rotationalFriction;
+			if (_data.rotationSpeed <= rotationalFriction && _data.rotationSpeed >= -rotationalFriction)
+				_data.rotationSpeed = 0;
+			
 			var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 			velocity.normalize(_data.magnitude);
 			_data.position = _data.position.add(velocity);
@@ -78,26 +90,24 @@ package comps
 		}
 		
 		public function moveLeft(e:JohnnyEvent):void {
-			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
-			_data.dgRotation += dd;
-			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
+			_data.rotationSpeed += Config.JOHNNY_DGROTATE_ACCEL * Lapse.dt;
+			var burn:Number = Lapse.dt * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			if (burnGreen(burn)) {
-				trace("Rotate Ship Left:  " + _data.dgRotation + "(-" + dd + " degrees, burn " + burn + ")" );
+				trace("Rotate Ship Left:  " + _data.dgRotation + "(" + _data.rotationSpeed + " degrees)" );
 			}
 			else {
-				trace("Rotate Ship Left:  not enough fuel.");
+//				trace("Rotate Ship Left:  not enough fuel.");
 			}
 		}
 		
 		public function moveRight(e:JohnnyEvent):void {
-			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
-			_data.dgRotation -= dd;
-			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
+			_data.rotationSpeed -= Config.JOHNNY_DGROTATE_ACCEL * Lapse.dt;
+			var burn:Number = Lapse.dt * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			if (burnGreen(burn)) {
-				trace("Rotate Ship Right:  " + _data.dgRotation + "(+" + dd + " degrees, burn " + burn + ")" );
+				trace("Rotate Ship Right:  " + _data.dgRotation + "(" + _data.rotationSpeed + " degrees)" );
 			}
 			else {
-				trace("Rotate Ship Right:  not enough fuel.");
+//				trace("Rotate Ship Right:  not enough fuel.");
 			}
 		}
 		

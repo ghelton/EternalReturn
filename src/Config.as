@@ -15,7 +15,8 @@ package
 		public static const D_KEY_ROTATION_SPEED:uint = 2;
 		public static const STARFIELD_BUFFER:uint = 100;
 		
-		public static const JOHNNY_DGROTATE_SPEED:Number = 1; // clockwise rotation
+		public static const JOHNNY_DGROTATE_ACCEL:Number = 0.05; // degrees clockwise rotation
+		public static const JOHNNY_DGROTATE_DECEL:Number = 0.04; // deceleration of rotation in degrees
 		
 		public static const FRAME_FREQUENCY:Number = 1 / 25;  // seconds per frame
 		
