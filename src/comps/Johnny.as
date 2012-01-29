@@ -146,7 +146,7 @@ package comps
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
 			_data.addResources(lessRed);
 			
-			if (_data.red <= 1) {
+			if (_data.red <= 5) {
 				_presentation.die();
 			}
 		}
