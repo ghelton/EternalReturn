@@ -63,8 +63,14 @@ package comps
 				velocity.normalize(_data.magnitude);
 				_data.position = _data.position.add(velocity);
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
-				_data.magnitude = 30 * Math.log((_data.red / 300) + Math.E);
-				_presentation.turn(_data.rotationChange);
+				var speed:Number;
+				if(_data.red > 300)
+					speed = 12;
+				if(_data.red > 100 && _data.red <= 300)
+					speed = 10;
+				if(_data.red <= 100)
+					speed = 8;
+				_data.magnitude = speed;
 				//_presentation.move();
 			}
 			else if (_data.red <= 0)
@@ -184,6 +190,7 @@ package comps
 					multiplier *= 2;
 				
 				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;
+				_presentation.turn(_data.rotationChange);
 			}
 		}
 		
@@ -204,6 +211,8 @@ package comps
 					multiplier *= 2;
 				
 				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;
+				_presentation.turn(_data.rotationChange);
+
 			}
 		}
 	}

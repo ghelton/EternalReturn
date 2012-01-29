@@ -67,6 +67,7 @@ package comps
 		
 		public function openMaw():void
 		{	
+			return;
 			if (_onStage == _bite)
 				return;
 			
@@ -76,6 +77,7 @@ package comps
 		
 		public function closeMaw():void
 		{
+			return;
 			_bite.play();
 			_bite.addEventListener(AnimationEvent.ANIMATION_KILL, onBiteKill);
 		}

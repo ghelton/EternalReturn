@@ -49,15 +49,12 @@ package datas
 			var planetsFromQuad:Vector.<PlanetData> = new Vector.<PlanetData>;
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
-			var distanceEntropyFactor:Number = .5 + (1 / (2 + (midPoint.length / 10000)));
+			var distanceEntropyFactor:Number = .75 + (1 / (4 + (Math.sqrt(midPoint.length) / 100)));
 //OLD
-			var timeEntropyFactor:Number = .75 + (.5 * Math.cos((getTimer() - _theBeginning) / 10000));
+			var timeEntropyFactor:Number = 1 + (.5 * Math.cos((getTimer() - _theBeginning) / 30000));
 			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
-//			trace(spacialEntropyAdjustment);
-//NEW
-//			var timeEntropyFactor:Number = 3 * Math.sin((getTimer() - _theBeginning) / lifeTimeOfItAll);
-//			spacialEntropyAdjustment = Math.abs(timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier);
-			
+//			trace("Time portion: " + timeEntropyFactor + "   distance portion: " + distanceEntropyFactor + "  PRODUCT:" + (timeEntropyFactor * distanceEntropyFactor));
+				
 
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;
