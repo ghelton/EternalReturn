@@ -58,7 +58,7 @@ package
 			_keyController = new JohnnyKeyController();
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_LEFT, _johnny.moveLeft);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
-			_keyController.addEventListener(JohnnyEvent.JOHNNY_SONAR, _johnny.activateSonar);
+			_keyController.addEventListener(JohnnyEvent.JOHNNY_LAUNCH, _johnny.launch);
 			_guiOverlay = new GuiOverlay(_johnnyData);
 			
 			//add children

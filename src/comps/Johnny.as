@@ -7,6 +7,7 @@ package comps
 	
 	import events.JohnnyEvent;
 	
+	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
@@ -50,12 +51,20 @@ package comps
 		
 		public function move():void
 		{
-			var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
-			velocity.normalize(_data.magnitude);
-			_data.position = _data.position.add(velocity);
-			burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
+			if(_data.magnitude != 0)
+			{
+				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
+				velocity.normalize(_data.magnitude);
+				_data.position = _data.position.add(velocity);
+				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
+				_data.magnitude = Math.sqrt(_data.red);
+			}
 		}
 
+		public function launch(e:Event):void
+		{
+			_data.magnitude = Math.sqrt(_data.red);
+		}
 		
 		public function burnRed(amount:Number):void {
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);

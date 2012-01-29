@@ -11,7 +11,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 300000;
+		private const lifeTimeOfItAll:int = 100000;
 		private const quadrantSize:int = 500;
 		private const quadrantCachePoolSize:int = 80;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
@@ -46,8 +46,8 @@ package datas
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 
-			var timeEntropyFactor:Number = 1;//1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
-			var distanceEntropyFactor:Number = .5 + (1 / (2 + (midPoint.length / 10000)));
+			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
+			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)

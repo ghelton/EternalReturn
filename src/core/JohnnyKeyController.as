@@ -78,7 +78,7 @@ package core
 		
 		private function onSpaceUp(key:KeyPressData, e:KeyboardEvent):void
 		{
-			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_SONAR)); 
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LAUNCH)); 
 		}
 	}
 }

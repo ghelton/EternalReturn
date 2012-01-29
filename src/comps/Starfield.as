@@ -1,7 +1,7 @@
 package comps
 {
-	import core.ChunkyBitmap;
 	import core.Element;
+	import core.ParallaxBitmap;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
@@ -25,7 +25,7 @@ package comps
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
-		private var _parallaxLayers:Vector.<ChunkyBitmap>;
+		private var _parallaxLayers:Vector.<ParallaxBitmap>;
 		
 		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine, $johnnyData:JohnnyData)
 		{
@@ -38,16 +38,17 @@ package comps
 		override protected function init(e:Event):void
 		{
 			super.init(e);
-			_parallaxLayers = new Vector.<ChunkyBitmap>();
+			_parallaxLayers = new Vector.<ParallaxBitmap>();
 			var bitmaps:Vector.<BitmapData> = new <BitmapData>[new StarMap1(), new StarMap2(), new StarMap3(), new StarMap4()];
-			var cb:ChunkyBitmap;
+			var pb:ParallaxBitmap;
 			var bd:BitmapData;
 			var bufferedLocOffset:Number = _bufferedSize / 2;
 			var rect:Rectangle = new Rectangle(-bufferedLocOffset, -bufferedLocOffset, _bufferedSize, _bufferedSize);
 			for each(bd in bitmaps)
 			{
-				cb = new ChunkyBitmap(rect, bd);
-				addChild(cb);
+				pb = new ParallaxBitmap(rect, bd);
+				addChild(pb);
+				_parallaxLayers.push(pb);
 			}
 		}
 		
@@ -67,10 +68,10 @@ package comps
 			_size = new Point($fieldWidth, $fieldHeight);
 			_maxViewArea = Math.max(_size.x, _size.y); 
 			_bufferedSize = Math.SQRT2 * _maxViewArea;
-			var cb:ChunkyBitmap;
-			for each(cb in _parallaxLayers)
+			var pb:ParallaxBitmap;
+			for each(pb in _parallaxLayers)
 			{
-				cb.setSize(_bufferedSize, _bufferedSize);
+//				pb.setSize(_bufferedSize, _bufferedSize);
 			}
 		}
 		
@@ -92,13 +93,14 @@ package comps
 			var position:Point = _johnnyData.position;
 			rotation = _johnnyData.dgRotation * (180 / Math.PI) - 90;
 			//update parallax
-			var cb:ChunkyBitmap;
-			var multiplier:int = 1;
-			for each(cb in _parallaxLayers)
+			var pb:ParallaxBitmap;
+			var multiplier:Number = 0;
+			for each(pb in _parallaxLayers)
 			{
-				cb.x = position.x * multiplier;
-				cb.y = position.y * multiplier;
-				multiplier++;
+				pb.x = position.x * multiplier;
+				pb.y = position.y * multiplier;
+				pb.redraw();
+				multiplier -= 0.1;
 			}
 //			return;
 			// update planets
@@ -107,17 +109,6 @@ package comps
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
 			var planet:Planet;
 			var planetData:PlanetData;
-			
-			//remove any planets Johnny may have hit from the planets and say it was hit
-			for each(planetData in planets)
-			{
-				if(planetData.screenPosition.length < 30)
-				{
-					_universeMachine.markPlanetAsDiscovered(planetData.uid);
-					planetData.discovered = true;
-					_johnnyData.addResources(planetData.RGB);
-				}
-			}
 			
 			//remove planets that are no longer in the list and put them in the pool
 			var foundPlanet:Boolean = false;
@@ -160,10 +151,15 @@ package comps
 				}
 				planet.x = planetData.screenPosition.x;
 				planet.y = planetData.screenPosition.y;
-				if(planetData.screenPosition.length < 30)
+				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
 				{
-					planetData.RGB = new Vector3D(.5, .5, .5);
+					_universeMachine.markPlanetAsDiscovered(planetData.uid);
+					planetData.discovered = true;
+					_johnnyData.addResources(planetData.RGB);
+					
+					planetData.RGB = new Vector3D(0, 0, 0);
 					planet.redrawMe();
+					_johnnyData.magnitude = 0;
 				}
 			}
 			
