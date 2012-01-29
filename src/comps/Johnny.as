@@ -28,10 +28,12 @@ package comps
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_data.red, _data.green, _data.blue);
+		
 			_data.resources.scaleBy(20);
 			
 			//this is our guy -- replace with swc?
 			/*graphics.clear();
+			var size:int = _resources.
 			graphics.beginFill(0x000000);
 			graphics.drawCircle(0, 0, 100);
 			graphics.endFill();

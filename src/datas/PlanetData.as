@@ -5,15 +5,19 @@ package datas
 
 	public class PlanetData
 	{
+		public var uid:String;
 		public var location:Point;
+		public var screenPosition:Point;
 		public var RGB:Vector3D;
 		public var discovered:Boolean;
 		
-		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered:Boolean)
+		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered:Boolean, $screenPosition:Point)
 		{
 			location = $startLocation;
 			RGB = $RGB;
 			discovered = $discovered;
+			screenPosition = $screenPosition; 
+			uid = location.x.toString() + "_" + location.y.toString();
 		}
 	}
 }

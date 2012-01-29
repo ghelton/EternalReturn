@@ -11,11 +11,13 @@ package gui {
 		static public const expectedHeight:Number = 25;
 		static public const expectedWidth:Number = 200;
 		private var _label:String = "";
+		private var _myColor:uint;
 		private var backBar:Sprite = new Sprite();
 		private var frontBar:Sprite = new Sprite();
 		
 		public function GuiJohnnyBar(color:uint, label:String) {
 			_label = label;
+			_myColor = color;
 			setValue(5,10);
 			textField.textColor = 0xFFFFFF;
 			addChild(textField);
@@ -44,6 +46,7 @@ package gui {
 			textField.text = _label + value;
 			frontBar.scaleX = value;
 			backBar.scaleX = maxValue;
+			textField.textColor = _myColor;
 		}
 	}
 	

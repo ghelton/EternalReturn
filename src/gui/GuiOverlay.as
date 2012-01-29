@@ -9,8 +9,8 @@ package gui
 		
 		private var _johnnyData:JohnnyData;
 		private var _red:GuiJohnnyBar = new GuiJohnnyBar(0xFF0000, "r: ");
-		private var _blue:GuiJohnnyBar = new GuiJohnnyBar(0x00FF00, "b: ");
-		private var _green:GuiJohnnyBar = new GuiJohnnyBar(0x0000FF, "g: ");
+		private var _green:GuiJohnnyBar = new GuiJohnnyBar(0x00FF00, "g: ");
+		private var _blue:GuiJohnnyBar = new GuiJohnnyBar(0x0000FF, "b: ");
 		
 		public function GuiOverlay($johnnyData:JohnnyData)
 		{
@@ -20,8 +20,8 @@ package gui
 			
 			
 			addChild(_red);
-			addChild(_blue);
 			addChild(_green);
+			addChild(_blue);
 			
 			var offset:Number = 5;
 			_red.x = _blue.x = _green.x = offset;
@@ -33,8 +33,8 @@ package gui
 		
 		public function updateScreen(...skip):void {
 			_red.setValue(_johnnyData.red, _johnnyData.maxResourcesRGB.x);
-			_blue.setValue(_johnnyData.blue, _johnnyData.maxResourcesRGB.y);
-			_green.setValue(_johnnyData.green, _johnnyData.maxResourcesRGB.z);
+			_green.setValue(_johnnyData.green, _johnnyData.maxResourcesRGB.y);
+			_blue.setValue(_johnnyData.blue, _johnnyData.maxResourcesRGB.z);
 		}
 		
 		public function resize($newWidth:uint, $newHeight:uint):void
