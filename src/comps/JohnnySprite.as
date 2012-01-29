@@ -57,18 +57,24 @@ package comps
 			add(_death);
 		}
 		
-		public function bite():void
+		public function openMaw():void
 		{	
 			if (_onStage == _bite)
 				return;
 			
 			add(_bite);
 			_bite.gotoAndPlay(1);
+		}
+		
+		public function closeMaw():void
+		{
+			_bite.play();
 			_bite.addEventListener(AnimationEvent.ANIMATION_KILL, onBiteKill);
 		}
 		
 		private function onBiteKill(e:Event):void
 		{
+			trace("onBiteKill");
 			if(_onStage == _bite)
 				move();
 		}

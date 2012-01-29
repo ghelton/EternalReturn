@@ -57,7 +57,7 @@ package comps
 		{
 			if(_data.magnitude != 0)
 			{
-				trace("_data.rotationChange",_data.rotationChange);
+//				trace("_data.rotationChange",_data.rotationChange);
 				_data.dgRotation += _data.rotationChange / 100;
 				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 				velocity.normalize(_data.magnitude);
@@ -67,7 +67,7 @@ package comps
 			}
 			else
 			{
-				_presentation.idle();
+//				_presentation.idle();
 			}
 			
 			var rgb:Vector3D = _data.resources.clone();
@@ -82,9 +82,16 @@ package comps
 				
 		}
 		
-		public function bite(e:Event):void
+		public function openMaw(e:Event):void
 		{
-			_presentation.bite();
+			trace("openMaw");
+			_presentation.openMaw();
+		}
+		
+		public function closeMaw(e:Event):void
+		{
+			trace("closeMaw");
+			_presentation.closeMaw();
 		}
 		
 		public function onFrame():void
@@ -115,9 +122,12 @@ package comps
 		
 		private function activateSonar():void {
 			trace("Activate Sonar");
-			_pulse = new PulseProbe();
-			addChild(_pulse);
-			_pulse.addEventListener(AnimationEvent.ANIMATION_KILL, onKillPulse);
+			if(_pulse == null)
+			{
+				_pulse = new PulseProbe();
+				addChild(_pulse);
+				_pulse.addEventListener(AnimationEvent.ANIMATION_KILL, onKillPulse);
+			}
 		}
 		
 		private function onKillPulse(e:Event):void

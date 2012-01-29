@@ -161,19 +161,21 @@ package comps
 				//check colission
 				if(planetData.screenPosition.length < 200 && planetData.RGB.length > 0)
 				{
-					dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BITE));
-				} else if(planetData.screenPosition.length < 30)
-				{
-					_universeMachine.markPlanetAsDiscovered(planetData.uid);
-					planetData.discovered = true;
-					_johnnyData.addResources(planetData.RGB, 15);
-					_johnnyData.rotationChange = 0;
-					
-					planetData.RGB = new Vector3D(0, 0, 0);
+					dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
+					if(planetData.screenPosition.length < 30)
+					{
+						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
+						_universeMachine.markPlanetAsDiscovered(planetData.uid);
+						planetData.discovered = true;
+						_johnnyData.addResources(planetData.RGB, 15);
+						_johnnyData.rotationChange = 0;
+						
+						planetData.RGB = new Vector3D(0, 0, 0);
+						planet.redrawMe();
+						_johnnyData.magnitude = 0;
+					}
 					planet.redrawMe();
-					_johnnyData.magnitude = 0;
 				}
-				planet.redrawMe();
 			}
 		}
 		private function scaleVector3D(vector:Vector3D, scale:Number):Vector3D
