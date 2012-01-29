@@ -84,13 +84,11 @@ package comps
 		
 		public function openMaw(e:Event):void
 		{
-			trace("openMaw");
 			_presentation.openMaw();
 		}
 		
 		public function closeMaw(e:Event):void
 		{
-			trace("closeMaw");
 			_presentation.closeMaw();
 		}
 		
