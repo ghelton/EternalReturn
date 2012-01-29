@@ -25,7 +25,6 @@ package comps
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
 		private var _parallaxLayers:Vector.<ChunkyBitmap>;
-		private var _parallaxBitmaps:Vector.<BitmapData>;
 		
 		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine, $johnnyData:JohnnyData)
 		{
@@ -39,10 +38,11 @@ package comps
 		{
 			super.init(e);
 			_parallaxLayers = new Vector.<ChunkyBitmap>();
-			_parallaxBitmaps = new <BitmapData>[StarMap1, new StarMap2(), new StarMap3(), new StarMap4()];
+			var bitmaps:Vector.<BitmapData> = new <BitmapData>[new StarMap1(), new StarMap2(), new StarMap3(), new StarMap4()];
 			var cb:ChunkyBitmap;
+			var bd:BitmapData;
 			var rect:Rectangle = new Rectangle(0, 0, _size.x, _size.y);
-			for each(bd in _parallaxBitmaps)
+			for each(bd in bitmaps)
 			{
 				cb = new ChunkyBitmap(rect, bd);
 				addChild(cb);
@@ -65,6 +65,11 @@ package comps
 			_size = new Point($fieldWidth, $fieldHeight);
 			_maxViewArea = Math.max(_size.x, _size.y); 
 			_bufferedSize = Math.SQRT2 * _maxViewArea;
+			var cb:ChunkyBitmap;
+			for each(cb in _parallaxLayers)
+			{
+				cb.setSize($fieldWidth, $fieldHeight);
+			}
 		}
 		
 		public function resize($fieldWidth:uint, $fieldHeight:uint):void
@@ -84,7 +89,12 @@ package comps
 			_lastPos = _johnnyData.position.clone();
 			var position:Point = _johnnyData.position;
 			//update parallax
-			
+			var cb:ChunkyBitmap;
+			for each(cb in _parallaxLayers)
+			{
+				cb.x = position.x;
+				cb.y = position.y;
+			}
 			
 			// update planets
 			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;

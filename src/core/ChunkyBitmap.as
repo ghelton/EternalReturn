@@ -47,16 +47,16 @@ package core
 			super();
 			_size = size;
 			_bitmap = bitmapData;
+			chunkBitmap();
 		}
 		
 		//--------------------------------------
 		// PROTECTED & PRIVATE METHODS
 		//--------------------------------------
 		
-		private function chunkBitmap(data:BitmapData):void
+		private function chunkBitmap():void
 		{
 			graphics.clear();
-			_bitmap = data;
 			
 			_sourceSize = new Point(_bitmap.width * _transform.a, _bitmap.height * _transform.d);
 			_tileRepeats = new Point();
@@ -119,15 +119,13 @@ package core
 		{
 			_size.width = $width;
 			_size.height = $height;
-			if(_bitmap != null)
-				chunkBitmap(_bitmap);
+			chunkBitmap();
 		}
 		
 		public function setScale(value:Number):void
 		{
 			_transform.a = _transform.d = value;
-			if(_bitmap != null)
-				chunkBitmap(_bitmap);
+			chunkBitmap();
 		}
 		
 		override public function get scaleX():Number
