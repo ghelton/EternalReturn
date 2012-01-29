@@ -66,14 +66,6 @@ package comps
 				_data.magnitude = Math.sqrt(_data.red);
 				//_presentation.move();
 			}
-			else if (_data.red == 0)
-			{
-				_presentation.die();
-			}
-			else
-			{
-//				_presentation.idle();
-			}
 			
 			var rgb:Vector3D = _data.resources.clone();
 			var max:Number = Math.max(rgb.x,rgb.y,rgb.z);
@@ -142,7 +134,7 @@ package comps
 			
 			
 			trace("_data.red",_data.red);
-			if (_data.red <= 5) {
+			if (_data.red <= 1) {
 				trace("death");
 				_data.magnitude = 0;
 				amount = _data.red;
