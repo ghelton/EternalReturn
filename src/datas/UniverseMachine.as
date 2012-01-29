@@ -13,7 +13,7 @@ package datas
 	{
 		private const lifeTimeOfItAll:int = 300000; //set to 5 minutes for rizzle
 		private const quadrantSize:int = 500;
-		private const quadrantCachePoolSize:int = 40;
+		private const quadrantCachePoolSize:int = 80;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;

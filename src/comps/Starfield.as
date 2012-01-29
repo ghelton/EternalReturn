@@ -1,7 +1,7 @@
 package comps
 {
-	import core.ChunkyBitmap;
 	import core.Element;
+	import core.ParallaxBitmap;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
@@ -24,7 +24,7 @@ package comps
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
-		private var _parallaxLayers:Vector.<ChunkyBitmap>;
+		private var _parallaxLayers:Vector.<ParallaxBitmap>;
 		
 		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine, $johnnyData:JohnnyData)
 		{
@@ -37,16 +37,17 @@ package comps
 		override protected function init(e:Event):void
 		{
 			super.init(e);
-			_parallaxLayers = new Vector.<ChunkyBitmap>();
+			_parallaxLayers = new Vector.<ParallaxBitmap>();
 			var bitmaps:Vector.<BitmapData> = new <BitmapData>[new StarMap1(), new StarMap2(), new StarMap3(), new StarMap4()];
-			var cb:ChunkyBitmap;
+			var pb:ParallaxBitmap;
 			var bd:BitmapData;
 			var bufferedLocOffset:Number = _bufferedSize / 2;
 			var rect:Rectangle = new Rectangle(-bufferedLocOffset, -bufferedLocOffset, _bufferedSize, _bufferedSize);
 			for each(bd in bitmaps)
 			{
-				cb = new ChunkyBitmap(rect, bd);
-				addChild(cb);
+				pb = new ParallaxBitmap(rect, bd);
+				addChild(pb);
+				_parallaxLayers.push(pb);
 			}
 		}
 		
@@ -66,10 +67,10 @@ package comps
 			_size = new Point($fieldWidth, $fieldHeight);
 			_maxViewArea = Math.max(_size.x, _size.y); 
 			_bufferedSize = Math.SQRT2 * _maxViewArea;
-			var cb:ChunkyBitmap;
-			for each(cb in _parallaxLayers)
+			var pb:ParallaxBitmap;
+			for each(pb in _parallaxLayers)
 			{
-				cb.setSize(_bufferedSize, _bufferedSize);
+//				pb.setSize(_bufferedSize, _bufferedSize);
 			}
 		}
 		
@@ -91,13 +92,14 @@ package comps
 			var position:Point = _johnnyData.position;
 			rotation = _johnnyData.dgRotation * (180 / Math.PI) - 90;
 			//update parallax
-			var cb:ChunkyBitmap;
-			var multiplier:int = 1;
-			for each(cb in _parallaxLayers)
+			var pb:ParallaxBitmap;
+			var multiplier:Number = 0;
+			for each(pb in _parallaxLayers)
 			{
-				cb.x = position.x * multiplier;
-				cb.y = position.y * multiplier;
-				multiplier++;
+				pb.x = position.x * multiplier;
+				pb.y = position.y * multiplier;
+				pb.redraw();
+				multiplier -= 0.2;
 			}
 //			return;
 			// update planets
