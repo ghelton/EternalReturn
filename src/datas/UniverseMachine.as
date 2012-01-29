@@ -119,8 +119,11 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
+			var rValue:int = (_universeSeed + pixel.x) % 3 + 1;
+			var gValue:int = (_universeSeed + pixel.y) % 3 + 1;
+			var bValue:int = (_universeSeed + pixel.x + pixel.y) % 3 + 1;
 			if(Math.abs(noise(pixel)) % 97 == 0)
-				return new PlanetData(pixel, new Vector3D(0.2, 0.3, 0.4), Math.random() > .5, new Point());
+				return new PlanetData(pixel, new Vector3D(rValue, gValue, bValue), Math.random() > .5, new Point());
 			else
 				return null;
 //			magic function to determine IF a planet is there, the RGB value if so, and return
