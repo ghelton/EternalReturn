@@ -15,7 +15,7 @@ package datas
 		public function PlanetData($startLocation:Point, $RGB:Vector3D, $discovered:Boolean, $screenPosition:Point)
 		{
 			count++;
-			trace("there are now this many Planet Datas" + count);
+//			trace("there are now this many Planet Datas" + count);
 			location = $startLocation;
 			RGB = $RGB;
 			discovered = $discovered;

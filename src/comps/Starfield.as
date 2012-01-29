@@ -124,7 +124,6 @@ package comps
 				}
 				if(!foundPlanet)
 				{
-					trace("planetData.uid reused:" + planetData.uid);
 					planet = _activePlanets[key];
 					_pooledPlanets.push(planet);
 					removeChild(planet);
@@ -144,7 +143,6 @@ package comps
 						planet = _pooledPlanets.pop();
 						planet.updateData(planetData);
 					} else {
-						trace("planetData.uid created:" + planetData.uid);
 						planet = new Planet(planetData);
 					}
 					_activePlanets[planetData.uid] = planet;

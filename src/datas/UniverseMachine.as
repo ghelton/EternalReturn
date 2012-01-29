@@ -47,9 +47,7 @@ package datas
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 
 			var timeEntropyFactor:Number = 1;//1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
-			trace(midPoint.length);
-			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 10000));
-
+			var distanceEntropyFactor:Number = .5 + (1 / (2 + (midPoint.length / 1000)));
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
 //			spacialEntropyAdjustment = 1; //PATCH So no growing
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
@@ -98,12 +96,10 @@ package datas
 				}
 			}
 			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
-			trace("we have cached this many planet quadrants: " + _cachedPlanetQuadrants.length);
 			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
 			{
 				if(_cachedPlanetQuadrants[index].quad.equals(quad))
 				{
-					trace("found one that we want to delete");
 					_cachedPlanetQuadrants.splice(index, 1);
 					break;
 				}
@@ -112,7 +108,6 @@ package datas
 			if(_cachedPlanetQuadrants.length > quadrantCachePoolSize)
 			{
 				_cachedPlanetQuadrants.splice(0, 50);
-				trace("ran out of quadrant cache pool capacity, this is okay, I wanted to see it in action when loading new stuff before taking out. let me know -Adam");
 			}
 				
 				
