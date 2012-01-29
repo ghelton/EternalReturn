@@ -126,14 +126,16 @@ package comps
 		}
 		
 		public function moveLeft(e:JohnnyEvent):void {
-			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-			if (_data.rotationChange <= 0.01)
-				burn *= 0.5;
+
 			
-			var hasEnoughFuel:Boolean = burnGreen(burn);
-				
 			if(_data.rotationChange <= Config.MAX_ROTATION)
 			{
+				var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
+				if (_data.rotationChange <= 0.01)
+					burn *= 0.5;
+				
+				var hasEnoughFuel:Boolean = burnGreen(burn);
+			
 				// no fuel, reduce turn by half
 				var multiplier:Number = (hasEnoughFuel ? 1 : 0.5);
 				
@@ -146,10 +148,14 @@ package comps
 		}
 		
 		public function moveRight(e:JohnnyEvent):void {
-			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-			var hasEnoughFuel:Boolean = burnGreen(burn);
 			if(_data.rotationChange >= -Config.MAX_ROTATION)
 			{
+				var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
+				if (_data.rotationChange <= 0.01)
+					burn *= 0.5;
+				
+				var hasEnoughFuel:Boolean = burnGreen(burn);
+				
 				// no fuel, reduce turn by half
 				var multiplier:Number = (hasEnoughFuel ? 1 : 0.5);
 				
