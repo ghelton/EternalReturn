@@ -8,6 +8,8 @@ package comps
 	
 	import events.JohnnyEvent;
 	
+	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
@@ -16,7 +18,7 @@ package comps
 	public class Johnny extends Element
 	{
 		private var _data:JohnnyData;
-		private var _presentation:JohnnySwc;
+		private var _presentation:MovieClip;
 		
 		public function Johnny($data:JohnnyData)
 		{
@@ -40,7 +42,7 @@ package comps
 			transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
 			*/
 			
-			_presentation = new JohnnySwc();
+			_presentation = new IdleVessel();
 			addChild(_presentation);
 			_presentation.scaleX = _presentation.scaleY = 0.3;
 			
