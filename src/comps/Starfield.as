@@ -138,6 +138,8 @@ package comps
 			
 			//create new planets and update existing planets
 			var mawOpened:Boolean = false;
+			var mawSize:Number = 100;
+			var planetSize:Number = 30 * _universeMachine.spacialEntropyAdjustment;
 			
 			for each(planetData in planets)
 			{
@@ -165,13 +167,13 @@ package comps
 				{
 					if(!mawOpened)
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
-					if(planetData.screenPosition.length < 30)
+					if(planetData.screenPosition.length < planetSize)
 					{
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
 						_universeMachine.markPlanetAsDiscovered(planetData.uid);
 						planetData.discovered = true;
 						_johnnyData.addResources(planetData.RGB, 15);
-						_johnnyData.rotationChange = 0;
+//						_johnnyData.rotationChange = 0;
 						
 						planetData.RGB = new Vector3D(0, 0, 0);
 						planet.redrawMe();
