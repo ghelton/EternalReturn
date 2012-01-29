@@ -14,7 +14,7 @@ package datas
 		private const lifeTimeOfItAll:int = 100000; //set to 5 minutes for rizzle
 		private const quadrantSize:int = 100;
 		private const quadrantCachePoolSize:int = 2000;
-		private const distanceBetweenPlanetCornerSpots:int = 20;
+		private const distanceBetweenPlanetCornerSpots:int = 5;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData>;
