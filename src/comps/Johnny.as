@@ -46,8 +46,7 @@ package comps
 			addChild(_presentation);
 			_presentation.scaleX = _presentation.scaleY = 0.3;
 			
-			_presentation.transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
-			
+
 			rotation = -90;
 			super.draw();
 		}
@@ -64,6 +63,10 @@ package comps
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 				_data.magnitude = Math.sqrt(_data.red);
 			}
+			
+			var rgb:Vector3D = _data.resources.clone();
+			var max:Number = Math.max(rgb.x,rgb.y,rgb.z);
+			this.transform.colorTransform = new ColorTransform(0.7,0.7,0.7,1,rgb.x/max*255-127, rgb.y/max*255-127, rgb.z/max*255-127);
 		}
 		
 		public function onFrame():void
