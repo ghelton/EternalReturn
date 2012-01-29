@@ -11,9 +11,9 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 300000; //set to 5 minutes for rizzle
+		private const lifeTimeOfItAll:int = 100000;
 		private const quadrantSize:int = 500;
-		private const quadrantCachePoolSize:int = 40;
+		private const quadrantCachePoolSize:int = 80;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
@@ -46,12 +46,9 @@ package datas
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 
-			var timeEntropyFactor:Number = 1;//1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
-//			trace(midPoint.length);
-			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 10000));
-
+			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
+			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
-//			spacialEntropyAdjustment = 1; //PATCH So no growing
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
@@ -98,12 +95,10 @@ package datas
 				}
 			}
 			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
-			trace("we have cached this many planet quadrants: " + _cachedPlanetQuadrants.length);
 			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
 			{
 				if(_cachedPlanetQuadrants[index].quad.equals(quad))
 				{
-					trace("found one that we want to delete");
 					_cachedPlanetQuadrants.splice(index, 1);
 					break;
 				}
@@ -112,7 +107,6 @@ package datas
 			if(_cachedPlanetQuadrants.length > quadrantCachePoolSize)
 			{
 				_cachedPlanetQuadrants.splice(0, 50);
-				trace("ran out of quadrant cache pool capacity, this is okay, I wanted to see it in action when loading new stuff before taking out. let me know -Adam");
 			}
 				
 				

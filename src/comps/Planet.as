@@ -43,9 +43,14 @@ package comps
 			removeChild(_planetSWC);
 		}
 		
+		public function redrawMe():void
+		{
+			redraw();
+		}
 
 		override protected function draw():void
 		{
+			trace("drawing again");
 			var max:Number = Math.max(_planetData.RGB.x, _planetData.RGB.y, _planetData.RGB.z);
 			var size:int = _planetData.RGB.x + _planetData.RGB.y + _planetData.RGB.z;
 			

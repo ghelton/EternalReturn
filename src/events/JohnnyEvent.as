@@ -18,7 +18,7 @@ package events
 		//--------------------------------------
 		public static const JOHNNY_LEFT:String = 'JOHNNY_LEFT';
 		public static const JOHNNY_RIGHT:String = 'JOHNNY_RIGHT';
-		public static const JOHNNY_SONAR:String = 'JOHNNY_SONAR';
+		public static const JOHNNY_LAUNCH:String = 'JOHNNY_SONAR';
 		
 		//--------------------------------------
 		// VARIABLES
