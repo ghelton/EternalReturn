@@ -33,7 +33,7 @@ package gui {
 			backBar.graphics.endFill();	
 			
 			frontBar.y = backBar.y = 5;
-			frontBar.x = backBar.x = 45;
+			frontBar.x = backBar.x = 70;
 			
 			var c:ColorTransform = new ColorTransform();
 			c.color = color;
@@ -43,7 +43,7 @@ package gui {
 		}
 		
 		public function setValue(value:Number, maxValue:Number):void {
-			textField.text = _label + value;
+			textField.text = _label + Math.floor(value);
 			frontBar.scaleX = value;
 			backBar.scaleX = maxValue;
 			textField.textColor = _myColor;

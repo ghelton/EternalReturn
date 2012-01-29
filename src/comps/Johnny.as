@@ -39,12 +39,15 @@ package comps
 		public function move():void
 		{
 //			trace("Move some shiz");
-			burnRed(_data.magnitude);
+			burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
+			
+			_data.position.add(Point.polar(_data.magnitude, _data.dgRotation/180*Math.PI));
 		}
 		
 		public function burnRed(amount:Number):void {
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
 			_data.addResources(lessRed);
+			
 			if (_data.red < 0) {
 				// die?
 			}
@@ -52,9 +55,10 @@ package comps
 		
 		// returns false if not enough green material to burn in which case, amount is not subtracted.
 		public function burnGreen(amount:Number):Boolean {
-			if ( amount >= _data.green) {
+			if ( amount < _data.green) {
 				var lessGreen:Vector3D = new Vector3D(0, -amount, 0);
 				_data.addResources(lessGreen);
+//				_data.resources.y -= amount;
 				return true;
 			}
 			return false;
