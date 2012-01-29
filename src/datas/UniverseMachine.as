@@ -11,7 +11,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 100000;
+		private const lifeTimeOfItAll:int = 60000;
 		private const quadrantSize:int = 500;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
 		private var _quadrantCachePoolSize:int = 10000;
@@ -49,19 +49,31 @@ package datas
 			var planetsFromQuad:Vector.<PlanetData> = new Vector.<PlanetData>;
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
-
-			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
+//OLD
+			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
 			
+//NEW
+//			var timeEntropyFactor:Number = 3 * Math.sin((getTimer() - _theBeginning) / lifeTimeOfItAll);
+//			spacialEntropyAdjustment = Math.abs(timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier);
+			
+
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;
+			var quad:Point;
+//			trace(timeEntropyFactor);
+//			trace(adjustedFrame.left + "   " + adjustedFrame.top + "   " + adjustedFrame.right +  "   " + adjustedFrame.bottom);
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
+//				if(Math.abs(xQuad * quadrantSize) > 10000) continue;
 				for(yQuad = Math.floor(adjustedFrame.top / quadrantSize); yQuad <= Math.ceil(adjustedFrame.bottom / quadrantSize); yQuad++)
 				{
+//					if(Math.abs(yQuad * quadrantSize) > 10000) continue;
+
+					quad = new Point(xQuad, yQuad);
 					count++;
-					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
+					planetsFromQuad = getPlanetsInQuadrant(quad);
 					for each(planet in planetsFromQuad)
 					{
 						if(planet.location.x >= adjustedFrame.left && planet.location.x <= adjustedFrame.right && planet.location.y >= adjustedFrame.top && planet.location.y <= adjustedFrame.bottom)
@@ -114,7 +126,7 @@ package datas
 			_cachedPlanetQuadrants.push(planetQuadrantData);
 			if(_cachedPlanetQuadrants.length > _quadrantCachePoolSize)
 			{
-				trace("RAN OUT OF POOLAGE");
+				trace("had to throw some out");
 				_cachedPlanetQuadrants.splice(0, Math.floor(_quadrantCachePoolSize * 2/3));
 			}
 				
@@ -124,6 +136,7 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
+//			if(pixel.length >= 10000) return null;
 			var rValue:int = (_universeSeed + pixel.x) % 3 + 1;
 			var gValue:int = (_universeSeed + pixel.y) % 3 + 1;
 			var bValue:int = (_universeSeed + pixel.x + pixel.y) % 3 + 1;
