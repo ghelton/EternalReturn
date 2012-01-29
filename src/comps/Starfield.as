@@ -137,6 +137,8 @@ package comps
 			}
 			
 			//create new planets and update existing planets
+			var mawOpened:Boolean = false;
+			
 			for each(planetData in planets)
 			{
 				planet = _activePlanets[planetData.uid];
@@ -159,9 +161,10 @@ package comps
 					planetData.RGB = scaleVector3D(planetData.RGBOG, 3 / (_universeMachine.spacialEntropyAdjustment + 1));
 				
 				//check colission
-				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
+				if(_johnnyData.magnitude > 0 && planetData.screenPosition.length < 200 && planetData.RGB.length > 0)
 				{
-					dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
+					if(!mawOpened)
+						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
 					if(planetData.screenPosition.length < 30)
 					{
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
@@ -177,6 +180,8 @@ package comps
 					planet.redrawMe();
 				}
 			}
+			if(!mawOpened && _johnnyData.magnitude > 0)
+				dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
 		}
 		private function scaleVector3D(vector:Vector3D, scale:Number):Vector3D
 		{

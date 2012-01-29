@@ -51,7 +51,7 @@ package datas
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
 //OLD
-			var timeEntropyFactor:Number = 2 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
+			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
 			
 //NEW
