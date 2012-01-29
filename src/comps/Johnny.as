@@ -53,6 +53,7 @@ package comps
 		{
 			if(_data.magnitude != 0)
 			{
+				_data.dgRotation += _data.rotationChange / 100;
 				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 				velocity.normalize(_data.magnitude);
 				_data.position = _data.position.add(velocity);
@@ -87,27 +88,33 @@ package comps
 		}
 		
 		public function moveLeft(e:JohnnyEvent):void {
-			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
-			_data.dgRotation += dd;
+//			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
+//			_data.dgRotation += dd;
+			_data.rotationChange += 1;
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-			if (burnGreen(burn)) {
-				trace("Rotate Ship Left:  " + _data.dgRotation + "(-" + dd + " degrees, burn " + burn + ")" );
-			}
-			else {
-				trace("Rotate Ship Left:  not enough fuel.");
-			}
+			burnGreen(_data.magnitude);
+//			if (burnGreen(burn)) {
+//				trace("Rotate Ship Left:  " + _data.dgRotation + "(-" + dd + " degrees, burn " + burn + ")" );
+//			}
+//			else {
+//				trace("Rotate Ship Left:  not enough fuel.");
+//			}
 		}
 		
 		public function moveRight(e:JohnnyEvent):void {
-			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
-			_data.dgRotation -= dd;
+//			var dd:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_SPEED;
+//			_data.dgRotation -= dd;
+			_data.rotationChange -= 1;
+			
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-			if (burnGreen(burn)) {
-				trace("Rotate Ship Right:  " + _data.dgRotation + "(+" + dd + " degrees, burn " + burn + ")" );
-			}
-			else {
-				trace("Rotate Ship Right:  not enough fuel.");
-			}
+			burnGreen(_data.magnitude);
+
+//			if (burnGreen(burn)) {
+//				trace("Rotate Ship Right:  " + _data.dgRotation + "(+" + dd + " degrees, burn " + burn + ")" );
+//			}
+//			else {
+//				trace("Rotate Ship Right:  not enough fuel.");
+//			}
 		}
 		
 		public function activateSonar(e:JohnnyEvent):void {
