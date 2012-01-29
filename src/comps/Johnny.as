@@ -65,8 +65,12 @@ package comps
 		public function onFrame():void
 		{
 			move();
-			if(_data.entropyOverride >= 1)
-				_data.entropyOverride -= 0.2;
+			if(_data.entropyModifier > 0)
+			{
+//				_data.entropyModifier -= 0.15;
+				if(_data.entropyModifier < 0)
+					_data.entropyModifier = 0;
+			}
 		}
 
 		public function launch(e:Event):void
@@ -76,10 +80,10 @@ package comps
 		
 		public function bluePower(e:Event):void
 		{
-			if(_data.blue >= 10)
+			if(_data.blue >= 1)
 			{
-				_data.addResources(new Vector3D(0, 0, -10));
-				_data.entropyOverride += 0.2;
+				_data.addResources(new Vector3D(0, 0, -1));
+				_data.entropyModifier += 0.1;
 			}
 		}
 		

@@ -49,11 +49,7 @@ package datas
 
 			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
-			var spacialEntropyAdjustment:Number
-			if(_johnnyData.entropyOverride != 1)
-				spacialEntropyAdjustment = _johnnyData.entropyOverride;
-			else
-				spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor;
+			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
 			
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;
