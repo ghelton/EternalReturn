@@ -137,7 +137,7 @@ package comps
 		public function moveRight(e:JohnnyEvent):void {
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			var hasEnoughFuel:Boolean = burnGreen(burn);
-			if(_data.rotationChange <= Config.MAX_ROTATION)
+			if(_data.rotationChange >= -Config.MAX_ROTATION)
 			{
 				// no fuel, reduce turn by half
 				var multiplier:Number = (hasEnoughFuel ? 1 : 0.5);
