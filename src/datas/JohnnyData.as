@@ -23,7 +23,7 @@ package datas
 		//--------------------------------------
 		private var _resources:Vector3D = new Vector3D();
 		public var maxResourcesRGB:Vector3D = new Vector3D(600,600,600);
-		public var magnitude:uint = 5;
+		public var magnitude:uint = 0;
 		public var position:Point = new Point();
 		public var starfieldCoord:Point;  	// coordinates of johnny relative to the starfield
 		public var dgRotation:Number = 1.5707; 		// rotation of johnny relative to the starfield
