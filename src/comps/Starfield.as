@@ -63,6 +63,7 @@ package comps
 		
 		public function updateField():void
 		{
+			return;
 			_lastPos = _johnnyData.position.clone();
 			var position:Point = _johnnyData.position;
 			
@@ -82,6 +83,8 @@ package comps
 					if(_currentPlanetData.indexOf(planetData) == -1)
 					{
 						planet = _activePlanets[planetData];
+						if(planet == null)
+							continue;
 						_pooledPlanets.push(planet);
 						if(contains(planet))
 							removeChild(planet);
