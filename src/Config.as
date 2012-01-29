@@ -20,8 +20,8 @@ package
 		
 		public static const FRAME_FREQUENCY:Number = 1 / 25;  // seconds per frame
 		
-		public static const JOHNNY_GREEN_RESOURCE_PER_SECOND:Number = 35;
-		public static const JOHNNY_RED_RESOURCE_PER_SECOND:Number = 10;
+		public static const JOHNNY_GREEN_RESOURCE_PER_SECOND:Number = 50;
+		public static const JOHNNY_RED_RESOURCE_PER_SECOND:Number = 20;
 		public static const JOHNNY_BLUE_RESOURCE_PER_SECOND:Number = 50; // hold scanning button for long range before releasing sonar pulse?
 		
 		public static const STARTING_POINT:Point = new Point(0, 0);

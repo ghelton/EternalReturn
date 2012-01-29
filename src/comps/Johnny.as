@@ -90,13 +90,11 @@ package comps
 		
 		public function openMaw(e:Event):void
 		{
-			trace("openMaw");
 			_presentation.openMaw();
 		}
 		
 		public function closeMaw(e:Event):void
 		{
-			trace("closeMaw");
 			_presentation.closeMaw();
 		}
 		
@@ -105,7 +103,7 @@ package comps
 			move();
 			if(_data.entropyModifier > 0)
 			{
-//				_data.entropyModifier -= 0.15;
+				_data.entropyModifier -= 0.0001;
 				if(_data.entropyModifier < 0)
 					_data.entropyModifier = 0;
 			}
