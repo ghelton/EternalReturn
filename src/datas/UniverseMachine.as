@@ -12,19 +12,18 @@ package datas
 	public class UniverseMachine
 	{
 		private const lifeTimeOfItAll:int = 300000; //set to 5 minutes for rizzle
-		private const quadrantSize:int = 100;
-		private const quadrantCachePoolSize:int = 2000;
-		private const distanceBetweenPlanetCornerSpots:int = 20;
+		private const quadrantSize:int = 500;
+		private const quadrantCachePoolSize:int = 40;
+		private const distanceBetweenPlanetCornerSpots:int = 40;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
-		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData>;
+		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData> = new Vector.<PlanetQuadrantData>;
 		private var _theBeginning:Number;
 		
 		public function UniverseMachine(seed:int)
 		{
 			_theBeginning = getTimer();
 			_universeSeed = seed;
-			_cachedPlanetQuadrants = new Vector.<PlanetQuadrantData>;
 			//fetch shared object, set _planetsDiscovered to object sharedObject.seedName
 		}
 		
@@ -44,12 +43,15 @@ package datas
 			var planet:PlanetData;
 			var returnPlanets:Vector.<PlanetData> = new Vector.<PlanetData>;
 			var planetsFromQuad:Vector.<PlanetData> = new Vector.<PlanetData>;
-			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
-			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 1000));
+
+			var timeEntropyFactor:Number = 1;//1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
+			trace(midPoint.length);
+			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 10000));
+
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
-			spacialEntropyAdjustment = 1; //PATCH So no growing
+//			spacialEntropyAdjustment = 1; //PATCH So no growing
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
@@ -96,10 +98,12 @@ package datas
 				}
 			}
 			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
+			trace("we have cached this many planet quadrants: " + _cachedPlanetQuadrants.length);
 			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
 			{
-				if(_cachedPlanetQuadrants[index].quad == quad)
+				if(_cachedPlanetQuadrants[index].quad.equals(quad))
 				{
+					trace("found one that we want to delete");
 					_cachedPlanetQuadrants.splice(index, 1);
 					break;
 				}
@@ -107,7 +111,7 @@ package datas
 			_cachedPlanetQuadrants.push(planetQuadrantData);
 			if(_cachedPlanetQuadrants.length > quadrantCachePoolSize)
 			{
-				_cachedPlanetQuadrants.shift();
+				_cachedPlanetQuadrants.splice(0, 50);
 				trace("ran out of quadrant cache pool capacity, this is okay, I wanted to see it in action when loading new stuff before taking out. let me know -Adam");
 			}
 				
