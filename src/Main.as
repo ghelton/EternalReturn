@@ -49,7 +49,7 @@ package
 			
 			_johnnyData = new JohnnyData(Config.STARTING_POINT, Config.STARTING_RESOURCES, Config.BASE_MAGNITUDE);
 			_johnny = new Johnny(_johnnyData);
-			_universeMachine = new UniverseMachine(1234567);
+			_universeMachine = new UniverseMachine(1234567, _johnnyData);
 			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine, _johnnyData);
 			
 			_johnny.x = stage.stageWidth / 2;
@@ -59,6 +59,7 @@ package
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_LEFT, _johnny.moveLeft);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_LAUNCH, _johnny.launch);
+			_keyController.addEventListener(JohnnyEvent.JOHNNY_BLUE_POWER, _johnny.bluePower);
 			_guiOverlay = new GuiOverlay(_johnnyData);
 			
 			//add children
@@ -76,7 +77,7 @@ package
 		private function onEnterFrame(e:Event):void
 		{
 			//Johnny should move before anything else happens
-			_johnny.move();
+			_johnny.onFrame();
 			
 			_starfield.updateField();
 			_guiOverlay.updateScreen();

@@ -61,10 +61,30 @@ package comps
 				_data.magnitude = Math.sqrt(_data.red);
 			}
 		}
+		
+		public function onFrame():void
+		{
+			move();
+			if(_data.entropyModifier > 0)
+			{
+//				_data.entropyModifier -= 0.15;
+				if(_data.entropyModifier < 0)
+					_data.entropyModifier = 0;
+			}
+		}
 
 		public function launch(e:Event):void
 		{
 			_data.magnitude = Math.sqrt(_data.red);
+		}
+		
+		public function bluePower(e:Event):void
+		{
+			if(_data.blue >= 1)
+			{
+				_data.addResources(new Vector3D(0, 0, -1));
+				_data.entropyModifier += 0.1;
+			}
 		}
 		
 		public function burnRed(amount:Number):void {

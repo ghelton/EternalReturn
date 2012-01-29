@@ -30,11 +30,12 @@ package core
 			
 			var vec:Vector.<KeyPressData> = new Vector.<KeyPressData>();
 			
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onSpaceDown, KeyMapperEngine.SPACE_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onAKeyDown, KeyMapperEngine.A_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onDKeyDown, KeyMapperEngine.D_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onAKeyUp, KeyMapperEngine.A_KEY ) );
 			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyUp, KeyMapperEngine.D_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onSpaceUp, KeyMapperEngine.SPACE_KEY ) );
+			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onWKeyDown, KeyMapperEngine.W_KEY ) );
 			
 			keymapper.register(vec);
 		}
@@ -76,7 +77,18 @@ package core
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT));
 		}
 		
-		private function onSpaceUp(key:KeyPressData, e:KeyboardEvent):void
+		// Launch button
+		private function onSpaceDown(key:KeyPressData, e:KeyboardEvent):void
+		{
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BLUE_POWER)); 
+			this.addEventListener(Event.ENTER_FRAME, whileSpaceKeyDown,false,0,true);
+		}
+		
+		private function whileSpaceKeyDown(e:Event):void {
+			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BLUE_POWER));
+		}
+		
+		private function onWKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LAUNCH)); 
 		}

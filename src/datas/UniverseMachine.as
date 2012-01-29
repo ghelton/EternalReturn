@@ -19,11 +19,12 @@ package datas
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData> = new Vector.<PlanetQuadrantData>;
 		private var _theBeginning:Number;
-		
-		public function UniverseMachine(seed:int)
+		private var _johnnyData:JohnnyData;
+		public function UniverseMachine(seed:int, johnnyData:JohnnyData)
 		{
 			_theBeginning = getTimer();
 			_universeSeed = seed;
+			_johnnyData = johnnyData;
 			//fetch shared object, set _planetsDiscovered to object sharedObject.seedName
 		}
 		
@@ -48,7 +49,8 @@ package datas
 
 			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
-			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
+			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
+			
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
