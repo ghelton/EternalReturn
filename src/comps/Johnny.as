@@ -42,6 +42,7 @@ package comps
 			
 			_presentation = new JohnnySwc();
 			addChild(_presentation);
+			_presentation.scaleX = _presentation.scaleY = 0.3;
 			
 			_presentation.transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
 			
