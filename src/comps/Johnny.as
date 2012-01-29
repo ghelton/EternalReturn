@@ -14,6 +14,7 @@ package comps
 	public class Johnny extends Element
 	{
 		private var _data:JohnnyData;
+		private var _presentation:JohnnySwc;
 		
 		public function Johnny($data:JohnnyData)
 		{
@@ -27,12 +28,24 @@ package comps
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_data.red, _data.green, _data.blue);
-//			var size:int = _resources.
-			graphics.clear();
+		
+			_data.resources.scaleBy(20);
+			
+			//this is our guy -- replace with swc?
+			/*graphics.clear();
+			var size:int = _resources.
 			graphics.beginFill(0x000000);
 			graphics.drawCircle(0, 0, 100);
 			graphics.endFill();
 			transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
+			*/
+			
+			_presentation = new JohnnySwc();
+			addChild(_presentation);
+			
+			_presentation.transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
+			
+			rotation = -90;
 			super.draw();
 		}
 		

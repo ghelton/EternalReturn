@@ -46,7 +46,7 @@ package core
 		//LEFT MOVEMENT
 		private function onAKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
-			//A is the spaceship moving right
+			//let us move the spaceship left
 			trace('A Key Down');
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_LEFT)); 
 		}
@@ -60,7 +60,7 @@ package core
 		//RIGHT MOVEMENT
 		private function onDKeyDown(key:KeyPressData, e:KeyboardEvent):void
 		{
-			//D is the spaceship moving left
+			//let us move the spaceship right
 			trace('D Key Down');
 			dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_RIGHT)); 
 		}
