@@ -143,12 +143,17 @@ package comps
 		}
 		
 		public function burnRed(amount:Number):void {
-			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
-			_data.addResources(lessRed);
 			
+			
+			trace("_data.red",_data.red);
 			if (_data.red <= 5) {
+				trace("death");
+				_data.magnitude = 0;
+				amount = _data.red;
 				_presentation.die();
 			}
+			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
+			_data.addResources(lessRed);
 		}
 		
 		// returns false if not enough green material to burn in which case, amount is not subtracted.
