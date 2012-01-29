@@ -97,6 +97,7 @@ package comps
 			}
 			
 			// update planets
+			rotation = _johnnyData.dgRotation * (180 / Math.PI) - 90;
 			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));

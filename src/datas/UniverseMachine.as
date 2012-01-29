@@ -11,7 +11,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 100000; //set to 5 minutes for rizzle
+		private const lifeTimeOfItAll:int = 300000; //set to 5 minutes for rizzle
 		private const quadrantSize:int = 100;
 		private const quadrantCachePoolSize:int = 2000;
 		private const distanceBetweenPlanetCornerSpots:int = 20;
@@ -49,14 +49,12 @@ package datas
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 			var distanceEntropyFactor:Number = 1 / (1 + (midPoint.length / 1000));
 			var spacialEntropyAdjustment:Number = timeEntropyFactor * distanceEntropyFactor;
-			
+			spacialEntropyAdjustment = 1; //PATCH So no growing
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
-			var count:int = 0;
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
 				for(yQuad = Math.floor(adjustedFrame.top / quadrantSize); yQuad <= Math.ceil(adjustedFrame.bottom / quadrantSize); yQuad++)
 				{
-					count++;
 					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
 					for each(planet in planetsFromQuad)
 					{

@@ -26,7 +26,7 @@ package datas
 		public var magnitude:uint = 5;
 		public var position:Point = new Point();
 		public var starfieldCoord:Point;  	// coordinates of johnny relative to the starfield
-		public var dgRotation:Number = 0; 		// rotation of johnny relative to the starfield
+		public var dgRotation:Number = 1.5707; 		// rotation of johnny relative to the starfield
 		
 		//--------------------------------------
 		// CONSTRUCTOR
