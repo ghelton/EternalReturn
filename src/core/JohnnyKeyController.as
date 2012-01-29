@@ -23,7 +23,6 @@ package core
 		
 		public function JohnnyKeyController()
 		{
-			trace('register keys');
 			super();
 			
 			keymapper = new KeyMapperEngine();
