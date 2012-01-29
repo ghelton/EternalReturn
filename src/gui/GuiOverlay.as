@@ -13,14 +13,12 @@ package gui
 		private var _blue:GuiJohnnyBar = new GuiJohnnyBar(0x00FF00, "b: ");
 		private var _green:GuiJohnnyBar = new GuiJohnnyBar(0x0000FF, "g: ");
 		
-		public function GuiOverlay()
+		public function GuiOverlay($johnny:Johnny)
 		{
-//			graphics.beginFill(0x123123);
-//			graphics.drawRect(0,0,100,100);
-//			graphics.endFill();
 			super();
 			
-			_johnny = Johnny.me;
+			_johnny = $johnny;
+			
 			addEventListener(Event.ADDED_TO_STAGE, updateSize, false, 0, true);
 			addEventListener(Event.ENTER_FRAME, updateScreen, false, 0, true);
 			

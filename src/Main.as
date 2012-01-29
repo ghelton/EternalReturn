@@ -1,5 +1,6 @@
 package
 {
+	import comps.Johnny;
 	import comps.Starfield;
 	
 	import core.BasicStarfieldController;
@@ -14,6 +15,7 @@ package
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.geom.Rectangle;
+	import flash.geom.Vector3D;
 	
 	import gui.GuiOverlay;
 	
@@ -23,6 +25,7 @@ package
 		private var _starfield:Starfield;
 		private var _universeMachine:UniverseMachine;
 		private var _keyController:KeyStarfieldController;
+		private var _johnny:Johnny;
 		
 		public function Main()
 		{
@@ -41,12 +44,17 @@ package
 			
 			_universeMachine = new UniverseMachine(1234567);
 			_starfield = new Starfield(stage.stageWidth, stage.stageHeight, _universeMachine);
+			_johnny = new Johnny(new Vector3D(10, 10, 0));
+			
 			addChild(_starfield);
+			addChild(_johnny);
+			_johnny.x = 500;
+			_johnny.y = 500;
 
 			_keyController = new KeyStarfieldController(_starfield);
 			
 			// overlay goes on top
-			addChild(new GuiOverlay());
+			addChild(new GuiOverlay(_johnny));
 			
 			// end init stuff //
 			
