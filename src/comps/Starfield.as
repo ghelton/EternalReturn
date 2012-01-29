@@ -1,11 +1,13 @@
 package comps
 {
+	import core.ChunkyBitmap;
 	import core.Element;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
 	import datas.UniverseMachine;
 	
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -22,6 +24,8 @@ package comps
 		private var _activePlanets:Dictionary = new Dictionary();
 		private var _currentPlanetData:Vector.<PlanetData>;
 		private var _pooledPlanets:Vector.<Planet> = new Vector.<Planet>();
+		private var _parallaxLayers:Vector.<ChunkyBitmap>;
+		private var _parallaxBitmaps:Vector.<BitmapData>;
 		
 		public function Starfield($fieldWidth:Number, $fieldHeight:Number, $universeMachine:UniverseMachine, $johnnyData:JohnnyData)
 		{
@@ -29,6 +33,20 @@ package comps
 			updateSizes($fieldWidth, $fieldHeight);
 			_universeMachine = $universeMachine;
 			super();
+		}
+		
+		override protected function init(e:Event):void
+		{
+			super.init(e);
+			_parallaxLayers = new Vector.<ChunkyBitmap>();
+			_parallaxBitmaps = new <BitmapData>[StarMap1, new StarMap2(), new StarMap3(), new StarMap4()];
+			var cb:ChunkyBitmap;
+			var rect:Rectangle = new Rectangle(0, 0, _size.x, _size.y);
+			for each(bd in _parallaxBitmaps)
+			{
+				cb = new ChunkyBitmap(rect, bd);
+				addChild(cb);
+			}
 		}
 		
 		override protected function draw():void
@@ -65,7 +83,10 @@ package comps
 		{
 			_lastPos = _johnnyData.position.clone();
 			var position:Point = _johnnyData.position;
+			//update parallax
 			
+			
+			// update planets
 			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
@@ -92,8 +113,7 @@ package comps
 					removeChild(planet);
 					_activePlanets[key] = null;
 					delete _activePlanets[key];
-				}					
-
+				}
 			}
 			
 			//create new planets and update existing planets
