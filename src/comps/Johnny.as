@@ -18,7 +18,7 @@ package comps
 	public class Johnny extends Element
 	{
 		private var _data:JohnnyData;
-		private var _presentation:MovieClip;
+		private var _presentation:JohnnySprite;
 		
 		public function Johnny($data:JohnnyData)
 		{
@@ -42,7 +42,7 @@ package comps
 			transform.colorTransform = new ColorTransform(1,1,1,1,_data.resources.x/max*255, _data.resources.y/max*255, _data.resources.z/max*255);
 			*/
 			
-			_presentation = new IdleVessel();
+			_presentation = new JohnnySprite();
 			addChild(_presentation);
 			_presentation.scaleX = _presentation.scaleY = 0.3;
 			
@@ -64,6 +64,16 @@ package comps
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 				_data.magnitude = Math.sqrt(_data.red);
 			}
+			else
+			{
+				_presentation.idle();
+			}
+		}
+		
+		public function setSprite():void
+		{
+			
+				
 		}
 		
 		public function onFrame():void
@@ -96,7 +106,7 @@ package comps
 			_data.addResources(lessRed);
 			
 			if (_data.red < 0) {
-				// die?
+				_presentation.die();
 			}
 		}
 		
@@ -123,6 +133,7 @@ package comps
 			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			burnGreen(_data.magnitude);
+			//_presentation.turn(-1);
 //			if (burnGreen(burn)) {
 //				trace("Rotate Ship Left:  " + _data.dgRotation + "(-" + dd + " degrees, burn " + burn + ")" );
 //			}
@@ -143,7 +154,7 @@ package comps
 			}
 			var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
 			burnGreen(_data.magnitude);
-
+			//_presentation.turn(1);
 //			if (burnGreen(burn)) {
 //				trace("Rotate Ship Right:  " + _data.dgRotation + "(+" + dd + " degrees, burn " + burn + ")" );
 //			}
