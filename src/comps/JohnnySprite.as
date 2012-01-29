@@ -120,6 +120,9 @@ package comps
 			_bite = new JohnnyBite();
 			_death = new JohnnyDeath();
 			
+			_idle.x += 120;
+			_idle.scaleX = 1.2;
+			
 			_turns = [_turnHeavy, _turnMedium, _turnMedium, _turnMild, _turnLight,_idle, _idle, _turnLight, _turnMild, _turnMedium, _turnMedium, _turnHeavy];
 			
 			idle();
