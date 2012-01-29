@@ -103,7 +103,7 @@ package comps
 			move();
 			if(_data.entropyModifier > 0)
 			{
-//				_data.entropyModifier -= 0.15;
+				_data.entropyModifier -= 0.0001;
 				if(_data.entropyModifier < 0)
 					_data.entropyModifier = 0;
 			}
@@ -140,12 +140,17 @@ package comps
 		}
 		
 		public function burnRed(amount:Number):void {
-			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
-			_data.addResources(lessRed);
 			
-			if (_data.red < 0) {
+			
+			trace("_data.red",_data.red);
+			if (_data.red <= 5) {
+				trace("death");
+				_data.magnitude = 0;
+				amount = _data.red;
 				_presentation.die();
 			}
+			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
+			_data.addResources(lessRed);
 		}
 		
 		// returns false if not enough green material to burn in which case, amount is not subtracted.
@@ -177,7 +182,7 @@ package comps
 				if (_data.rotationChange <= 0.01)
 					multiplier *= 2;
 				
-				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
+				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;
 			}
 		}
 		
@@ -197,7 +202,7 @@ package comps
 				if (_data.rotationChange <= 0.01)
 					multiplier *= 2;
 				
-				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL;
+				_data.rotationChange -= Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;
 			}
 		}
 	}
