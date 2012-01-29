@@ -28,8 +28,6 @@ package comps
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_data.red, _data.green, _data.blue);
-		
-			_data.resources.scaleBy(20);
 			
 			//this is our guy -- replace with swc?
 			/*graphics.clear();
@@ -55,13 +53,14 @@ package comps
 			var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 			velocity.normalize(_data.magnitude);
 			_data.position = _data.position.add(velocity);
-			burnRed(_data.magnitude);
+			burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 		}
 
 		
 		public function burnRed(amount:Number):void {
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
 			_data.addResources(lessRed);
+			
 			if (_data.red < 0) {
 				// die?
 			}
@@ -69,9 +68,10 @@ package comps
 		
 		// returns false if not enough green material to burn in which case, amount is not subtracted.
 		public function burnGreen(amount:Number):Boolean {
-			if ( amount >= _data.green) {
+			if ( amount < _data.green) {
 				var lessGreen:Vector3D = new Vector3D(0, -amount, 0);
 				_data.addResources(lessGreen);
+//				_data.resources.y -= amount;
 				return true;
 			}
 			return false;
