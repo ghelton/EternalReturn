@@ -18,8 +18,6 @@ package datas
 			discovered = $discovered;
 			screenPosition = $screenPosition; 
 			uid = location.x.toString() + "_" + location.y.toString();
-			if(uid == "200_160")
-				trace("making another duder");
 		}
 	}
 }

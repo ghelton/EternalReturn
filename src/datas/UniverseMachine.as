@@ -13,8 +13,8 @@ package datas
 	{
 		private const lifeTimeOfItAll:int = 100000;
 		private const quadrantSize:int = 500;
-		private const quadrantCachePoolSize:int = 80;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
+		private var _quadrantCachePoolSize:int = 10000;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
 		private var _cachedPlanetQuadrants:Vector.<PlanetQuadrantData> = new Vector.<PlanetQuadrantData>;
@@ -56,10 +56,12 @@ package datas
 				spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor;
 			
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
+			var count:Number = 0;
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
 				for(yQuad = Math.floor(adjustedFrame.top / quadrantSize); yQuad <= Math.ceil(adjustedFrame.bottom / quadrantSize); yQuad++)
 				{
+					count++;
 					planetsFromQuad = getPlanetsInQuadrant(new Point(xQuad, yQuad));
 					for each(planet in planetsFromQuad)
 					{
@@ -68,6 +70,7 @@ package datas
 					}
 				}
 			}
+			_quadrantCachePoolSize = count * 1.5;
 			
 			midPoint = new Point((adjustedFrame.right + adjustedFrame.left) / 2, (adjustedFrame.top + adjustedFrame.bottom) / 2);
 			for each(planet in returnPlanets)
@@ -110,9 +113,9 @@ package datas
 				}
 			}
 			_cachedPlanetQuadrants.push(planetQuadrantData);
-			if(_cachedPlanetQuadrants.length > quadrantCachePoolSize)
+			if(_cachedPlanetQuadrants.length > _quadrantCachePoolSize)
 			{
-				_cachedPlanetQuadrants.splice(0, 50);
+				_cachedPlanetQuadrants.splice(0, Math.floor(_quadrantCachePoolSize * 2/3));
 			}
 				
 				
