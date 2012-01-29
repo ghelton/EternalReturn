@@ -20,6 +20,7 @@ package events
 		public static const JOHNNY_RIGHT:String = 'JOHNNY_RIGHT';
 		public static const JOHNNY_LAUNCH:String = 'JOHNNY_LAUNCH';
 		public static const JOHNNY_BLUE_POWER:String = 'JOHNNY_BLUE_POWER';
+		public static const JOHNNY_BITE:String = 'JOHNNY_BITE';
 		
 		//--------------------------------------
 		// VARIABLES

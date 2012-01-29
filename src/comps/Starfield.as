@@ -1,11 +1,14 @@
 package comps
 {
+	import core.AnimationEvent;
 	import core.Element;
 	import core.ParallaxBitmap;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
 	import datas.UniverseMachine;
+	
+	import events.JohnnyEvent;
 	
 	import flash.display.BitmapData;
 	import flash.events.Event;
@@ -151,13 +154,16 @@ package comps
 				}
 				planet.x = planetData.screenPosition.x;
 				planet.y = planetData.screenPosition.y;
-				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
+				if(planetData.screenPosition.length < 200 && planetData.RGB.length > 0)
+				{
+					dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_BITE));
+				} else if(planetData.screenPosition.length < 30)
 				{
 					_universeMachine.markPlanetAsDiscovered(planetData.uid);
 					planetData.discovered = true;
 					_johnnyData.addResources(planetData.RGB, 15);
 					_johnnyData.rotationChange = 0;
-//					_johnnyData.position = planetData.location;
+					//					_johnnyData.position = planetData.location;
 					
 					planetData.RGB = new Vector3D(0, 0, 0);
 					planet.redrawMe();

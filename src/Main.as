@@ -66,6 +66,7 @@ package
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_RIGHT, _johnny.moveRight);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_LAUNCH, _johnny.launch);
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_BLUE_POWER, _johnny.bluePower);
+			_starfield.addEventListener(JohnnyEvent.JOHNNY_BITE, _johnny.bite);
 			_guiOverlay = new GuiOverlay(_johnnyData);
 			_guiDistanceGauge = new GuiDistanceGauge(_johnnyData);
 			_guiCurvatureIndicator = new GuiCurvatureIndicator(stage.stageWidth, stage.stageHeight, _johnnyData);
