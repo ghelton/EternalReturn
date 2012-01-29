@@ -7,6 +7,36 @@ package comps
 		
 		private static var _me:Johnny;
 		
+		public function get maxGreen():Number
+		{
+			return _maxGreen;
+		}
+
+		public function set maxGreen(value:Number):void
+		{
+			_maxGreen = value;
+		}
+
+		public function get maxRed():Number
+		{
+			return _maxRed;
+		}
+
+		public function set maxRed(value:Number):void
+		{
+			_maxRed = value;
+		}
+
+		public function get maxBlue():Number
+		{
+			return _maxBlue;
+		}
+
+		public function set maxBlue(value:Number):void
+		{
+			_maxBlue = value;
+		}
+
 		public static function get me():Johnny {
 			if (!_me) _me = new Johnny();
 			return _me;
@@ -23,9 +53,13 @@ package comps
 			blue = planetData.RGB.z;
 		}
 		
-		private var _green:Number = 0;
-		private var _red:Number = 0;
-		private var _blue:Number = 0;
+		private var _green:Number = 5;
+		private var _red:Number = 5;
+		private var _blue:Number = 5;
+		
+		private var _maxGreen:Number = 10;
+		private var _maxRed:Number = 10;
+		private var _maxBlue:Number = 10;
 
 		public function get green():Number
 		{

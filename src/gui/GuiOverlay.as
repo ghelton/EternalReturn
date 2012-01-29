@@ -28,14 +28,17 @@ package gui
 			addChild(_blue);
 			addChild(_green);
 			
-			_green.y = GuiJohnnyBar.expectedHeight;
-			_blue.y = GuiJohnnyBar.expectedHeight*2;
+			var offset:Number = 5;
+			_red.x = _blue.x = _green.x = offset;
+			_red.y = offset;
+			_green.y = GuiJohnnyBar.expectedHeight + offset;
+			_blue.y = GuiJohnnyBar.expectedHeight*2 + offset;
 		}
 		
 		public function updateScreen(...skip):void {
-			_red.setValue(_johnny.red);
-			_blue.setValue(_johnny.blue);
-			_green.setValue(_johnny.green);
+			_red.setValue(_johnny.red, _johnny.maxRed);
+			_blue.setValue(_johnny.blue, _johnny.maxBlue);
+			_green.setValue(_johnny.green, _johnny.maxGreen);
 		}
 		
 		private function updateSize(...skip):void {
