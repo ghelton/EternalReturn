@@ -48,6 +48,8 @@ package core
 			_size = size;
 			_bitmap = bitmapData;
 			chunkBitmap();
+			super.x = _size.x;
+			super.y = _size.y;
 		}
 		
 		//--------------------------------------

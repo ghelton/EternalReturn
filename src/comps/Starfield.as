@@ -41,7 +41,8 @@ package comps
 			var bitmaps:Vector.<BitmapData> = new <BitmapData>[new StarMap1(), new StarMap2(), new StarMap3(), new StarMap4()];
 			var cb:ChunkyBitmap;
 			var bd:BitmapData;
-			var rect:Rectangle = new Rectangle(0, 0, _size.x, _size.y);
+			var bufferedLocOffset:Number = _bufferedSize / 2;
+			var rect:Rectangle = new Rectangle(-bufferedLocOffset, -bufferedLocOffset, _bufferedSize, _bufferedSize);
 			for each(bd in bitmaps)
 			{
 				cb = new ChunkyBitmap(rect, bd);
@@ -68,7 +69,7 @@ package comps
 			var cb:ChunkyBitmap;
 			for each(cb in _parallaxLayers)
 			{
-				cb.setSize($fieldWidth, $fieldHeight);
+				cb.setSize(_bufferedSize, _bufferedSize);
 			}
 		}
 		
@@ -88,16 +89,18 @@ package comps
 		{
 			_lastPos = _johnnyData.position.clone();
 			var position:Point = _johnnyData.position;
+			rotation = _johnnyData.dgRotation * (180 / Math.PI) - 90;
 			//update parallax
 			var cb:ChunkyBitmap;
+			var multiplier:int = 1;
 			for each(cb in _parallaxLayers)
 			{
-				cb.x = position.x;
-				cb.y = position.y;
+				cb.x = position.x * multiplier;
+				cb.y = position.y * multiplier;
+				multiplier++;
 			}
-			
+			return;
 			// update planets
-			rotation = _johnnyData.dgRotation * (180 / Math.PI) - 90;
 			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
@@ -119,6 +122,7 @@ package comps
 				}
 				if(!foundPlanet)
 				{
+					trace("planetData.uid reused:" + planetData.uid);
 					planet = _activePlanets[key];
 					_pooledPlanets.push(planet);
 					removeChild(planet);
@@ -138,6 +142,7 @@ package comps
 						planet = _pooledPlanets.pop();
 						planet.updateData(planetData);
 					} else {
+						trace("planetData.uid created:" + planetData.uid);
 						planet = new Planet(planetData);
 					}
 					_activePlanets[planetData.uid] = planet;
