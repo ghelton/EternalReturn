@@ -6,7 +6,7 @@ package comps
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	
-	import org.osmf.layout.AbsoluteLayoutFacet;
+//	import org.osmf.layout.AbsoluteLayoutFacet;
 		
 	public class JohnnySprite extends Element
 	{
