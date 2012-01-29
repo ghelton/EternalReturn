@@ -93,7 +93,21 @@ package comps
 			{
 				_data.addResources(new Vector3D(0, 0, -1 * Config.JOHNNY_BLUE_RESOURCE_PER_SECOND));
 				_data.entropyModifier += 0.1;
+				activateSonar();
 			}
+		}
+		
+		private function activateSonar():void {
+			trace("Activate Sonar");
+			_pulse = new PulseProbe();
+			addChild(_pulse);
+			_pulse.addEventListener(AnimationEvent.ANIMATION_KILL, onKillPulse);
+		}
+		
+		private function onKillPulse(e:Event):void
+		{
+			removeChild(_pulse);
+			_pulse = null;
 		}
 		
 		public function burnRed(amount:Number):void {
@@ -155,21 +169,6 @@ package comps
 //			else {
 //				trace("Rotate Ship Right:  not enough fuel.");
 //			}
-		}
-		
-		public function activateSonar(e:JohnnyEvent):void {
-			trace("Activate Sonar");
-			_pulse = new PulseProbe();
-			_pulse.scaleX = _pulse.scaleY = 10;
-			_pulse.play();
-			addChild(_pulse);
-			_pulse.addEventListener(AnimationEvent.ANIMATION_KILL, onKillPulse);
-		}
-		
-		private function onKillPulse(e:Event):void
-		{
-			removeChild(_pulse);
-			_pulse = null;
 		}
 	}
 }
