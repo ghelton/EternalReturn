@@ -76,7 +76,11 @@ package comps
 		
 		public function bluePower(e:Event):void
 		{
-			_data.entropyOverride += 2;
+			if(_data.blue >= 10)
+			{
+				_data.addResources(new Vector3D(0, 0, -10));
+				_data.entropyOverride += 0.2;
+			}
 		}
 		
 		public function burnRed(amount:Number):void {
