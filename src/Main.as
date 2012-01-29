@@ -5,6 +5,7 @@ package
 	
 	import core.BasicController;
 	import core.JohnnyKeyController;
+	import core.Lapse;
 	
 	import datas.JohnnyData;
 	import datas.PlanetData;
@@ -12,6 +13,7 @@ package
 	
 	import events.JohnnyEvent;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -20,10 +22,9 @@ package
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
 	
-	import gui.GuiOverlay;
-	import core.Lapse;
-	import flash.display.DisplayObject;
+	import gui.GuiCurvatureIndicator;
 	import gui.GuiDistanceGauge;
+	import gui.GuiOverlay;
 	
 	[SWF(width="760", height="630", version_major="10", frameRate="24")]
 	public class Main extends Sprite
@@ -35,6 +36,7 @@ package
 		private var _johnnyData:JohnnyData;
 		private var _guiOverlay:GuiOverlay;
 		private var _guiDistanceGauge:GuiDistanceGauge;
+		private var _guiCurvatureIndicator:GuiCurvatureIndicator;
 		
 		public function Main()
 		{
@@ -66,12 +68,14 @@ package
 			_keyController.addEventListener(JohnnyEvent.JOHNNY_BLUE_POWER, _johnny.bluePower);
 			_guiOverlay = new GuiOverlay(_johnnyData);
 			_guiDistanceGauge = new GuiDistanceGauge(_johnnyData);
+			_guiCurvatureIndicator = new GuiCurvatureIndicator(stage.stageWidth, stage.stageHeight, _johnnyData);
 			
 			//add children
 			addChild(_starfield);
 			addChild(_johnny);
 			addChild(_guiOverlay); // overlay goes on top
 			addChild(_guiDistanceGauge);
+			addChild(_guiCurvatureIndicator);
 			
 			// end init stuff //
 			
@@ -95,6 +99,7 @@ package
 			_starfield.updateField();
 			_guiOverlay.updateScreen();
 			_guiDistanceGauge.update();
+			_guiCurvatureIndicator.update();
 		}
 		
 		private function resizeStage(e:Event):void {
