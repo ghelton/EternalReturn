@@ -54,7 +54,10 @@ package datas
 		
 		public function addResources(newResources:Vector3D):void
 		{
-			resources.add(newResources);
+			//resources.add(newResources);
+			resources.x += newResources.x;
+			resources.y += newResources.y;
+			resources.z += newResources.z;
 		}
 		
 		public function get green():Number
@@ -70,6 +73,18 @@ package datas
 		public function get blue():Number
 		{
 			return _resources.z;
+		}
+		
+		public function set red(value:Number):void {
+			_resources.x += value;
+		}
+		
+		public function set green(value:Number):void {
+			_resources.y += value;
+		}
+		
+		public function set blue(value:Number):void {
+			_resources.z += value;
 		}
 		
 		//--------------------------------------
