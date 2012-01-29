@@ -51,7 +51,7 @@ package datas
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 			var distanceEntropyFactor:Number = 1; //.5 + (1 / (2 + (midPoint.length / 10000)));
 //OLD
-			var timeEntropyFactor:Number = 1 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
+			var timeEntropyFactor:Number = 2 - ((getTimer() - _theBeginning) / lifeTimeOfItAll);
 			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
 			
 //NEW
@@ -66,10 +66,10 @@ package datas
 //			trace(adjustedFrame.left + "   " + adjustedFrame.top + "   " + adjustedFrame.right +  "   " + adjustedFrame.bottom);
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
-				if(Math.abs(xQuad * quadrantSize) > 10000) continue;
+//				if(Math.abs(xQuad * quadrantSize) > 10000) continue;
 				for(yQuad = Math.floor(adjustedFrame.top / quadrantSize); yQuad <= Math.ceil(adjustedFrame.bottom / quadrantSize); yQuad++)
 				{
-					if(Math.abs(yQuad * quadrantSize) > 10000) continue;
+//					if(Math.abs(yQuad * quadrantSize) > 10000) continue;
 
 					quad = new Point(xQuad, yQuad);
 					count++;
@@ -136,7 +136,7 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-			if(pixel.length >= 5000) return null;
+//			if(pixel.length >= 10000) return null;
 			var rValue:int = (_universeSeed + pixel.x) % 3 + 1;
 			var gValue:int = (_universeSeed + pixel.y) % 3 + 1;
 			var bValue:int = (_universeSeed + pixel.x + pixel.y) % 3 + 1;

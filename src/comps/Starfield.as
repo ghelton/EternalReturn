@@ -156,10 +156,10 @@ package comps
 				planet.y = planetData.screenPosition.y;
 				
 				if(planetData.RGB.length > 0)
-					planetData.RGB = scaleVector3D(planetData.RGBOG, 2 / (_universeMachine.spacialEntropyAdjustment + 1));
+					planetData.RGB = scaleVector3D(planetData.RGBOG, 3 / (_universeMachine.spacialEntropyAdjustment + 1));
 				
 				//check colission
-				if(planetData.screenPosition.length < 200 && planetData.RGB.length > 0)
+				if(planetData.screenPosition.length < 30 && planetData.RGB.length > 0)
 				{
 					dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
 					if(planetData.screenPosition.length < 30)
