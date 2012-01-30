@@ -65,11 +65,11 @@ package comps
 				burnRed(Config.FRAME_FREQUENCY*Config.JOHNNY_RED_RESOURCE_PER_SECOND);
 				var speed:Number;
 				if(_data.red > 300)
-					speed = 12;
+					speed = 20;
 				if(_data.red > 100 && _data.red <= 300)
-					speed = 10;
+					speed = 15;
 				if(_data.red <= 100)
-					speed = 8;
+					speed = 10;
 				_data.magnitude = speed;
 				//_presentation.move();
 			}
@@ -101,7 +101,7 @@ package comps
 			move();
 			if(_data.entropyModifier > 0)
 			{
-				_data.entropyModifier -= 0.0001;
+				_data.entropyModifier -= 0.001;
 				if(_data.entropyModifier < 0)
 					_data.entropyModifier = 0;
 			}
@@ -109,7 +109,8 @@ package comps
 
 		public function launch(e:Event):void
 		{
-			_data.magnitude = Math.sqrt(_data.red);
+			if(_data.red > 0)
+				_data.magnitude = Math.sqrt(_data.red);
 		}
 		
 		public function bluePower(e:Event):void
