@@ -45,6 +45,18 @@ package core
 			
 		}
 		
+		public function deregister(keysToRemove:Vector.<KeyPressData>):void
+		{
+			var keykey:KeyPressData;
+			
+			for each (keykey in keysToRemove)
+			{
+				keykey.obj.removeEventListener(keykey.type, checkKeys);
+				_keys[String(keykey.keyCode)+keykey.type] = null;
+				delete _keys[String(keykey.keyCode)+keykey.type];
+			}
+		}
+		
 		private function checkKeys(e:KeyboardEvent):void
 		{
 			var key:KeyPressData = _keys[String(e.keyCode)+e.type];

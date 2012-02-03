@@ -19,24 +19,33 @@ package core
 	
 	public class JohnnyKeyController extends BasicController
 	{
-		private var keymapper:KeyMapperEngine;
+		private var _keymapper:KeyMapperEngine;
+		private var _keys:Vector.<KeyPressData> = new Vector.<KeyPressData>();
 		
 		public function JohnnyKeyController()
 		{
 			super();
 			
-			keymapper = new KeyMapperEngine();
+			_keymapper = new KeyMapperEngine();
 			
-			var vec:Vector.<KeyPressData> = new Vector.<KeyPressData>();
+			_keys.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onSpaceDown, KeyMapperEngine.SPACE_KEY ) );
+			_keys.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onAKeyDown, KeyMapperEngine.A_KEY ) );
+			_keys.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onDKeyDown, KeyMapperEngine.D_KEY ) );
+			_keys.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onWKeyDown, KeyMapperEngine.W_KEY ) );
+			_keys.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onAKeyUp, KeyMapperEngine.A_KEY ) );
+			_keys.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyUp, KeyMapperEngine.D_KEY ) );
 			
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onSpaceDown, KeyMapperEngine.SPACE_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onAKeyDown, KeyMapperEngine.A_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onDKeyDown, KeyMapperEngine.D_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_DOWN, onWKeyDown, KeyMapperEngine.W_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onAKeyUp, KeyMapperEngine.A_KEY ) );
-			vec.push( new KeyPressData( CONTROL_LAYER, KeyboardEvent.KEY_UP, onDKeyUp, KeyMapperEngine.D_KEY ) );
-			
-			keymapper.register(vec);
+			_keymapper.register(_keys);
+		}
+		
+		public function pauseKeys():void
+		{
+			_keymapper.deregister(_keys);
+		}
+		
+		public function resumeKeys():void
+		{
+			_keymapper.register(_keys);
 		}
 		
 		public function checkKeys():void {
