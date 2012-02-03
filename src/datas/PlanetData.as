@@ -16,7 +16,7 @@ package datas
 		{
 			location = $startLocation;
 			RGB = RGBOG = $RGB;
-			discovered = $discovered;
+			discovered = false;
 			screenPosition = $screenPosition; 
 			uid = location.x.toString() + "_" + location.y.toString();
 		}
