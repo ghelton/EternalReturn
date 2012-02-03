@@ -105,10 +105,9 @@ package comps
 				pb.redraw();
 				multiplier -= 0.1;
 			}
-//			return;
 			// update planets
-			var xPos:Number = position.x - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
-			var yPos:Number = position.y - (_maxViewArea / 2) - Config.STARFIELD_BUFFER;
+			var xPos:Number = position.x - (_bufferedSize / 2);// - Config.STARFIELD_BUFFER;
+			var yPos:Number = position.y - (_bufferedSize / 2);// - Config.STARFIELD_BUFFER;
 			var planets:Vector.<PlanetData> = _universeMachine.getPlanetDatasForFrame(new Rectangle(xPos, yPos, _bufferedSize, _bufferedSize));
 			var planet:Planet;
 			var planetData:PlanetData;
