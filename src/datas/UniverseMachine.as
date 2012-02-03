@@ -39,8 +39,6 @@ package datas
 		
 		public function getPlanetDatasForFrame(frame:Rectangle) : Vector.<PlanetData>
 		{
-//			trace("x:"+frame.x +"  width:"+frame.width +"     left:"+frame.left +"    right:"+frame.right);
-//			trace("width:"+frame.width +"  height:"+frame.y +"     left:"+frame.x +"    top:"+frame.x);
 			var xQuad:Number;
 			var yQuad:Number;
 			var localCoordinate:Point;
@@ -108,7 +106,6 @@ package datas
 						returnPlanets.push(returnPlanet);
 				}
 			}
-//			returnPlanets.push(getPlanetAtPixel(new Point(0,0))); //"CENTER POINT" 
 			
 			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
 			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
@@ -159,7 +156,7 @@ package datas
 					bValue = 2 * scale;
 					break;
 			}
-			if(Math.abs(noise(pixel)) % 97 == 0 || (pixel.x == 0 && pixel.y == 0))
+			if(Math.abs(noise(pixel)) % 97 == 0)
 				return new PlanetData(pixel, new Vector3D(rValue, gValue, bValue), false, new Point());
 			else
 				return null;
