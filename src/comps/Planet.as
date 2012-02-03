@@ -51,7 +51,7 @@ package comps
 		override protected function draw():void
 		{
 			var max:Number = Math.max(_planetData.RGB.x, _planetData.RGB.y, _planetData.RGB.z);
-			var size:int = _planetData.RGB.x + _planetData.RGB.y + _planetData.RGB.z;
+			var size:Number = _planetData.RGB.x + _planetData.RGB.y + _planetData.RGB.z;
 			
 			var rgb:Vector3D = _planetData.RGB.clone();
 			rgb.x = rgb.x ? 1 : 0;//(rgb.x < max * 0.75) ? 0 : 1;

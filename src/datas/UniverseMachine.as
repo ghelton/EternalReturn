@@ -11,9 +11,9 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 20000;
+		private const lifeTimeOfItAll:int = 40000;
 		private const quadrantSize:int = 500;
-		private const distanceBetweenPlanetCornerSpots:int = 40;
+		private const distanceBetweenPlanetCornerSpots:int = 50;
 		private var _quadrantCachePoolSize:int = 10000;
 		private var _universeSeed:Number = 12345;
 		private var _planetsDiscovered:Object;
@@ -48,7 +48,7 @@ package datas
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
 			var distanceEntropyFactor:Number = 1 + (1 / (4 + (Math.sqrt(midPoint.length) / 100)));
-//			var timeEntropyFactor:Number = 5 + (.25 * Math.cos((getTimer() - _theBeginning) / 5000));
+//			var timeEntropyFactor:Number = 5 + (.25 * Math.cos((getTimer() - _theBeginning) / 5000)); //oscillating universe
 			var timeEntropyFactor:Number = 1 / Math.log(Math.E + ((getTimer() - (_theBeginning + _johnnyData.timeShift)) / lifeTimeOfItAll));
 			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor;// * (1 + _johnnyData.entropyModifier);
 //			trace("T: " + timeEntropyFactor.toFixed(3) + "   distance: " + distanceEntropyFactor.toFixed(3) + " mod: " + _johnnyData.entropyModifier.toFixed(3) + " (t X d X mod):" + (timeEntropyFactor * distanceEntropyFactor * (1 + _johnnyData.entropyModifier)).toFixed(3));
@@ -56,8 +56,6 @@ package datas
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;
 			var quad:Point;
-//			trace(timeEntropyFactor);
-//			trace(adjustedFrame.left + "   " + adjustedFrame.top + "   " + adjustedFrame.right +  "   " + adjustedFrame.bottom);
 			for(xQuad = Math.floor(adjustedFrame.left / quadrantSize); xQuad <= Math.ceil(adjustedFrame.right / quadrantSize); xQuad++)
 			{
 //				if(Math.abs(xQuad * quadrantSize) > 10000) continue;
@@ -108,6 +106,8 @@ package datas
 						returnPlanets.push(returnPlanet);
 				}
 			}
+//			returnPlanets.push(getPlanetAtPixel(new Point(0,0))); //"CENTER POINT" 
+			
 			planetQuadrantData = new PlanetQuadrantData(quad, returnPlanets);
 			for(var index:int = 0; index < _cachedPlanetQuadrants.length; index++)
 			{
@@ -120,7 +120,6 @@ package datas
 			_cachedPlanetQuadrants.push(planetQuadrantData);
 			if(_cachedPlanetQuadrants.length > _quadrantCachePoolSize)
 			{
-				trace("had to throw some out");
 				_cachedPlanetQuadrants.splice(0, Math.floor(_quadrantCachePoolSize * 2/3));
 			}
 				
@@ -130,9 +129,9 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
-			var rValue:int = 0;//(_universeSeed + pixel.x) % 3 + 1;
-			var gValue:int = 0;//(_universeSeed + pixel.y) % 3 + 1;
-			var bValue:int = 0;//(_universeSeed + pixel.x + pixel.y) % 3 + 1;
+			var rValue:int = 0;
+			var gValue:int = 0;
+			var bValue:int = 0;
 			var scale:int = (_universeSeed + pixel.x) % 3 + 1;
 			switch((_universeSeed + pixel.y) % 7)
 			{
@@ -158,12 +157,10 @@ package datas
 					bValue = 2 * scale;
 					break;
 			}
-//			if(pixel.length >= 10000) return null;
-			if(Math.abs(noise(pixel)) % 97 == 0)
-				return new PlanetData(pixel, new Vector3D(rValue, gValue, bValue), Math.random() > .5, new Point());
+			if(Math.abs(noise(pixel)) % 97 == 0 || (pixel.x == 0 && pixel.y == 0))
+				return new PlanetData(pixel, new Vector3D(rValue, gValue, bValue), false, new Point());
 			else
 				return null;
-//			magic function to determine IF a planet is there, the RGB value if so, and return
 		}
 		
 		private function dialateSpaceWithTimeAndFrame(frame:Rectangle, entropyFactor:Number) : Rectangle

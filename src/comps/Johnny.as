@@ -127,13 +127,13 @@ package comps
 		
 		public function bluePower(e:Event):void
 		{
-			if(_data.blue >= Config.JOHNNY_BLUE_RESOURCE_PER_SECOND)
-			{
-				_data.addResources(new Vector3D(0, 0, -1 * Config.JOHNNY_BLUE_RESOURCE_PER_SECOND));
+//			if(_data.blue >= Config.JOHNNY_BLUE_RESOURCE_PER_SECOND)
+//			{
+				_data.timeLeftToShift += (_data.blue / Config.JOHNNY_BLUE_RESOURCE_PER_SECOND) * 5000;
+				_data.addResources(new Vector3D(0, 0, -1 * _data.blue));
 //				_data.peakEntropyModifier += 0.1;
-				_data.timeLeftToShift += 5000;
 				activateSonar();
-			}
+//			}
 		}
 		
 		private function activateSonar():void {

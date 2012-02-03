@@ -173,7 +173,7 @@ package comps
 						_johnnyData.addResources(planetData.RGB, 15);
 //						_johnnyData.rotationChange = 0;
 						
-						planetData.RGB = new Vector3D(1, 1, 1);
+						planetData.RGB = new Vector3D(.5, .5, .5);
 						_johnnyData.magnitude = 0;
 					}
 				}

@@ -84,7 +84,7 @@ package comps
 		
 		private function onBiteKill(e:Event):void
 		{
-			trace("onBiteKill");
+//			trace("onBiteKill");
 			if(_onStage == _bite)
 				move();
 		}

@@ -25,7 +25,7 @@ package
 		public static const JOHNNY_BLUE_RESOURCE_PER_SECOND:Number = 50; // hold scanning button for long range before releasing sonar pulse?
 		
 		public static const STARTING_POINT:Point = new Point(0, 0);
-		public static const STARTING_RESOURCES:Vector3D = new Vector3D(200, 200, 1000);
+		public static const STARTING_RESOURCES:Vector3D = new Vector3D(200, 200, 200);
 		public static const BASE_MAGNITUDE:Number = 0;
 		public static const MAX_ROTATION:Number = 5;
 		
