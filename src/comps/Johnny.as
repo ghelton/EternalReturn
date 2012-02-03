@@ -186,7 +186,7 @@ package comps
 			if(_data.rotationChange <= Config.MAX_ROTATION)
 			{
 				var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
-				if (_data.rotationChange <= 0.01)
+				if (_data.magnitude <= 0.01)
 					burn *= 0.5;
 				
 				var hasEnoughFuel:Boolean = burnGreen(burn);
@@ -195,7 +195,7 @@ package comps
 				var multiplier:Number = (hasEnoughFuel ? 1 : 0.5);
 				
 				// on planet, double turn speed(and hence also efficiency, total 4x w/ other efficiency tweak)
-				if (_data.rotationChange <= 0.01)
+				if (_data.magnitude <= 0.01)
 					multiplier *= 2;
 				
 				_data.rotationChange += Config.FRAME_FREQUENCY * Config.JOHNNY_DGROTATE_ACCEL * multiplier;

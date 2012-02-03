@@ -164,7 +164,7 @@ package comps
 				{
 					if(!mawOpened)
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
-					if(planetData.screenPosition.length < (10 + (planet.width / 2)))
+					if(planetData.screenPosition.length < (1.25 * planet.width / 2))
 					{
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
 						_universeMachine.markPlanetAsDiscovered(planetData.uid);
