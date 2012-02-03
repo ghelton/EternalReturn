@@ -29,6 +29,9 @@ package datas
 		public var dgRotation:Number = 1.5707; 		// rotation of johnny relative to the starfield
 		public var rotationChange:Number = 0;
 		public var entropyModifier:Number = 0;
+		public var peakEntropyModifier:Number = 0;
+		public var timeLeftToShift:Number = 0;
+		public var timeShift:Number = 0;
 		//--------------------------------------
 		// CONSTRUCTOR
 		//--------------------------------------

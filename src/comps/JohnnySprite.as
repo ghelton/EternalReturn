@@ -47,7 +47,7 @@ package comps
 		public function turn(num:Number):void
 		{
 			var index:int = int(num+6);
-			trace(index);
+//			trace(index);
 			if (num < 0)
 				scaleY = .3;
 			else

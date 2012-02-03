@@ -11,7 +11,7 @@ package datas
 
 	public class UniverseMachine
 	{
-		private const lifeTimeOfItAll:int = 30000;
+		private const lifeTimeOfItAll:int = 20000;
 		private const quadrantSize:int = 500;
 		private const distanceBetweenPlanetCornerSpots:int = 40;
 		private var _quadrantCachePoolSize:int = 10000;
@@ -37,8 +37,6 @@ package datas
 		}
 		
 		
-		
-		
 		public function getPlanetDatasForFrame(frame:Rectangle) : Vector.<PlanetData>
 		{
 			var xQuad:Number;
@@ -49,12 +47,11 @@ package datas
 			var planetsFromQuad:Vector.<PlanetData> = new Vector.<PlanetData>;
 
 			var midPoint:Point = new Point((frame.right + frame.left) / 2, (frame.top + frame.bottom) / 2);
-			var distanceEntropyFactor:Number = .75 + (1 / (4 + (Math.sqrt(midPoint.length) / 100)));
+			var distanceEntropyFactor:Number = 1 + (1 / (4 + (Math.sqrt(midPoint.length) / 100)));
 //			var timeEntropyFactor:Number = 5 + (.25 * Math.cos((getTimer() - _theBeginning) / 5000));
-			var timeEntropyFactor:Number = 1 / Math.log(Math.E + ((getTimer() - _theBeginning) / 10000));
-			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor + _johnnyData.entropyModifier;
-//			trace("Time portion: " + timeEntropyFactor + "   distance portion: " + distanceEntropyFactor + "  PRODUCT:" + (timeEntropyFactor * distanceEntropyFactor));
-				
+			var timeEntropyFactor:Number = 1 / Math.log(Math.E + ((getTimer() - (_theBeginning + _johnnyData.timeShift)) / lifeTimeOfItAll));
+			spacialEntropyAdjustment = timeEntropyFactor * distanceEntropyFactor;// * (1 + _johnnyData.entropyModifier);
+//			trace("T: " + timeEntropyFactor.toFixed(3) + "   distance: " + distanceEntropyFactor.toFixed(3) + " mod: " + _johnnyData.entropyModifier.toFixed(3) + " (t X d X mod):" + (timeEntropyFactor * distanceEntropyFactor * (1 + _johnnyData.entropyModifier)).toFixed(3));
 
 			var adjustedFrame:Rectangle = dialateSpaceWithTimeAndFrame(frame, spacialEntropyAdjustment);
 			var count:Number = 0;
@@ -133,10 +130,35 @@ package datas
 		
 		private function getPlanetAtPixel(pixel:Point) : PlanetData
 		{
+			var rValue:int = 0;//(_universeSeed + pixel.x) % 3 + 1;
+			var gValue:int = 0;//(_universeSeed + pixel.y) % 3 + 1;
+			var bValue:int = 0;//(_universeSeed + pixel.x + pixel.y) % 3 + 1;
+			var scale:int = (_universeSeed + pixel.x) % 3 + 1;
+			switch((_universeSeed + pixel.y) % 7)
+			{
+				case 0:
+					rValue = gValue = bValue = scale;
+					break;
+				case 1:
+					rValue = gValue = scale;
+					break;
+				case 2:
+					rValue = bValue = scale;
+					break;
+				case 3:
+					gValue = bValue = scale;
+					break;
+				case 4:
+					rValue = 2 * scale;
+					break;
+				case 5:
+					gValue = 2 * scale;
+					break;
+				case 6:
+					bValue = 2 * scale;
+					break;
+			}
 //			if(pixel.length >= 10000) return null;
-			var rValue:int = (_universeSeed + pixel.x) % 3 + 1;
-			var gValue:int = (_universeSeed + pixel.y) % 3 + 1;
-			var bValue:int = (_universeSeed + pixel.x + pixel.y) % 3 + 1;
 			if(Math.abs(noise(pixel)) % 97 == 0)
 				return new PlanetData(pixel, new Vector3D(rValue, gValue, bValue), Math.random() > .5, new Point());
 			else

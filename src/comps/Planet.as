@@ -54,9 +54,9 @@ package comps
 			var size:int = _planetData.RGB.x + _planetData.RGB.y + _planetData.RGB.z;
 			
 			var rgb:Vector3D = _planetData.RGB.clone();
-			rgb.x = (rgb.x < max * 0.75) ? 0 : 1;
-			rgb.y = (rgb.y < max * 0.75) ? 0 : 1;
-			rgb.z = (rgb.z < max * 0.75) ? 0 : 1;
+			rgb.x = rgb.x ? 1 : 0;//(rgb.x < max * 0.75) ? 0 : 1;
+			rgb.y = rgb.y ? 1 : 0;//(rgb.y < max * 0.75) ? 0 : 1;
+			rgb.z = rgb.z ? 1 : 0;//(rgb.z < max * 0.75) ? 0 : 1;
 			
 			_planetSWC.scaleX = _planetSWC.scaleY = size/12;
 			

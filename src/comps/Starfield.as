@@ -139,8 +139,6 @@ package comps
 			//create new planets and update existing planets
 			var mawOpened:Boolean = false;
 			var mawSize:Number = 100;
-			var planetSize:Number = 30 * _universeMachine.spacialEntropyAdjustment;
-			
 			for each(planetData in planets)
 			{
 				planet = _activePlanets[planetData.uid];
@@ -159,15 +157,15 @@ package comps
 				planet.x = planetData.screenPosition.x;
 				planet.y = planetData.screenPosition.y;
 				
-				if(planetData.RGB.length > 0)
+				if(planetData.discovered == false)
 					planetData.RGB = scaleVector3D(planetData.RGBOG, 3 / (_universeMachine.spacialEntropyAdjustment + 1));
 				
 				//check colission
-				if(_johnnyData.magnitude > 0 && planetData.screenPosition.length < 100 && planetData.RGB.length > 0)
+				if(planetData.discovered == false && _johnnyData.magnitude > 0 && planetData.screenPosition.length < 100)
 				{
 					if(!mawOpened)
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_OPEN_MAW));
-					if(planetData.screenPosition.length < planetSize)
+					if(planetData.screenPosition.length < (10 + (planet.width / 2)))
 					{
 						dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));
 						_universeMachine.markPlanetAsDiscovered(planetData.uid);
@@ -175,12 +173,17 @@ package comps
 						_johnnyData.addResources(planetData.RGB, 15);
 //						_johnnyData.rotationChange = 0;
 						
-						planetData.RGB = new Vector3D(0, 0, 0);
-						planet.redrawMe();
+						planetData.RGB = new Vector3D(1, 1, 1);
 						_johnnyData.magnitude = 0;
 					}
-					planet.redrawMe();
 				}
+				if(_johnnyData.magnitude == 0 && planetData.screenPosition.length < 100 && planetData.screenPosition.length > 1 && planetData.discovered == true)
+				{
+					_johnnyData.position.x += planetData.screenPosition.x / 2;
+					_johnnyData.position.y += planetData.screenPosition.y / 2;
+				}
+
+				planet.redrawMe();
 			}
 			if(!mawOpened && _johnnyData.magnitude > 0)
 				dispatchEvent(new JohnnyEvent(JohnnyEvent.JOHNNY_CLOSE_MAW));

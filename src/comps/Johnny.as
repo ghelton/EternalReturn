@@ -58,7 +58,7 @@ package comps
 			if(_data.magnitude != 0)
 			{
 //				trace("_data.rotationChange",_data.rotationChange);
-				_data.dgRotation += _data.rotationChange / 100;
+				_data.dgRotation += _data.rotationChange / 60;
 				var velocity:Point = new Point(Math.cos(_data.dgRotation), -Math.sin(_data.dgRotation));
 				velocity.normalize(_data.magnitude);
 				_data.position = _data.position.add(velocity);
@@ -70,6 +70,7 @@ package comps
 					speed = 15;
 				if(_data.red <= 100)
 					speed = 10;
+				speed = 13; //TODO, make this not such a bad negative feedback loop
 				_data.magnitude = speed;
 				//_presentation.move();
 			}
@@ -99,12 +100,23 @@ package comps
 		public function onFrame():void
 		{
 			move();
-			if(_data.entropyModifier > 0)
+			if(_data.timeLeftToShift > 0)
 			{
-				_data.entropyModifier -= 0.001;
-				if(_data.entropyModifier < 0)
-					_data.entropyModifier = 0;
+				_data.timeShift += Math.max(100, _data.timeLeftToShift / 100);
+				_data.timeLeftToShift -= Math.max(100, _data.timeLeftToShift / 100);
 			}
+//			if(_data.peakEntropyModifier > 0)
+//			{
+//				if(_data.entropyModifier < _data.peakEntropyModifier)
+//					_data.entropyModifier += .005;
+//				else
+//					_data.peakEntropyModifier = 0;
+//			} else {
+//				if(_data.entropyModifier > 0)
+//					_data.entropyModifier -= 0.0025;
+//				else if(_data.entropyModifier < 0)
+//					_data.entropyModifier = 0;
+//			}
 		}
 
 		public function launch(e:Event):void
@@ -118,7 +130,8 @@ package comps
 			if(_data.blue >= Config.JOHNNY_BLUE_RESOURCE_PER_SECOND)
 			{
 				_data.addResources(new Vector3D(0, 0, -1 * Config.JOHNNY_BLUE_RESOURCE_PER_SECOND));
-				_data.entropyModifier += 0.1;
+//				_data.peakEntropyModifier += 0.1;
+				_data.timeLeftToShift += 5000;
 				activateSonar();
 			}
 		}
@@ -139,9 +152,7 @@ package comps
 		}
 		
 		public function burnRed(amount:Number):void {
-			
-			
-			trace("_data.red",_data.red);
+//			trace("_data.red",_data.red);
 			if (_data.red <= 1) {
 				trace("death");
 				_data.magnitude = 0;
@@ -165,8 +176,6 @@ package comps
 		}
 		
 		public function moveLeft(e:JohnnyEvent):void {
-
-			
 			if(_data.rotationChange <= Config.MAX_ROTATION)
 			{
 				var burn:Number = Config.FRAME_FREQUENCY * Config.JOHNNY_GREEN_RESOURCE_PER_SECOND;
