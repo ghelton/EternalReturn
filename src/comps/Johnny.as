@@ -154,14 +154,21 @@ package comps
 		public function burnRed(amount:Number):void {
 //			trace("_data.red",_data.red);
 			if (_data.red <= 1) {
-				trace("death");
-				_data.magnitude = 0;
+				killJohnny(amount);
 				amount = _data.red;
-				_presentation.die();
-				activateSonar();
 			}
+			
 			var lessRed:Vector3D = new Vector3D(-amount, 0, 0);
 			_data.addResources(lessRed);
+		}
+		
+		private function killJohnny(amount:Number):void
+		{
+//			trace("death");
+			_data.magnitude = 0;
+			amount = _data.red;
+			_presentation.die();
+			activateSonar();
 		}
 		
 		// returns false if not enough green material to burn in which case, amount is not subtracted.

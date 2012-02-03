@@ -94,14 +94,22 @@ package
 			//check keys also before moving johnny
 			_keyController.checkKeys();
 			
-			
 			//Johnny should move before anything else happens
 			_johnny.onFrame();
-			
-			_starfield.updateField();
 			_guiOverlay.updateScreen();
 			_guiDistanceGauge.update();
 			_guiCurvatureIndicator.update();
+			
+			if(_johnnyData.red > 0)
+				_starfield.updateField();
+			else
+				endGame();
+		}
+		
+		private function endGame():void
+		{
+			stage.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+			_keyController.pauseKeys();
 		}
 		
 		private function resizeStage(e:Event):void {
