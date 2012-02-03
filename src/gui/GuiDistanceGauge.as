@@ -25,10 +25,9 @@ package gui
 		}
 		
 		override protected function draw():void {
-			var rotation:Number = _johnnyData.dgRotation ;
+			var rotation:Number = _johnnyData.dgRotation + Math.atan2(_johnnyData.position.y, _johnnyData.position.x) + (Math.PI / 2);
 			var pos:Point = Point.polar(100,rotation);
-			var dist:int = Math.floor(_johnnyData.position.length)
-			label.text = dist + "p";
+			label.text = Math.floor(_johnnyData.position.length) + "p";
 			label.textColor = 0xFFFFFF;
 			label.x = pos.x + stage.stageWidth * 0.5;
 			label.y = pos.y + stage.stageHeight * 0.5;
