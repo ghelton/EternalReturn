@@ -39,8 +39,8 @@ package datas
 		
 		public function getPlanetDatasForFrame(frame:Rectangle) : Vector.<PlanetData>
 		{
-			trace("x:"+frame.x +"  width:"+frame.width +"     left:"+frame.left +"    right:"+frame.right);
-			trace("width:"+frame.width +"  height:"+frame.y +"     left:"+frame.x +"    top:"+frame.x);
+//			trace("x:"+frame.x +"  width:"+frame.width +"     left:"+frame.left +"    right:"+frame.right);
+//			trace("width:"+frame.width +"  height:"+frame.y +"     left:"+frame.x +"    top:"+frame.x);
 			var xQuad:Number;
 			var yQuad:Number;
 			var localCoordinate:Point;
